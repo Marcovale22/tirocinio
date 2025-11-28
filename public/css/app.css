@@ -1,0 +1,133 @@
+                                /*------NAVBAR------*/
+
+.navbar .nav-link {
+    color: black !important;
+    font-weight: 500;
+    font-size: 1.2rem !important;
+}
+
+.navbar .nav-item {
+    margin: 0 50px;
+}
+
+.navbar .nav-link:hover {
+    color: #333 !important;
+}
+
+.navbar-left {
+    margin-left: 0px !important;
+}
+
+.navbar-right {
+    margin-right: 0px !important;
+}
+
+                                /*-----HOMEPAGE----*/
+/* Sezione hero centrata */
+.homepage-hero {
+    height: 90vh; /* 70% dello schermo */
+    text-align: center;
+}
+
+/* Titolo principale */
+.hero-title {
+    font-size: 3rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: #2c2c2c;
+}
+
+/* Sottotitolo */
+.hero-subtitle {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #2c2c2c;
+}
+
+
+                                /*----PAGINA VINI------*/
+/* SFONDO SEZIONE VINI */
+.pagina-vini {
+    min-height: 100vh;
+    background-color: #ff7d03; /* il tuo arancione */
+    padding: 60px 0;
+}
+
+/* TITOLI */
+.titolo-vini {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #ffffff;
+}
+
+.sottotitolo-vini {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #ffe8d0;
+}
+
+/* CONTENITORE RIGA VINI */
+.sezione-vini {
+    margin-top: 40px;
+}
+
+/* CARD SINGOLO VINO (img + testo) */
+.vino-card {
+    color: #ffffff;
+}
+
+/* IMMAGINE BOTTIGLIA */
+.vino-img {
+    width: 200px;       /* regola per farle stare bene in 3 */
+    height: 600px;
+    display: block;
+}
+
+/* BLOCCO TESTO A DESTRA */
+.vino-testo {
+    text-align: left;
+}
+
+/* NOME VINO */
+.vino-nome {
+    font-size: 2.5rem;
+    font-weight: 600;
+    line-height: 1.1;
+}
+
+/* BOTTONE ACQUISTA */
+.btn-vino-acquista {
+    padding: 8px 22px;
+    border-radius: 999px;
+    border: 2px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.btn-vino-acquista:hover {
+    background-color: #ffffff;
+    color: #ff7d03;
+}
+
+/* "Scopri di più" sotto al bottone */
+.vino-sottotitolo {
+    font-size: 0.8rem;
+}
+
+/* RESPONSIVE: su mobile bottiglia sopra, testo sotto */
+@media (max-width: 1000px) {
+    .vino-card {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .vino-testo {
+        margin-left: 0;
+        margin-top: 15px;
+        text-align: center;
+    }
+}
