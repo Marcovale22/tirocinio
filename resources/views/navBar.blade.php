@@ -22,14 +22,15 @@
                 <li  class="nav-item"><a  class="nav-link" href="{{ route('tenute') }}">Le Tenute</a></li>
             </ul>
 
-            {{-- VERSIONE MOBILE: LOGO SPOSTATO DENTRO IL MENU --}}
+            {{-- VERSIONE MOBILE: LOGO SPOSTATO DENTRO IL MENU 
             <a class="navbar-brand d-lg-none fw-bold fs-3" href="">
                 Bellò
-            </a>
+            </a>--}}
 
             <a class="navbar-brand position-absolute start-50 translate-middle-x d-none d-lg-block fw-bold fs-3" href="{{ route('home') }}">
-                Bellò
+            <img src="{{ asset('img/logo_bellò.png') }}" alt="Logo Bellò" class="logo-navbar">
             </a>
+
 
             {{-- SEZIONE DESTRA (DESKTOP) --}}
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 navbar-right">

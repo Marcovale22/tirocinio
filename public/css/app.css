@@ -1,10 +1,18 @@
                                 /*------NAVBAR------*/
+.logo-navbar {
+    height: 200px; 
+    width: 150px; 
+}
+
+.navbar {
+    height: 90px;
+}
 
 .navbar .nav-link {
     color: black !important;
     font-weight: 500;
     font-size: 1.2rem !important;
-}
+}   
 
 .navbar .nav-item {
     margin: 0 50px;
@@ -50,7 +58,7 @@
 .pagina-vini {
     min-height: 100vh;
     background-color: #ff7d03; /* il tuo arancione */
-    padding: 60px 0;
+    padding: 20px 0;
 }
 
 /* TITOLI */
@@ -68,24 +76,28 @@
 
 /* CONTENITORE RIGA VINI */
 .sezione-vini {
-    margin-top: 40px;
+    margin-top: 100px;
 }
 
 /* CARD SINGOLO VINO (img + testo) */
 .vino-card {
     color: #ffffff;
+    position: relative;      /* serve per posizionare il testo dentro */
+    width: 100%;
+    max-width: 420px;        /* larghezza massima del “blocchetto” */
 }
 
 /* IMMAGINE BOTTIGLIA */
-.vino-img {
-    width: 200px;       /* regola per farle stare bene in 3 */
-    height: 600px;
+.vino-img {     
+    width: 100%;             /* riempie il blocco */
+    height: auto;
     display: block;
-}
+    transform: rotate(-50deg);   /* opzionale: inclinazione */
+}   
 
 /* BLOCCO TESTO A DESTRA */
 .vino-testo {
-    text-align: left;
+    text-align: center;
 }
 
 /* NOME VINO */
@@ -123,6 +135,7 @@
         flex-direction: column;
         align-items: center;
         text-align: center;
+        margin-bottom: 50px;
     }
 
     .vino-testo {
