@@ -6,9 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -29,5 +27,14 @@ Route::get('/vini', [PublicController::class,'vini'])->name('vini');
 Route::get('/tenute', [PublicController::class,'tenute'])->name('tenute');
 Route::get('/affitta-vigneto', [PublicController::class,'affittaVigneto'])->name('affitta');
 Route::get('/shop', [PublicController::class,'shop'])->name('shop');
+
+
+Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {
+
+    Route::get('/prova', function () {
+        return view('admin.index');
+    })->name('provaAdmin');
+
+});
 
 require __DIR__.'/auth.php';

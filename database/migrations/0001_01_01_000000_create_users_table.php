@@ -11,15 +11,28 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
-            $table->timestamps();
-        });
+       Schema::create('users', function (Blueprint $table) {
+        $table->id();
+        $table->string('name');
+        $table->string('username')->unique();
+        $table->string('email')->unique();
+        $table->timestamp('email_verified_at')->nullable();
+        $table->string('password');
+
+        // tipo utente (persona/azienda) – NON è il ruolo
+        $table->enum('tipo_utente', ['persona', 'azienda'])->default('persona');
+        $table->string('partita_iva', 11)->nullable(); // obbligatoria solo se azienda
+
+        // altri dati anagrafici
+        $table->string('codice_fiscale', 16)->nullable();
+        $table->date('data_di_nascita')->nullable();
+        $table->string('numero', 20)->nullable(); // telefono
+        $table->enum('ruolo', ['utente', 'staff', 'admin'])
+              ->default('utente');
+
+        $table->rememberToken();
+        $table->timestamps();
+    });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
             $table->string('email')->primary();

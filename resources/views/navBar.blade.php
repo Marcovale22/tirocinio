@@ -50,22 +50,36 @@
                 -}}
                 {{-- Area utente --}}
                 @auth
-                    @if(auth()->user()->isAdmin())
-                        <li class="nav-item"><a class="nav-link" href="">Admin</a></li>
-                    @elseif(auth()->user()->isStaff())
-                        <li class="nav-item"><a class="nav-link" href="">Staff</a></li>
-                    @else
-                        <li class="nav-item"><a class="nav-link" href="">Account</a></li>
-                    @endif
+
+                    @can('isAdmin')
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ route('provaAdmin') }}">Admin</a>
+                        </li>
+                    @endcan
+
+                    @can('isStaff')
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Staff</a>
+                        </li>
+                    @endcan
+
+                    @can('isUtente')
+                        <li class="nav-item">
+                            <a class="nav-link" href="">Account</a>
+                        </li>
+                    @endcan
 
                     <li class="nav-item">
-                        <form action="" method="POST" class="d-inline">
+                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
                             @csrf
                             <button class="nav-link btn btn-link p-0 text-danger">Logout</button>
                         </form>
                     </li>
+
                 @else
-                    <li class="nav-item"><a class="nav-link" href="{{ route('login') }}">Login</a></li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ route('login') }}">Login</a>
+                    </li>
                 @endauth
 
             </ul>
