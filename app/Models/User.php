@@ -27,7 +27,7 @@ class User extends Authenticatable
         'codice_fiscale',
         'data_di_nascita',
         'numero',
-        'role'
+        'ruolo'
     ];
 
 

@@ -35,6 +35,9 @@ Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {
         return view('admin.index');
     })->name('provaAdmin');
 
+    Route::get('/dipendenti', function () {
+        return view('admin.dipendenti');
+    })->name('dipendenti');
 });
 
 require __DIR__.'/auth.php';

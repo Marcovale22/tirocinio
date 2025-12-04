@@ -20,7 +20,18 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0  navbar-left">
                 <li  class="nav-item"><a  class="nav-link" href="{{ route(name: 'vini') }}">Il Vino</a></li>
                 <li  class="nav-item"><a  class="nav-link" href="{{ route('tenute') }}">Le Tenute</a></li>
+                @can('isAdmin')
+                    <li  class="nav-item"><a  class="nav-link" href="{{ route(name: 'dipendenti') }}">Dipendeti</a></li>
+                @endcan
+                @can('isStaff')
+                    <li  class="nav-item"><a  class="nav-link" href="">Staff</a></li>
+                @endcan
+                @can('isUtente')
+                    <li  class="nav-item"><a  class="nav-link" href="">Utente</a></li>
+                @endcan
             </ul>
+
+           
 
             {{-- VERSIONE MOBILE: LOGO SPOSTATO DENTRO IL MENU 
             <a class="navbar-brand d-lg-none fw-bold fs-3" href="">
@@ -52,29 +63,94 @@
                 @auth
 
                     @can('isAdmin')
-                        <li class="nav-item">
-                            <a class="nav-link" href="{{ route('provaAdmin') }}">Admin</a>
+                        <li class="nav-item dropdown ms-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Admin
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
+                                {{-- Link alla pagina admin --}}
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('provaAdmin') }}">
+                                        Dashboard
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                {{-- Logout dentro al dropdown --}}
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="dropdown-item" type="submit">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                     @endcan
 
                     @can('isStaff')
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Staff</a>
+                         <li class="nav-item dropdown ms-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Staff
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
+                                {{-- Link alla pagina admin --}}
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Dashboard
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                {{-- Logout dentro al dropdown --}}
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="dropdown-item" type="submit">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                     @endcan
 
                     @can('isUtente')
-                        <li class="nav-item">
-                            <a class="nav-link" href="">Account</a>
+                         <li class="nav-item dropdown ms-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Utente
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
+                                {{-- Link alla pagina admin --}}
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Dashboard
+                                    </a>
+                                </li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                {{-- Logout dentro al dropdown --}}
+                                <li>
+                                    <form method="POST" action="{{ route('logout') }}">
+                                        @csrf
+                                        <button class="dropdown-item" type="submit">
+                                            Logout
+                                        </button>
+                                    </form>
+                                </li>
+                            </ul>
                         </li>
                     @endcan
-
-                    <li class="nav-item">
-                        <form action="{{ route('logout') }}" method="POST" class="d-inline">
-                            @csrf
-                            <button class="nav-link btn btn-link p-0 text-danger">Logout</button>
-                        </form>
-                    </li>
 
                 @else
                     <li class="nav-item">

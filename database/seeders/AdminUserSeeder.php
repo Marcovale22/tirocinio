@@ -13,15 +13,33 @@ class AdminUserSeeder extends Seeder
      */
     public function run(): void
     {
-        User::firstOrCreate(
-            ['email' => 'admin@vinicola.test'],
-            [
-                'name' => 'Admin',
-                'username' => 'admin',
-                'password' => Hash::make('12341234'),
-                'tipo_utente' => 'persona',
-                'ruolo' => 'admin',
-            ]
-        );
+        User::create([
+            'name' => 'Admin User',
+            'username' => 'adminadmin',
+            'email' => 'admin@example.com',
+            'password' => Hash::make('12341234'),
+            'tipo_utente' => 'persona',
+            'ruolo' => 'admin',
+        ]);
+
+        // Staff
+        User::create([
+            'name' => 'Staff User',
+            'username' => 'staffstaff',
+            'email' => 'staff@example.com',
+            'password' => Hash::make('12341234'),
+            'tipo_utente' => 'persona',
+            'ruolo' => 'staff',
+        ]);
+
+        // Utente normale
+        User::create([
+            'name' => 'User Simple',
+            'username' => 'utenteutente',
+            'email' => 'utente@example.com',
+            'password' => Hash::make('12341234'),
+            'tipo_utente' => 'persona',
+            'ruolo' => 'utente',
+        ]);
     }
 }
