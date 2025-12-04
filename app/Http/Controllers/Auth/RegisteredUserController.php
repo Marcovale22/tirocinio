@@ -35,7 +35,7 @@ class RegisteredUserController extends Controller
             'partita_iva'    => ['nullable', 'required_if:tipo_utente,azienda', 'digits:11'],
             'codice_fiscale' => ['nullable', 'string', 'size:16','regex:/^[A-Z]{6}[0-9]{2}[A-Z][0-9]{2}[A-Z][0-9]{3}[A-Z]$/i'],
             'data_di_nascita'=> ['nullable', 'date', 'before:today', 'after:1900-01-01'],
-            'numero'         => ['nullable', 'string', 'max:20','regex:/^[0-9]{7,15}$/'],
+            'numero' => ['nullable','regex:/^\+?[0-9\s\-]{7,20}$/'],
         ], [
             // messaggi personalizzati opzionali
             'name.required' => 'Il nome è obbligatorio.',
@@ -57,7 +57,10 @@ class RegisteredUserController extends Controller
             'partita_iva.required_if' => 'La partita IVA è obbligatoria per le aziende.',
             'partita_iva.digits'      => 'La partita IVA deve contenere esattamente 11 cifre.',
 
-            'codice_fiscale.size' => 'Il codice fiscale deve contenere esattamente 16 caratteri.',
+            'codice_fiscale.string' => 'Il codice fiscale non è valido.',
+            'codice_fiscale.size'   => 'Il codice fiscale deve contenere esattamente 16 caratteri.',
+            'codice_fiscale.regex'  => 'Il codice fiscale non è valido.',
+
 
             'data_di_nascita.date'   => 'Inserisci una data di nascita valida.',
             'data_di_nascita.before' => 'La data di nascita deve essere nel passato.',

@@ -22,6 +22,16 @@ class LoginRequest extends FormRequest
         ];
     }
 
+    public function messages(): array
+    {
+        return [
+            'username.required' => 'Inserisci lo username.',
+            'username.string'   => 'Lo username non è valido.',
+            'password.required' => 'Inserisci la password.',
+            'password.string'   => 'La password non è valida.',
+        ];
+    }
+
     /**
      * Attempt to authenticate the request's credentials.
      */

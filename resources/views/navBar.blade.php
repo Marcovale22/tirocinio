@@ -1,6 +1,6 @@
 
 @section('navBar')
-<nav class="navbar navbar-expand-lg bg-white  py-3">
+<nav class="navbar navbar-expand-xl bg-white  py-3">
     <div class="container-fluid">
 
         {{-- LOGO CENTRALE (VISIBILE SOLO SU DESKTOP) --}}
@@ -20,15 +20,70 @@
             <ul class="navbar-nav me-auto mb-2 mb-lg-0  navbar-left">
                 <li  class="nav-item"><a  class="nav-link" href="{{ route(name: 'vini') }}">Il Vino</a></li>
                 <li  class="nav-item"><a  class="nav-link" href="{{ route('tenute') }}">Le Tenute</a></li>
-                @can('isAdmin')
-                    <li  class="nav-item"><a  class="nav-link" href="{{ route(name: 'dipendenti') }}">Dipendeti</a></li>
-                @endcan
                 @can('isStaff')
-                    <li  class="nav-item"><a  class="nav-link" href="">Staff</a></li>
-                @endcan
-                @can('isUtente')
-                    <li  class="nav-item"><a  class="nav-link" href="">Utente</a></li>
-                @endcan
+                         <li class="nav-item dropdown ms-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Dashboard
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
+
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Catalogo
+                                    </a>
+                                </li>
+                               
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Prenotazioni
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Ordini
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endcan
+                    @can('isAdmin')
+                         <li class="nav-item dropdown ms-3">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarAdminDropdown"
+                            role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Dashboard
+                            </a>
+
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
+
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Catalogo
+                                    </a>
+                                </li>
+                               
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Dipendenti
+                                    </a>
+                                </li>
+                                
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Rifornimenti
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="">
+                                        Vigneti
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endcan
             </ul>
 
            
@@ -39,7 +94,7 @@
             </a>--}}
 
             <a class="navbar-brand position-absolute start-50 translate-middle-x d-none d-lg-block fw-bold fs-3" href="{{ route('home') }}">
-            <img src="{{ asset('img/logo_bellò.png') }}" alt="Logo Bellò" class="logo-navbar">
+                <img src="{{ asset('img/logo_bellò.png') }}" alt="Logo Bellò" class="logo-navbar">
             </a>
 
 
@@ -54,11 +109,13 @@
                     <a  class="nav-link" href="{{ route('shop') }}">Shop</a>
                 </li>
 
-                {{-- Icona carrello da inserire solo se autenticato--
+                @can('isUtente')
                 <li class="nav-item">
                     <a class="nav-link fs-4" href="#">🛒</a>
                 </li>
-                -}}
+                @endcan
+
+
                 {{-- Area utente --}}
                 @auth
 
@@ -70,14 +127,6 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
-                                {{-- Link alla pagina admin --}}
-                                <li>
-                                    <a class="dropdown-item" href="{{ route('provaAdmin') }}">
-                                        Dashboard
-                                    </a>
-                                </li>
-
-                                <li><hr class="dropdown-divider"></li>
 
                                 {{-- Logout dentro al dropdown --}}
                                 <li>
@@ -100,14 +149,6 @@
                             </a>
 
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
-                                {{-- Link alla pagina admin --}}
-                                <li>
-                                    <a class="dropdown-item" href="">
-                                        Dashboard
-                                    </a>
-                                </li>
-
-                                <li><hr class="dropdown-divider"></li>
 
                                 {{-- Logout dentro al dropdown --}}
                                 <li>
@@ -133,7 +174,7 @@
                                 {{-- Link alla pagina admin --}}
                                 <li>
                                     <a class="dropdown-item" href="">
-                                        Dashboard
+                                        Ordini
                                     </a>
                                 </li>
 

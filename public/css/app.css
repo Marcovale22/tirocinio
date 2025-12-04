@@ -4,9 +4,7 @@
     width: 150px; 
 }
 
-.navbar {
-    height: 90px;
-}
+
 
 .navbar .nav-link {
     color: black !important;
@@ -15,7 +13,7 @@
 }   
 
 .navbar .nav-item {
-    margin: 0 50px;
+    margin: 0 30px;
 }
 
 .navbar .nav-link:hover {
@@ -29,6 +27,25 @@
 .navbar-right {
     margin-right: 0px !important;
 }
+
+.navbar-collapse {
+    position: static !important;
+}
+
+@media (min-width: 1200px) {
+    .navbar {
+        height: 90px;
+    }
+}
+
+@media (max-width: 1200px) {
+    .navbar-nav.ms-auto,
+    .navbar-nav.me-auto {
+        margin-left: 0 !important;
+        margin-right: 0 !important;
+    }
+}
+
 
                                 /*-----HOMEPAGE----*/
 /* Sezione hero centrata */
