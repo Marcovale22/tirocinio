@@ -41,5 +41,22 @@ class AdminUserSeeder extends Seeder
             'tipo_utente' => 'persona',
             'ruolo' => 'utente',
         ]);
+
+        User::create([
+            'name' => 'Mario Rossi',
+            'username' => 'MarioRossi',
+            'email' => 'Mario@example.com',
+            'password' => Hash::make('12341234'),
+            'tipo_utente' => 'persona',
+            'ruolo' => 'staff',
+        ]);
+        User::create([
+            'name' => 'Luigi Bianchi',
+            'username' => 'LuigiBianchi',
+            'email' => 'Luigi@example.com',
+            'password' => Hash::make('12341234'),
+            'tipo_utente' => 'persona',
+            'ruolo' => 'staff',
+        ]);
     }
 }

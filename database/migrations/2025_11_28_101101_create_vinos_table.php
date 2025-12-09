@@ -9,27 +9,34 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
+   public function up(): void
     {
         Schema::create('vini', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('prodotto_id')->unique();
-            $table->integer('disponibilita')->default('0');
-            $table->integer('annata');
-            $table->decimal('solfiti')->default('0');
-            $table->String('formato');
-            $table->decimal('gradazione');
-            $table->timestamps();
 
-            $table->foreign('prodotto_id')->references('id')->on('prodotti')->onDelete('cascade');
+            // relazione 1:1 con prodotti
+            $table->foreignId('prodotto_id')
+                ->constrained('prodotti')
+                ->unique()
+                ->onDelete('cascade');
+
+            $table->unsignedInteger('disponibilita')->default(0);
+
+            $table->unsignedSmallInteger('annata'); // es: 2020, 2018 ecc.
+            
+            $table->decimal('solfiti', 5, 2)->default(0); // es: 12.50 mg/l
+
+            $table->string('formato'); // es: 0.75L, 1.5L
+
+            $table->decimal('gradazione', 4, 1); // es: 13.5
+
+            $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('vini');
     }
+
 };

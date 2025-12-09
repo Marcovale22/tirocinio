@@ -5,7 +5,6 @@
 }
 
 
-
 .navbar .nav-link {
     color: black !important;
     font-weight: 500;
@@ -141,11 +140,6 @@
     color: #ff7d03;
 }
 
-/* "Scopri di più" sotto al bottone */
-.vino-sottotitolo {
-    font-size: 0.8rem;
-}
-
 /* RESPONSIVE: su mobile bottiglia sopra, testo sotto */
 @media (max-width: 1000px) {
     .vino-card {
@@ -160,4 +154,152 @@
         margin-top: 15px;
         text-align: center;
     }
+}
+
+
+/*--------PAGINA DIPENDENTI ADMIN--------*/
+
+.pagina-dipendenti{
+    min-height: 100vh;
+    background-color: #ff7d03; 
+    padding: 20px 0;
+}
+
+.titolo-dipendenti {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #ffffff; 
+}
+
+.btn-add-staff {
+    padding: 10px 26px;
+    border-radius: 999px;
+    border: 2px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 750;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none; 
+    display: inline-block;
+}
+
+.btn-add-staff:hover {
+    background-color: #ffffff;
+    color: #ff7d03;
+    text-decoration: none; 
+}
+
+
+.table-staff {
+    background: #ffffff !important;
+    border-radius: 10px !important;
+    overflow: hidden !important;
+    border: 0 !important;
+}
+
+.table-staff thead {
+    background-color: #ffe4c2 !important;
+    color: #ff7d03 !important;
+    font-weight: 700 !important;
+}
+
+.table-staff tbody tr:hover {
+    background-color: #fff5e6 !important;
+}
+
+
+/*--------PAGINA CATALOGO ADMIN--------*/
+.pagina-catalogo {
+    background-color: #ff7d03;
+}
+
+.titolo-catalogo {
+    text-align: center;
+    color:#ffffff ;
+}
+.catalogo-nav {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 30px;
+}
+
+.btn-catalogo-nav {
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 2px solid #ffffff;
+    background: transparent;
+    color: #ffffff;
+    text-decoration: none;
+    font-weight: 500;
+    transition: 0.25s;
+}
+
+.btn-catalogo-nav:hover {
+    background: #ffffff;
+    color: #ff7d03;
+}
+
+.catalogo-sezione-titolo {
+    color: #ffffff;
+    font-weight: 700;
+    font-size: 1.6rem;
+}
+
+.btn-catalogo-add {
+    padding: 8px 18px;
+    border-radius: 50px;
+    border: 2px solid #ffffff;
+    color: #ffffff;
+    background: transparent;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.btn-catalogo-add:hover {
+    background: #ffffff;
+    color: #ff7d03;
+}
+
+.catalogo-item {
+    display: flex;
+    background: #fff;
+    padding: 16px;
+    border-radius: 10px;
+    margin-bottom: 12px;
+    align-items: center;
+    gap: 20px;
+}
+
+.catalogo-item-img img {
+    width: 90px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.catalogo-item-info {
+    flex: 1;
+}
+
+.catalogo-item-titolo {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+
+.catalogo-item-sottotitolo {
+    color: #555;
+    margin-bottom: 5px;
+}
+
+.catalogo-item-prezzo {
+    color: #ff7d03;
+    font-weight: bold;
+}
+
+.catalogo-item-azioni {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
 }

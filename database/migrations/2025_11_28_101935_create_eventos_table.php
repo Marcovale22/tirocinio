@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('eventi', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('prodotto_id')->unique();
-            $table->date('data_evento');
-            $table->time('ora_evento');
-            $table->integer('disponibilità');
+
+            // relazione 1:1 con prodotti (specifica_evento)
+            $table->foreignId('prodotto_id')->constrained('prodotti')->onDelete('cascade')->unique();
+            $table->date('data_evento');                 // data
+            $table->time('ora_evento')->nullable();      // ora
+            $table->unsignedInteger('disponibilita')->nullable();
+            
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('eventi');
