@@ -50,9 +50,10 @@
                                     <td>{{ $dipendente->email }}</td>
                                     <td>{{ $dipendente->data_di_nascita ? \Carbon\Carbon::parse($dipendente->data_di_nascita)->format('d-m-Y') : '' }}</td>
                                     <td class="text-end">
+                                        <div class="dipendenti-item-azioni catalogo-item-azioni">
                                         {{-- Modifica --}}
                                         <button type="button"
-                                                class="btn btn-sm btn-warning btn-edit-dipendente"
+                                                class="btn-catalogo-pill mb-2"
                                                 data-bs-toggle="modal"
                                                 data-bs-target="#editDipendenteModal"
                                                 data-id="{{ $dipendente->id }}"
@@ -70,10 +71,11 @@
                                               onsubmit="return confirm('Sei sicuro di voler eliminare questo dipendente?');">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger">
+                                            <button type="submit" class="btn-catalogo-pill btn-catalogo-delete">
                                                 Elimina
                                             </button>
                                         </form>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty

@@ -75,12 +75,7 @@
                                         Rifornimenti
                                     </a>
                                 </li>
-
-                                <li>
-                                    <a class="dropdown-item" href="">
-                                        Vigneti
-                                    </a>
-                                </li>
+                                
                             </ul>
                         </li>
                     @endcan

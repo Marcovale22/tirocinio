@@ -23,7 +23,12 @@
         <section id="vini" class="catalogo-sezione mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="catalogo-sezione-titolo">Vini</h2>
-                <a href="#" class="btn-catalogo-add">+ Aggiungi vino</a>
+                <a href="#" class="btn-catalogo-add"
+                    data-bs-toggle="modal"
+                    data-bs-target="#vinoModal"
+                    data-mode="create">
+                    + Aggiungi vino
+                </a>
             </div>
 
             @forelse ($vini as $vino)
@@ -48,13 +53,34 @@
                     </div>
 
                     <div class="catalogo-item-azioni">
-                        <a href="#" class="btn btn-sm btn-warning mb-2">Modifica</a>
-                        <form action="#" method="POST" onsubmit="return confirm('Eliminare questo vino?');">
+                         {{-- Modifica --}}
+                        <button type="button"
+                                class="btn-catalogo-pill btn-catalogo-edit mb-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#vinoModal"
+                                data-mode="edit"
+                                data-id="{{ $vino->id }}"
+                                data-nome="{{ $vino->nome }}"
+                                data-prezzo="{{ $vino->prezzo }}"
+                                data-annata="{{ $vino->vino->annata ?? '' }}"
+                                data-formato="{{ $vino->vino->formato ?? '' }}"
+                                data-gradazione="{{ $vino->vino->gradazione ?? '' }}">
+                            Modifica
+                        </button>
+
+                        {{-- Elimina --}}
+                        <form action=""
+                            method="POST"
+                            onsubmit="return confirm('Eliminare questo vino?');">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Elimina</button>
+                            <button class="btn-catalogo-pill btn-catalogo-delete">
+                                Elimina
+                            </button>
                         </form>
+
                     </div>
+
                 </div>
             @empty
                 <p class="text-muted">Nessun vino presente.</p>
@@ -67,7 +93,10 @@
         <section id="merch" class="catalogo-sezione mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="catalogo-sezione-titolo">Merch</h2>
-                <a href="#" class="btn-catalogo-add">+ Aggiungi merch</a>
+                <a href="#" class="btn-catalogo-add"
+                    data-bs-toggle="modal"
+                    data-bs-target="#merchModal"
+                    data-mode="create">+ Aggiungi merch</a>
             </div>
 
             @forelse ($merch as $m)
@@ -85,13 +114,32 @@
                     </div>
 
                     <div class="catalogo-item-azioni">
-                        <a href="#" class="btn btn-sm btn-warning mb-2">Modifica</a>
-                        <form action="#" method="POST" onsubmit="return confirm('Eliminare questo prodotto?');">
+
+                        {{-- Modifica MERCH --}}
+                        <button type="button"
+                                class="btn-catalogo-pill mb-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#merchModal"
+                                data-mode="edit"
+                                data-id="{{ $m->id }}"
+                                data-nome="{{ $m->nome }}"
+                                data-prezzo="{{ $m->prezzo }}">
+                            Modifica
+                        </button>
+
+                        {{-- Elimina MERCH --}}
+                        <form action=""
+                            method="POST"
+                            onsubmit="return confirm('Eliminare questo prodotto?');">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Elimina</button>
+                            <button type="submit" class="btn-catalogo-pill btn-catalogo-delete">
+                                Elimina
+                            </button>
                         </form>
+
                     </div>
+
                 </div>
             @empty
                 <p class="text-muted">Nessun prodotto merch presente.</p>
@@ -104,7 +152,11 @@
         <section id="eventi" class="catalogo-sezione mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="catalogo-sezione-titolo">Eventi</h2>
-                <a href="#" class="btn-catalogo-add">+ Aggiungi evento</a>
+                <a href="#" class="btn-catalogo-add"
+                    data-bs-toggle="modal"
+                    data-bs-target="#eventoModal"
+                    data-mode="create">
+                    + Aggiungi evento</a>
             </div>
 
             @forelse ($eventi as $e)
@@ -136,13 +188,35 @@
                     </div>
 
                     <div class="catalogo-item-azioni">
-                        <a href="#" class="btn btn-sm btn-warning mb-2">Modifica</a>
-                        <form action="#" method="POST" onsubmit="return confirm('Eliminare questo evento?');">
+
+                        {{-- Modifica EVENTO --}}
+                        <button type="button"
+                                class="btn-catalogo-pill mb-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#eventoModal"
+                                data-mode="edit"
+                                data-id="{{ $e->id }}"
+                                data-nome="{{ $e->nome }}"
+                                data-prezzo="{{ $e->prezzo }}"
+                                data-data="{{ $e->evento->data_evento ?? '' }}"
+                                data-ora="{{ $e->evento->ora_evento ?? '' }}"
+                                data-disponibilita="{{ $e->evento->disponibilita ?? '' }}">
+                            Modifica
+                        </button>
+
+                        {{-- Elimina EVENTO --}}
+                        <form action=""
+                            method="POST"
+                            onsubmit="return confirm('Eliminare questo evento?');">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Elimina</button>
+                            <button type="submit" class="btn-catalogo-pill btn-catalogo-delete">
+                                Elimina
+                            </button>
                         </form>
+
                     </div>
+
                 </div>
             @empty
                 <p class="text-muted">Nessun evento presente.</p>
@@ -155,7 +229,11 @@
         <section id="vigneti" class="catalogo-sezione mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="catalogo-sezione-titolo">Vigneti</h2>
-                <a href="#" class="btn-catalogo-add">+ Aggiungi vigneto</a>
+                <a href="#" class="btn-catalogo-add"
+                    data-bs-toggle="modal"
+                    data-bs-target="#vignetoModal"
+                    data-mode="create">
+                    + Aggiungi vigneto</a>
             </div>
 
             @forelse ($vigneti as $v)
@@ -182,13 +260,34 @@
                     </div>
 
                     <div class="catalogo-item-azioni">
-                        <a href="#" class="btn btn-sm btn-warning mb-2">Modifica</a>
-                        <form action="#" method="POST" onsubmit="return confirm('Eliminare questo vigneto?');">
+
+                        {{-- Modifica VIGNETO --}}
+                        <button type="button"
+                                class="btn-catalogo-pill mb-2"
+                                data-bs-toggle="modal"
+                                data-bs-target="#vignetoModal"
+                                data-mode="edit"
+                                data-id="{{ $v->id }}"
+                                data-nome="{{ $v->nome }}"
+                                data-descrizione="{{ $v->descrizione }}"
+                                data-prezzo="{{ $v->prezzo_annuo }}"
+                                data-disponibilita="{{ $v->disponibilita_totale }}">
+                            Modifica
+                        </button>
+
+                        {{-- Elimina VIGNETO --}}
+                        <form action=""
+                            method="POST"
+                            onsubmit="return confirm('Eliminare questo vigneto?');">
                             @csrf
                             @method('DELETE')
-                            <button class="btn btn-sm btn-danger">Elimina</button>
+                            <button type="submit" class="btn-catalogo-pill btn-catalogo-delete">
+                                Elimina
+                            </button>
                         </form>
+
                     </div>
+
                 </div>
             @empty
                 <p class="text-muted">Nessun vigneto presente.</p>
@@ -197,4 +296,17 @@
 
     </div>
 </div>
+@include('admin.modals.vino')
+@include('admin.modals.merch')
+@include('admin.modals.evento')
+@include('admin.modals.vigneto')
+
+@push('scripts')
+    @include('admin.scripts.vino')
+    @include('admin.scripts.merch')
+    @include('admin.scripts.evento')
+    @include('admin.scripts.vigneto')
+@endpush
+
+
 @endsection

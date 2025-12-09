@@ -209,6 +209,11 @@
     background-color: #fff5e6 !important;
 }
 
+/*css per bottoni dipendenti che eridata da catalogo*/
+.catalogo-item-azioni .btn-catalogo-pill {
+    margin-bottom: 6px;
+}
+
 
 /*--------PAGINA CATALOGO ADMIN--------*/
 .pagina-catalogo {
@@ -302,4 +307,39 @@
     display: flex;
     flex-direction: column;
     align-items: flex-end;
+}
+
+/* pillole per Modifica / Elimina */
+.btn-catalogo-pill {
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 2px solid #ff7d03;   /* arancione come il tema */
+    background: transparent;
+    color: #ff7d03;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+}
+
+.btn-catalogo-pill:hover {
+    background: #ff7d03;
+    color: #ffffff;
+}
+
+/* variante per ELIMINA (rossa) */
+.btn-catalogo-delete {
+    border-color: #dc3545;
+    color: #dc3545;
+}
+
+.btn-catalogo-delete:hover {
+    background: #dc3545;
+    color: #ffffff;
+}
+
+/* un po' di margine verticale tra i due bottoni */
+.catalogo-item-azioni .btn-catalogo-pill {
+    margin-bottom: 6px;
 }
