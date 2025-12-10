@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\AdminDipendentiController;
 use App\Http\Controllers\AdminCatalogoController;
+use App\Http\Controllers\StaffCatalogoController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\StaffRifornimentiController;
 use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
 
@@ -37,7 +39,16 @@ Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
 
 Route::prefix('staff')->middleware('auth', 'can:isStaff')->group(function () {
 
-   
+    Route::controller(StaffCatalogoController::class)->prefix('catalogo')->name('staff.catalogo.')->group(function () {
+        
+        Route::get('/', 'getCatalogo')->name('index');
+    });
+
+    Route::controller(StaffRifornimentiController::class)
+        ->prefix('rifornimenti')->name('staff.rifornimenti.')
+        ->group(function () {
+            Route::post('/', 'store')->name('store');
+        });
 });
 
 Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {

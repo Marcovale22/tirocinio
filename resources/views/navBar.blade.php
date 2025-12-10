@@ -30,7 +30,7 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
 
                                 <li>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{ route('staff.catalogo.index') }}">
                                         Catalogo
                                     </a>
                                 </li>

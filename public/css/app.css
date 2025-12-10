@@ -155,6 +155,127 @@
         text-align: center;
     }
 }
+/*--------PAGINA TENUTE--------*/
+.tenute-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    padding-top: 0;              /* attaccato alla navbar */
+}
+
+.tenuta-section {
+    width: 100%;
+    padding: 60px 0;             /* distanza interna sopra/sotto */
+}
+
+.first-section .titolo-tenute {
+    max-width: 1200px;
+    margin: 0 auto 50px auto;   /* nessun margine sopra, solo sotto */
+    color: #ffffff;
+    font-size: 2.8rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* contenitore interno */
+.tenuta-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+/* sfondi */
+.bg-orange {
+    background-color: #ff7d03;
+}
+
+/* secondo blocco con colore scuro per far risaltare il testo bianco */
+.bg-wine {
+    background-color: #000000e3;   /* colore “vino” */
+}
+
+/* contenitore interno */
+.tenuta-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    padding: 0 20px;
+}
+
+/* prima sezione con 3 colonne (titolo, immagine, testo) */
+.first-tenuta {
+    grid-template-columns: auto auto auto;
+}
+
+
+
+
+/* colonne */
+.tenuta-title-col {
+    flex: 0 0 20%;
+}
+
+.tenuta-img-col {
+    flex: 0 0 40%;
+}
+
+.tenuta-info-col {
+    flex: 1;
+}
+
+/* immagini: stessa grandezza */
+.tenuta-img-col img {
+    width: 100%;
+    max-width: 550px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 20px;
+}
+
+/* testo bianco ovunque dentro le sezioni */
+.tenuta-section h1,
+.tenuta-section h2,
+.tenuta-section p {
+    color: #ffffff;
+}
+
+
+
+/* titolo tenuta + descrizione */
+.tenuta-info-col h2 {
+    font-size: 2rem;
+    margin-bottom: 15px;
+}
+
+.tenuta-info-col p {
+    font-size: 1.05rem;
+    line-height: 1.6;
+}
+
+/* Responsivo */
+@media (max-width: 992px) {
+    .tenuta-container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .reverse {
+        flex-direction: column;
+    }
+
+    .tenuta-title-col {
+        order: -1;
+    }
+
+    .tenuta-img-col img {
+        max-width: 90%;
+        height: auto;
+    }
+}
 
 
 /*--------PAGINA DIPENDENTI ADMIN--------*/
