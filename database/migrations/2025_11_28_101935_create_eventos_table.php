@@ -18,8 +18,8 @@ return new class extends Migration
             $table->foreignId('prodotto_id')->constrained('prodotti')->onDelete('cascade')->unique();
             $table->date('data_evento');                 // data
             $table->time('ora_evento')->nullable();      // ora
-            $table->unsignedInteger('disponibilita')->nullable();
-            
+            $table->string('luogo');
+            $table->text('descrizione')->nullable();
             $table->timestamps();
         });
     }

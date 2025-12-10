@@ -1,44 +1,54 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('merchModal');
-    if (!modal) return;
+    const merchModal = document.getElementById('merchModal');
+    const merchForm  = document.getElementById('merchForm');
+    const methodInp  = document.getElementById('merchFormMethod');
+    const titleEl    = document.getElementById('merchModalLabel');
+    const submitBtn  = document.getElementById('merch-submit-btn');
 
-    const form      = document.getElementById('merchForm');
-    const methodInp = document.getElementById('merchFormMethod');
-    const titleEl   = document.getElementById('merchModalLabel');
-    const submitBtn = document.getElementById('merch-submit-btn');
+    if (!merchModal) return;
 
-    modal.addEventListener('show.bs.modal', function (event) {
+    merchModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        const mode   = button.getAttribute('data-mode');
+
+        // Se il modal è aperto da JS (dopo errore) non c'è un bottone → non tocco i campi
+        if (!button) return;
+
+        const mode = button.getAttribute('data-mode'); // create | edit
 
         if (mode === 'create') {
-            titleEl.textContent   = "Nuovo prodotto merch";
-            submitBtn.textContent = "Crea";
+            // Modal in modalità AGGIUNTA
+            titleEl.textContent   = 'Nuovo prodotto merch';
+            submitBtn.textContent = 'Crea';
 
-            form.action  = "";
-            methodInp.value = "POST";
+            merchForm.action = "{{ route('catalogo.store.merch') }}";
+            methodInp.value  = 'POST';
 
-            document.getElementById('merch-nome').value     = '';
-            document.getElementById('merch-prezzo').value   = '';
-            document.getElementById('merch-immagine').value = '';
+            // pulisco i campi
+            document.getElementById('merch-nome').value           = '';
+            document.getElementById('merch-prezzo').value         = '';
+            const disp = document.getElementById('merch-disponibilita');
+            if (disp) disp.value = '';
+            // il file input NON si tocca via JS, va bene così
         }
 
         if (mode === 'edit') {
-            titleEl.textContent   = "Modifica prodotto merch";
-            submitBtn.textContent = "Salva modifiche";
+            // Modal in modalità MODIFICA
+            titleEl.textContent   = 'Modifica merch';
+            submitBtn.textContent = 'Salva modifiche';
 
-            const id       = button.dataset.id;
-            const nome     = button.dataset.nome;
-            const prezzo   = button.dataset.prezzo;
-            const immagine = button.dataset.immagine;
+            const id            = button.getAttribute('data-id');
+            const nome          = button.getAttribute('data-nome') || '';
+            const prezzo        = button.getAttribute('data-prezzo') || '';
+            const disponibilita = button.getAttribute('data-disponibilita') || '';
 
-            form.action = "".replace(":id", id);
-            methodInp.value = "PUT";
+            merchForm.action = "{{ route('catalogo.update.merch', ':id') }}".replace(':id', id);
+            methodInp.value  = 'PUT';
 
-            document.getElementById('merch-nome').value     = nome ?? '';
-            document.getElementById('merch-prezzo').value   = prezzo ?? '';
-            document.getElementById('merch-immagine').value = immagine ?? '';
+            document.getElementById('merch-nome').value           = nome;
+            document.getElementById('merch-prezzo').value         = prezzo;
+            const disp = document.getElementById('merch-disponibilita');
+            if (disp) disp.value = disponibilita;
         }
     });
 });

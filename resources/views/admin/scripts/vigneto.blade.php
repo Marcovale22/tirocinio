@@ -1,43 +1,53 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('vignetoModal');
-    if (!modal) return;
+    const vignetoModal = document.getElementById('vignetoModal');
+    const vignetoForm  = document.getElementById('vignetoForm');
+    const methodInp    = document.getElementById('vignetoFormMethod');
+    const titleEl      = document.getElementById('vignetoModalLabel');
+    const submitBtn    = document.getElementById('vigneto-submit-btn');
 
-    const form = document.getElementById('vignetoForm');
-    const method = document.getElementById('vignetoFormMethod');
-    const title = document.getElementById('vignetoModalLabel');
-    const submit = document.getElementById('vigneto-submit-btn');
+    if (!vignetoModal) return;
 
-    modal.addEventListener('show.bs.modal', function (event) {
-        const btn = event.relatedTarget;
-        const mode = btn.dataset.mode;
+    vignetoModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
 
-        if (mode === "create") {
-            title.textContent = "Nuovo vigneto";
-            submit.textContent = "Crea";
+        // Se il modal si apre dopo errore via JS, nessun bottone → non tocco i campi
+        if (!button) return;
 
-            form.action = "";
-            method.value = "POST";
+        const mode = button.getAttribute('data-mode'); // create | edit
 
-            document.getElementById('vigneto-nome').value = "";
-            document.getElementById('vigneto-descrizione').value = "";
-            document.getElementById('vigneto-disponibilita').value = "";
-            document.getElementById('vigneto-prezzo').value = "";
+        if (mode === 'create') {
+            titleEl.textContent   = 'Nuovo vigneto';
+            submitBtn.textContent = 'Crea';
+
+            vignetoForm.action = "{{ route('catalogo.store.vigneto') }}";
+            methodInp.value    = 'POST';
+
+            // pulisco i campi
+            document.getElementById('vigneto-nome').value           = '';
+            document.getElementById('vigneto-descrizione').value    = '';
+            document.getElementById('vigneto-disponibilita').value  = '';
+            document.getElementById('vigneto-prezzo-annuo').value   = '';
+            // il file input non si tocca via JS
         }
 
-        if (mode === "edit") {
-            title.textContent = "Modifica vigneto";
-            submit.textContent = "Salva modifiche";
+        if (mode === 'edit') {
+            titleEl.textContent   = 'Modifica vigneto';
+            submitBtn.textContent = 'Salva modifiche';
 
-            const id = btn.dataset.id;
+            const id            = button.getAttribute('data-id');
+            const nome          = button.getAttribute('data-nome') || '';
+            const descrizione   = button.getAttribute('data-descrizione') || '';
+            const disponibilita = button.getAttribute('data-disponibilita') || '';
+            const prezzoAnnuale = button.getAttribute('data-prezzo-annuo') || '';
 
-            form.action = "".replace(":id", id);
-            method.value = "PUT";
+            vignetoForm.action = "{{ route('catalogo.update.vigneto', ':id') }}".replace(':id', id);
+            methodInp.value    = 'PUT';
 
-            document.getElementById('vigneto-nome').value          = btn.dataset.nome;
-            document.getElementById('vigneto-descrizione').value   = btn.dataset.descrizione;
-            document.getElementById('vigneto-disponibilita').value = btn.dataset.disponibilita;
-            document.getElementById('vigneto-prezzo').value        = btn.dataset.prezzo;
+            document.getElementById('vigneto-nome').value           = nome;
+            document.getElementById('vigneto-descrizione').value    = descrizione;
+            document.getElementById('vigneto-disponibilita').value  = disponibilita;
+            document.getElementById('vigneto-prezzo-annuo').value   = prezzoAnnuale;
         }
     });
 });

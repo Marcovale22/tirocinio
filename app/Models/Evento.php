@@ -8,7 +8,7 @@ class Evento extends Model
 {
     protected $table = 'eventi';
 
-    protected $fillable = ['prodotto_id', 'data_evento', 'ora_evento','disponibilita'];
+    protected $fillable = ['prodotto_id', 'data_evento', 'ora_evento','luogo','descrizione'];
 
     public function prodotto()
     {

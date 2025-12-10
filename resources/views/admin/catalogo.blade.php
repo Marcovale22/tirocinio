@@ -55,21 +55,23 @@
                     <div class="catalogo-item-azioni">
                          {{-- Modifica --}}
                         <button type="button"
-                                class="btn-catalogo-pill btn-catalogo-edit mb-2"
+                                class="btn-catalogo-pill mb-2"
                                 data-bs-toggle="modal"
                                 data-bs-target="#vinoModal"
                                 data-mode="edit"
                                 data-id="{{ $vino->id }}"
                                 data-nome="{{ $vino->nome }}"
                                 data-prezzo="{{ $vino->prezzo }}"
-                                data-annata="{{ $vino->vino->annata ?? '' }}"
-                                data-formato="{{ $vino->vino->formato ?? '' }}"
-                                data-gradazione="{{ $vino->vino->gradazione ?? '' }}">
+                                data-annata="{{ $vino->vinoDettaglio->annata ?? '' }}"
+                                data-formato="{{ $vino->vinoDettaglio->formato ?? '' }}"
+                                data-gradazione="{{ $vino->vinoDettaglio->gradazione ?? '' }}"
+                                data-disponibilita="{{ $vino->disponibilita ?? 0 }}"
+                                data-solfiti="{{ $vino->vinoDettaglio->solfiti ?? 0 }}">
                             Modifica
                         </button>
 
                         {{-- Elimina --}}
-                        <form action=""
+                        <form action="{{ route('catalogo.destroy.vino',$vino->id) }}"
                             method="POST"
                             onsubmit="return confirm('Eliminare questo vino?');">
                             @csrf
@@ -123,12 +125,13 @@
                                 data-mode="edit"
                                 data-id="{{ $m->id }}"
                                 data-nome="{{ $m->nome }}"
-                                data-prezzo="{{ $m->prezzo }}">
+                                data-prezzo="{{ $m->prezzo }}"
+                                data-disponibilita="{{ $m->disponibilita }}">
                             Modifica
                         </button>
 
                         {{-- Elimina MERCH --}}
-                        <form action=""
+                        <form action="{{ route('catalogo.destroy.merch',$m->id) }}"
                             method="POST"
                             onsubmit="return confirm('Eliminare questo prodotto?');">
                             @csrf
@@ -178,7 +181,13 @@
                                 @endif
                             </p>
                             <p class="catalogo-item-sottotitolo">
-                                Posti disponibili: {{ $e->evento->disponibilita }}
+                                Posti disponibili: {{ $e->disponibilita }}
+                            </p>
+                            <p class="catalogo-item-sottotitolo">
+                                Luogo: {{ $e->evento->luogo }}
+                            </p>
+                            <p class="catalogo-item-sottotitolo">
+                                Descrizione: {{ $e->evento->descrizione }}
                             </p>
                         @endif
 
@@ -200,12 +209,14 @@
                                 data-prezzo="{{ $e->prezzo }}"
                                 data-data="{{ $e->evento->data_evento ?? '' }}"
                                 data-ora="{{ $e->evento->ora_evento ?? '' }}"
-                                data-disponibilita="{{ $e->evento->disponibilita ?? '' }}">
+                                data-luogo="{{ $e->evento->luogo ?? '' }}"
+                                data-descrizione="{{ $e->evento->descrizione ?? '' }}"
+                                data-disponibilita="{{ $e->disponibilita ?? '' }}">
                             Modifica
                         </button>
 
                         {{-- Elimina EVENTO --}}
-                        <form action=""
+                        <form action="{{ route('catalogo.destroy.evento',$e->id) }}"
                             method="POST"
                             onsubmit="return confirm('Eliminare questo evento?');">
                             @csrf
@@ -255,7 +266,7 @@
                         @endif
 
                         <p class="catalogo-item-sottotitolo">
-                            Lotti disponibili: {{ $v->disponibilita_totale }}
+                            Lotti disponibili: {{ $v->disponibilita }}
                         </p>
                     </div>
 
@@ -271,12 +282,12 @@
                                 data-nome="{{ $v->nome }}"
                                 data-descrizione="{{ $v->descrizione }}"
                                 data-prezzo="{{ $v->prezzo_annuo }}"
-                                data-disponibilita="{{ $v->disponibilita_totale }}">
+                                data-disponibilita="{{ $v->disponibilita }}">
                             Modifica
                         </button>
 
                         {{-- Elimina VIGNETO --}}
-                        <form action=""
+                        <form action="{{ route('catalogo.destroy.vigneto',$v->id) }}"
                             method="POST"
                             onsubmit="return confirm('Eliminare questo vigneto?');">
                             @csrf
@@ -302,11 +313,59 @@
 @include('admin.modals.vigneto')
 
 @push('scripts')
+    {{-- SCRIPT VINO --}}
     @include('admin.scripts.vino')
+    @if ($errors->has('nome') || $errors->has('prezzo') || $errors->has('annata') ||
+         $errors->has('formato') || $errors->has('gradazione') || $errors->has('immagine'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const modal = new bootstrap.Modal(document.getElementById('vinoModal'));
+                modal.show();
+            });
+        </script>
+    @endif
+
+
+    {{-- SCRIPT MERCH --}}
     @include('admin.scripts.merch')
+    @if ($errors->has('nome') || $errors->has('prezzo') || $errors->has('disponibilita') || $errors->has('immagine'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const modal = new bootstrap.Modal(document.getElementById('merchModal'));
+                modal.show();
+            });
+        </script>
+    @endif
+
+
+    {{-- SCRIPT EVENTO --}}
     @include('admin.scripts.evento')
+    @if ($errors->has('nome') || $errors->has('prezzo') || $errors->has('data_evento') ||
+         $errors->has('ora_evento') || $errors->has('disponibilita') ||
+         $errors->has('descrizione') || $errors->has('immagine'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const modal = new bootstrap.Modal(document.getElementById('eventoModal'));
+                modal.show();
+            });
+        </script>
+    @endif
+
+
+    {{-- SCRIPT VIGNETO --}}
     @include('admin.scripts.vigneto')
+    @if ($errors->has('nome') || $errors->has('descrizione') || $errors->has('disponibilita') ||
+         $errors->has('prezzo_annuo') || $errors->has('immagine'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                const modal = new bootstrap.Modal(document.getElementById('vignetoModal'));
+                modal.show();
+            });
+        </script>
+    @endif
+
 @endpush
+
 
 
 @endsection

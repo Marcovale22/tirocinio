@@ -6,9 +6,8 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
-use App\Models\Prodotto;
-use App\Models\Vigneto;
-class AdminController extends Controller
+
+class AdminDipendentiController extends Controller
 {   
      /*---------SEZIONE DIPENDENTI------*/
     public function getDipendenti(){
@@ -135,28 +134,7 @@ class AdminController extends Controller
     }
 
 
-    /*---------SEZIONE CATALOGO------*/
-   public function getCatalogo()
-    {
-        // Recupero vini (prodotti con tipo = vino)
-        $vini = Prodotto::with('vino')
-            ->where('tipo', 'vino')
-            ->get();
-
-        // Recupero merch (prodotti senza tabella specifica)
-        $merch = Prodotto::where('tipo', 'merch')->get();
-
-        // Recupero eventi (prodotti con tabella evento)
-        $eventi = Prodotto::with('evento')
-            ->where('tipo', 'evento')
-            ->get();
-
-        // Recupero vigneti (tabella dedicata)
-        $vigneti = Vigneto::all();
-
-        // Ritorno la vista catalogo con tutte le variabili
-        return view('admin.catalogo', compact('vini', 'merch', 'eventi', 'vigneti'));
-    }
+    
 
 
 

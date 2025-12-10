@@ -73,14 +73,17 @@ class ProdottoSeeder extends Seeder
             'nome' => "Degustazione d'Autunno",
             'tipo' => 'evento',
             'prezzo' => 35.00, // prezzo del biglietto
-            'immagine' => 'evento_autunno.png',
+            'immagine' => 'placeholder_evento.png',
+            'disponibilita' => 40,
         ]);
 
         Evento::create([
             'prodotto_id' => $eventoProdotto->id,
             'data_evento' => '2026-10-15',
             'ora_evento' => '18:00:00',
-            'disponibilita' => 40,
+            'luogo' => 'Ascoli piceno',
+            'descrizione' => 'evnto di apertura della pagina web',
+            
         ]);
 
 
@@ -94,7 +97,8 @@ class ProdottoSeeder extends Seeder
             'nome' => "T-shirt Vinicola Premium",
             'tipo' => 'merch',
             'prezzo' => 22.00,
-            'immagine' => 'tshirt_vinicola.png',
+            'immagine' => 'placeholder_merch.png',
+            'disponibilita' => 10,
         ]);
     }
 }

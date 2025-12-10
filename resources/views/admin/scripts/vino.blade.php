@@ -1,51 +1,65 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    var vinoModal = document.getElementById('vinoModal');
-    var vinoForm  = document.getElementById('vinoForm');
-    var methodInp = document.getElementById('vinoFormMethod');
-    var titleEl   = document.getElementById('vinoModalLabel');
-    var submitBtn = document.getElementById('vino-submit-btn');
+    const vinoModal = document.getElementById('vinoModal');
+    const vinoForm  = document.getElementById('vinoForm');
+    const methodInp = document.getElementById('vinoFormMethod');
+    const titleEl   = document.getElementById('vinoModalLabel');
+    const submitBtn = document.getElementById('vino-submit-btn');
+
+    if (!vinoModal) return;
 
     vinoModal.addEventListener('show.bs.modal', function (event) {
-        var button = event.relatedTarget;
-        var mode   = button.getAttribute('data-mode'); // create | edit
+        const button = event.relatedTarget;
+        if (!button) return;
+
+        const mode = button.getAttribute('data-mode'); // create | edit
 
         if (mode === 'create') {
             // Modal in modalità AGGIUNTA
-            titleEl.textContent = 'Nuovo vino';
+            titleEl.textContent   = 'Nuovo vino';
             submitBtn.textContent = 'Crea';
 
-            vinoForm.action = "";
+            // action = route store
+            vinoForm.action = "{{ route('catalogo.store.vini') }}";
             methodInp.value = 'POST';
 
             // pulisco i campi
-            document.getElementById('vino-nome').value       = '';
-            document.getElementById('vino-prezzo').value     = '';
-            document.getElementById('vino-annata').value     = '';
-            document.getElementById('vino-formato').value    = '';
-            document.getElementById('vino-gradazione').value = '';
+            ['vino-nome','vino-prezzo','vino-annata','vino-formato',
+             'vino-gradazione','vino-disponibilita','vino-solfiti'
+            ].forEach(function(id) {
+                const input = document.getElementById(id);
+                if (input) input.value = '';
+            });
         }
 
         if (mode === 'edit') {
             // Modal in modalità MODIFICA
-            titleEl.textContent = 'Modifica vino';
+            titleEl.textContent   = 'Modifica vino';
             submitBtn.textContent = 'Salva modifiche';
 
-            var id        = button.getAttribute('data-id');
-            var nome      = button.getAttribute('data-nome');
-            var prezzo    = button.getAttribute('data-prezzo');
-            var annata    = button.getAttribute('data-annata');
-            var formato   = button.getAttribute('data-formato');
-            var gradazione= button.getAttribute('data-gradazione');
+            const id            = button.getAttribute('data-id');
+            const nome          = button.getAttribute('data-nome') || '';
+            const prezzo        = button.getAttribute('data-prezzo') || '';
+            const annata        = button.getAttribute('data-annata') || '';
+            const formato       = button.getAttribute('data-formato') || '';
+            const gradazione    = button.getAttribute('data-gradazione') || '';
+            const disponibilita = button.getAttribute('data-disponibilita') || '';
+            const solfiti       = button.getAttribute('data-solfiti') || '';
 
-            vinoForm.action = "".replace(':id', id);
+            // action = route update con id
+            vinoForm.action = "{{ route('catalogo.update.vini', ':id') }}".replace(':id', id);
             methodInp.value = 'PUT';
 
-            document.getElementById('vino-nome').value       = nome ?? '';
-            document.getElementById('vino-prezzo').value     = prezzo ?? '';
-            document.getElementById('vino-annata').value     = annata ?? '';
-            document.getElementById('vino-formato').value    = formato ?? '';
-            document.getElementById('vino-gradazione').value = gradazione ?? '';
+            // riempio i campi
+            document.getElementById('vino-nome').value           = nome;
+            document.getElementById('vino-prezzo').value         = prezzo;
+            document.getElementById('vino-annata').value         = annata;
+            document.getElementById('vino-formato').value        = formato;
+            document.getElementById('vino-gradazione').value     = gradazione;
+            const dispInput = document.getElementById('vino-disponibilita');
+            const solfitiInput = document.getElementById('vino-solfiti');
+            if (dispInput)    dispInput.value    = disponibilita;
+            if (solfitiInput) solfitiInput.value = solfiti;
         }
     });
 });

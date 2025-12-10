@@ -15,21 +15,21 @@ class VignetoSeeder extends Seeder
                 'descrizione' => 'Filari esposti a sud, perfetti per vini bianchi freschi.',
                 'disponibilita' => 10,
                 'prezzo_annuo' => 800.00,
-                'immagine' => 'vigneto_colline_dorate.png',
+                'immagine' => 'placeholder_vigneto.png',
             ],
             [
                 'nome' => 'Vigneto Tramonto Rosso',
                 'descrizione' => 'Terreno argilloso, ideale per rossi strutturati.',
                 'disponibilita' => 8,
                 'prezzo_annuo' => 950.00,
-                'immagine' => 'vigneto_tramonto_rosso.png',
+                'immagine' => 'placeholder_vigneto.png',
             ],
             [
                 'nome' => 'Vigneto Brezza di Mare',
                 'descrizione' => 'Vigneto vicino alla costa, con microclima unico.',
                 'disponibilita' => 5,
                 'prezzo_annuo' => 1100.00,
-                'immagine' => 'vigneto_brezza_di_mare.png',
+                'immagine' => 'placeholder_vigneto.png',
             ],
         ];
 

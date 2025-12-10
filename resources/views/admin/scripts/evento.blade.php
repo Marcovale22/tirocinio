@@ -1,45 +1,66 @@
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('eventoModal');
-    if (!modal) return;
+    const eventoModal = document.getElementById('eventoModal');
+    const eventoForm  = document.getElementById('eventoForm');
+    const methodInp   = document.getElementById('eventoFormMethod');
+    const titleEl     = document.getElementById('eventoModalLabel');
+    const submitBtn   = document.getElementById('evento-submit-btn');
 
-    const form = document.getElementById('eventoForm');
-    const method = document.getElementById('eventoFormMethod');
-    const title = document.getElementById('eventoModalLabel');
-    const submit = document.getElementById('evento-submit-btn');
+    if (!eventoModal) return;
 
-    modal.addEventListener('show.bs.modal', function (event) {
-        const btn = event.relatedTarget;
-        const mode = btn.dataset.mode;
+    eventoModal.addEventListener('show.bs.modal', function (event) {
+        const button = event.relatedTarget;
 
-        if (mode === "create") {
-            title.textContent = "Nuovo evento";
-            submit.textContent = "Crea";
+        // Se il modal è aperto da JS (dopo errore) non c'è un bottone → non tocco i campi
+        if (!button) return;
 
-            form.action = "";
-            method.value = "POST";
+        const mode = button.getAttribute('data-mode'); // create | edit
 
-            document.getElementById('evento-nome').value = "";
-            document.getElementById('evento-prezzo').value = "";
-            document.getElementById('evento-data').value = "";
-            document.getElementById('evento-ora').value = "";
-            document.getElementById('evento-disponibilita').value = "";
+        if (mode === 'create') {
+            titleEl.textContent   = 'Nuovo evento';
+            submitBtn.textContent = 'Crea';
+
+            eventoForm.action = "{{ route('catalogo.store.evento') }}";
+            methodInp.value   = 'POST';
+
+            // pulisco i campi
+            ['evento-nome','evento-prezzo','evento-disponibilita',
+             'evento-data','evento-ora','evento-luogo','evento-descrizione'
+            ].forEach(function(id) {
+                const input = document.getElementById(id);
+                if (!input) return;
+                if (input.tagName.toLowerCase() === 'textarea') {
+                    input.value = '';
+                } else {
+                    input.value = '';
+                }
+            });
         }
 
-        if (mode === "edit") {
-            title.textContent = "Modifica evento";
-            submit.textContent = "Salva modifiche";
+        if (mode === 'edit') {
+            titleEl.textContent   = 'Modifica evento';
+            submitBtn.textContent = 'Salva modifiche';
 
-            const id = btn.dataset.id;
+            const id            = button.getAttribute('data-id');
+            const nome          = button.getAttribute('data-nome') || '';
+            const prezzo        = button.getAttribute('data-prezzo') || '';
+            const disponibilita = button.getAttribute('data-disponibilita') || '';
+            const dataEvento    = button.getAttribute('data-data-evento') || '';
+            const oraEvento     = button.getAttribute('data-ora-evento') || '';
+            const luogo         = button.getAttribute('data-luogo') || '';
+            const descrizione   = button.getAttribute('data-descrizione') || '';
 
-            form.action = "".replace(":id", id);
-            method.value = "PUT";
+            eventoForm.action = "{{ route('catalogo.update.evento', ':id') }}".replace(':id', id);
+            methodInp.value   = 'PUT';
 
-            document.getElementById('evento-nome').value          = btn.dataset.nome;
-            document.getElementById('evento-prezzo').value        = btn.dataset.prezzo;
-            document.getElementById('evento-data').value          = btn.dataset.data;
-            document.getElementById('evento-ora').value           = btn.dataset.ora;
-            document.getElementById('evento-disponibilita').value = btn.dataset.disponibilita;
+            document.getElementById('evento-nome').value           = nome;
+            document.getElementById('evento-prezzo').value         = prezzo;
+            document.getElementById('evento-disponibilita').value  = disponibilita;
+            document.getElementById('evento-data').value           = dataEvento;
+            document.getElementById('evento-ora').value            = oraEvento;
+            document.getElementById('evento-luogo').value          = luogo;
+            const descInput = document.getElementById('evento-descrizione');
+            if (descInput) descInput.value = descrizione;
         }
     });
 });

@@ -59,13 +59,13 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
 
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('catalogo') }}">
+                                    <a class="dropdown-item" href="{{ route('catalogo.index') }}">
                                         Catalogo
                                     </a>
                                 </li>
                                
                                 <li>
-                                    <a class="dropdown-item" href="{{ route('dipendenti') }}">
+                                    <a class="dropdown-item" href="{{ route('dipendenti.index') }}">
                                         Dipendenti
                                     </a>
                                 </li>

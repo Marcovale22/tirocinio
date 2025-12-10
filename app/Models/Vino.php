@@ -8,7 +8,7 @@ class Vino extends Model
 {
     protected $table = 'vini';
 
-    protected $fillable = ['prodotto_id', 'disponibilita', 'annata', 'solfiti', 'gradazione', 'formato'];
+    protected $fillable = ['prodotto_id', 'annata', 'solfiti', 'gradazione', 'formato'];
 
     public function prodotto()
     {

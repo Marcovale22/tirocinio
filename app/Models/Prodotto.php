@@ -9,7 +9,7 @@ class Prodotto extends Model
     protected $table = 'prodotti';
 
     protected $fillable = [
-        'nome', 'tipo',  'prezzo', 
+        'nome', 'tipo',  'prezzo','disponibilita','immagine', 
     ];
 
     public function vino()

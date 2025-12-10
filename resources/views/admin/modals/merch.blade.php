@@ -1,7 +1,7 @@
 <div class="modal fade" id="merchModal" tabindex="-1" aria-labelledby="merchModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <form id="merchForm" method="POST">
+            <form id="merchForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" id="merchFormMethod" value="POST">
 
@@ -23,9 +23,19 @@
                     </div>
 
                     <div class="mb-3">
-                        <label class="form-label">Immagine (filename o path)</label>
-                        <input type="text" name="immagine" id="merch-immagine" class="form-control">
+                        <label class="form-label">Disponibilità</label>
+                        <input type="number" name="disponibilita" id="merch-disponibilita"
+                            class="form-control" min="0">
                     </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label">Immagine</label>
+                        <input type="file" name="immagine" id="merch-immagine"
+                            class="form-control">
+                        <small class="text-muted">Se non carichi nulla verrà usato un placeholder.</small>
+                    </div>
+
 
                 </div>
 

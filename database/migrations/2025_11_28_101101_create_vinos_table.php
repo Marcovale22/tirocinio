@@ -20,8 +20,6 @@ return new class extends Migration
                 ->unique()
                 ->onDelete('cascade');
 
-            $table->unsignedInteger('disponibilita')->default(0);
-
             $table->unsignedSmallInteger('annata'); // es: 2020, 2018 ecc.
             
             $table->decimal('solfiti', 5, 2)->default(0); // es: 12.50 mg/l

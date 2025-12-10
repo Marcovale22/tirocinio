@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('nome');
             $table->enum('tipo', ['vino', 'evento', 'merch']);
             $table->decimal('prezzo');
+            $table->unsignedInteger('disponibilita')->default(0);
             $table->string('immagine')->nullable();
             $table->timestamps();
         });

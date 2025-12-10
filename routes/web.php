@@ -1,6 +1,7 @@
 <?php
 
-use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AdminDipendentiController;
+use App\Http\Controllers\AdminCatalogoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\PublicController;
 use Illuminate\Support\Facades\Route;
@@ -41,18 +42,52 @@ Route::prefix('staff')->middleware('auth', 'can:isStaff')->group(function () {
 
 Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {
 
-    Route::get('/dipendenti', [AdminController::class, 'getDipendenti'])->name('dipendenti');
+    Route::controller(AdminDipendentiController::class)->prefix('dipendenti')->name('dipendenti.')->group(function () {
 
-    Route::post('/dipendenti/aggiungi', [AdminController::class, 'storeDipendente'])
-        ->name('dipendenti.store');
+        Route::get('/', 'getDipendenti')->name('index');
 
-    Route::put('/dipendenti/{user}', [AdminController::class, 'updateDipendente'])
-        ->name('dipendenti.update');
+        Route::post('/aggiungi', 'storeDipendente')->name('store');
+
+        Route::put('/{user}', 'updateDipendente')->name('update');
+
+        Route::delete('/{user}', 'destroyDipendente')->name('destroy');
+    });
+
+
+    Route::controller(AdminCatalogoController::class)->prefix('catalogo')->name('catalogo.')->group(function () {
+        
+        Route::get('/', 'getCatalogo')->name('index');
+        /*----CRUD vini----*/ 
+        Route::post('/vini', 'storeVino')->name('store.vini');
+
+        Route::put('/vini/{prodotto}', 'updateVino')->name('update.vini');
+
+        Route::delete('/vini/{prodotto}', 'destroyVino')->name('destroy.vino');
+        
+   
+        
+        /*----CRUD merch----*/ 
+        Route::post('/merch', 'storeMerch')->name('store.merch');
+
+        Route::put('/merch/{prodotto}', 'updateMerch')->name('update.merch');
+
+        Route::delete('/merch/{prodotto}', 'destroyMerch')->name('destroy.merch');
+        
+        /*----CRUD evento----*/ 
+        Route::post('/evento', 'storeEvento')->name('store.evento');
+
+        Route::put('/evento/{prodotto}', 'updateEvento')->name('update.evento');
+
+        Route::delete('/evento/{prodotto}', 'destroyEvento')->name('destroy.evento');
+        
+        /*----CRUD vigneto----*/ 
+        Route::post('/vigneto', 'storeVigneto')->name('store.vigneto');
+
+        Route::put('/vigneto/{prodotto}', 'updateVigneto')->name('update.vigneto');
+
+        Route::delete('vigneto/{prodotto}', 'destroyVigneto')->name('destroy.vigneto');
+    });
     
-    Route::delete('/dipendenti/{user}', [AdminController::class, 'destroyDipendente'])
-        ->name('dipendenti.destroy');
-
-    Route::get('/catalogo', [AdminController::class, 'getCatalogo'])->name('catalogo');
 
 });
 
