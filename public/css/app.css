@@ -339,6 +339,7 @@
 /*--------PAGINA CATALOGO ADMIN--------*/
 .pagina-catalogo {
     background-color: #ff7d03;
+     min-height: 100vh; 
 }
 
 .titolo-catalogo {
@@ -463,4 +464,9 @@
 /* un po' di margine verticale tra i due bottoni */
 .catalogo-item-azioni .btn-catalogo-pill {
     margin-bottom: 6px;
+}
+
+.catalogo-item-stato {
+    font-weight: bold;
+    color: #000000 !important;
 }

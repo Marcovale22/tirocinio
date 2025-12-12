@@ -47,6 +47,10 @@
                             </p>
                         @endif
 
+                        <p class="catalogo-item-sottotitolo">
+                                Disponibilita: {{ $vino->disponibilita }}
+                        </p>
+
                         <p class="catalogo-item-prezzo">
                             {{ number_format($vino->prezzo, 2, ',', '.') }} €
                         </p>
@@ -110,8 +114,13 @@
 
                     <div class="catalogo-item-info">
                         <h3 class="catalogo-item-titolo">{{ $m->nome }}</h3>
+                        
+                        <p class="catalogo-item-sottotitolo">
+                                Disponibilita: {{ $m->disponibilita }} 
+                        </p>
+
                         <p class="catalogo-item-prezzo">
-                            {{ number_format($m->prezzo, 2, ',', '.') }} €
+                            {{ number_format($m->prezzo, 2, ',', '.') }} € 
                         </p>
                     </div>
 
@@ -259,15 +268,15 @@
 
                         <p class="catalogo-item-sottotitolo">{{ $v->descrizione }}</p>
 
+                        <p class="catalogo-item-sottotitolo">
+                            Lotti disponibili: {{ $v->disponibilita }}
+                        </p>
+
                         @if ($v->prezzo_annuo)
                             <p class="catalogo-item-prezzo">
                                 {{ number_format($v->prezzo_annuo, 2, ',', '.') }} € / anno
                             </p>
                         @endif
-
-                        <p class="catalogo-item-sottotitolo">
-                            Lotti disponibili: {{ $v->disponibilita }}
-                        </p>
                     </div>
 
                     <div class="catalogo-item-azioni">

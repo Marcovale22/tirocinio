@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminDipendentiController;
 use App\Http\Controllers\AdminCatalogoController;
+use App\Http\Controllers\AdminRifornimentoController;
 use App\Http\Controllers\StaffCatalogoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffRifornimentiController;
@@ -99,6 +100,14 @@ Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {
         Route::delete('vigneto/{prodotto}', 'destroyVigneto')->name('destroy.vigneto');
     });
     
+
+    Route::controller(AdminRifornimentoController::class)->prefix('rifornimenti')->name('admin.rifornimenti.')->group(function () {
+            Route::get('/', 'getRifornimenti')->name('getRifornimenti');
+
+            Route::get('/storico', 'getStoricoRifornimenti')->name('storico');
+
+            Route::post('/{rifornimento}','aggiornaStato')->name('aggiornaStato');
+        });
 
 });
 

@@ -28,7 +28,7 @@ class AdminDipendentiController extends Controller
         $user->delete();
 
         return redirect()
-            ->route('dipendenti')
+            ->route('dipendenti.index')
             ->with('success', 'Dipendente eliminato correttamente.');
     }
 
@@ -71,7 +71,7 @@ class AdminDipendentiController extends Controller
         ]);
 
         return redirect()
-            ->route('dipendenti')
+            ->route('dipendenti.index')
             ->with('success', 'Dipendente creato correttamente.');
     }
 
@@ -129,7 +129,7 @@ class AdminDipendentiController extends Controller
         $user->save();
 
         return redirect()
-            ->route('dipendenti') 
+            ->route('dipendenti.index') 
             ->with('success', 'Dipendente aggiornato correttamente.');
     }
 

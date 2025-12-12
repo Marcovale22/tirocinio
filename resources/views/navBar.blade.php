@@ -71,7 +71,7 @@
                                 </li>
                                 
                                 <li>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{ route('admin.rifornimenti.getRifornimenti') }}">
                                         Rifornimenti
                                     </a>
                                 </li>
