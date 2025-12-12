@@ -17,7 +17,7 @@ class AdminUserSeeder extends Seeder
             'name' => 'Admin User',
             'username' => 'adminadmin',
             'email' => 'admin@example.com',
-            'password' => Hash::make('12341234'),
+            'password' => Hash::make('PyocPyoc'),
             'tipo_utente' => 'persona',
             'ruolo' => 'admin',
         ]);
@@ -27,7 +27,7 @@ class AdminUserSeeder extends Seeder
             'name' => 'Staff User',
             'username' => 'staffstaff',
             'email' => 'staff@example.com',
-            'password' => Hash::make('12341234'),
+            'password' => Hash::make('PyocPyoc'),
             'tipo_utente' => 'persona',
             'ruolo' => 'staff',
         ]);
@@ -37,7 +37,7 @@ class AdminUserSeeder extends Seeder
             'name' => 'User Simple',
             'username' => 'utenteutente',
             'email' => 'utente@example.com',
-            'password' => Hash::make('12341234'),
+            'password' => Hash::make('PyocPyoc'),
             'tipo_utente' => 'persona',
             'ruolo' => 'utente',
         ]);
@@ -46,7 +46,7 @@ class AdminUserSeeder extends Seeder
             'name' => 'Mario Rossi',
             'username' => 'MarioRossi',
             'email' => 'Mario@example.com',
-            'password' => Hash::make('12341234'),
+            'password' => Hash::make('PyocPyoc'),
             'tipo_utente' => 'persona',
             'ruolo' => 'staff',
         ]);
@@ -54,7 +54,7 @@ class AdminUserSeeder extends Seeder
             'name' => 'Luigi Bianchi',
             'username' => 'LuigiBianchi',
             'email' => 'Luigi@example.com',
-            'password' => Hash::make('12341234'),
+            'password' => Hash::make('PyocPyoc'),
             'tipo_utente' => 'persona',
             'ruolo' => 'staff',
         ]);
