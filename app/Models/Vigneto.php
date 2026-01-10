@@ -14,5 +14,6 @@ class Vigneto extends Model
         'disponibilita',
         'prezzo_annuo',
         'immagine',
+        'visibile'
     ];
 }

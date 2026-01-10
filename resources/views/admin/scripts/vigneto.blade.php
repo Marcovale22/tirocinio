@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const titleEl      = document.getElementById('vignetoModalLabel');
     const submitBtn    = document.getElementById('vigneto-submit-btn');
 
+    const visibileChk  = document.getElementById('vigneto-visibile');
+
     if (!vignetoModal) return;
 
     vignetoModal.addEventListener('show.bs.modal', function (event) {
@@ -28,7 +30,9 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('vigneto-descrizione').value    = '';
             document.getElementById('vigneto-disponibilita').value  = '';
             document.getElementById('vigneto-prezzo-annuo').value   = '';
-            // il file input non si tocca via JS
+
+            // default: visibile attivo
+            if (visibileChk) visibileChk.checked = true;
         }
 
         if (mode === 'edit') {
@@ -41,6 +45,9 @@ document.addEventListener('DOMContentLoaded', function () {
             const disponibilita = button.getAttribute('data-disponibilita') || '';
             const prezzoAnnuale = button.getAttribute('data-prezzo-annuo') || '';
 
+            // <-- aggiunto
+            const visibileAttr  = button.getAttribute('data-visibile'); // "1" / "0" / null
+
             vignetoForm.action = "{{ route('catalogo.update.vigneto', ':id') }}".replace(':id', id);
             methodInp.value    = 'PUT';
 
@@ -48,6 +55,13 @@ document.addEventListener('DOMContentLoaded', function () {
             document.getElementById('vigneto-descrizione').value    = descrizione;
             document.getElementById('vigneto-disponibilita').value  = disponibilita;
             document.getElementById('vigneto-prezzo-annuo').value   = prezzoAnnuale;
+
+            // set checkbox
+            if (visibileChk) {
+                // accetta "1", 1, "true", true
+                const isTrue = (visibileAttr === '1' || visibileAttr === 1 || visibileAttr === 'true' || visibileAttr === true);
+                visibileChk.checked = isTrue;
+            }
         }
     });
 });

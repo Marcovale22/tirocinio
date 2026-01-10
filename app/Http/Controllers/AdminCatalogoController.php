@@ -518,6 +518,7 @@ class AdminCatalogoController extends Controller
             'disponibilita' => 'nullable|integer|min:0',
             'prezzo_annuo'  => 'required|numeric|min:0',
             'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'visibile'      => 'nullable|boolean',
         ], [
 
             // Nome
@@ -554,12 +555,15 @@ class AdminCatalogoController extends Controller
             }
         }
 
+        $visibile = $request->has('visibile'); // true se spuntata, false se no
+
         Vigneto::create([
             'nome'          => $validated['nome'],
             'descrizione'   => $validated['descrizione'] ?? null,
             'disponibilita' => $validated['disponibilita'] ?? 0,
             'prezzo_annuo'  => $validated['prezzo_annuo'],
             'immagine'      => $imageName,
+            'visibile'      => $visibile,   
         ]);
 
         return redirect()
@@ -575,6 +579,7 @@ class AdminCatalogoController extends Controller
             'disponibilita' => 'nullable|integer|min:0',
             'prezzo_annuo'  => 'required|numeric|min:0',
             'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'visibile'      => 'nullable|boolean',
         ], [
 
             // Nome
@@ -612,12 +617,15 @@ class AdminCatalogoController extends Controller
             }
         }
 
+        $visibile = $request->has('visibile');
+
         $vigneto->update([
             'nome'          => $validated['nome'],
             'descrizione'   => $validated['descrizione'] ?? $vigneto->descrizione,
             'disponibilita' => $validated['disponibilita'] ?? $vigneto->disponibilita,
             'prezzo_annuo'  => $validated['prezzo_annuo'],
             'immagine'      => $imageName,
+            'visibile'      => $visibile,
         ]);
 
         return redirect()

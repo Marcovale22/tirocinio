@@ -20,10 +20,17 @@
                         {{-- TESTO A DESTRA --}}
                         <div class="vino-testo ">
                             <h3 class="vino-nome">{{ $prodotto->nome }}</h3>
+                            @guest
+                                <a href="{{ route('login') }}">
+                                    <button class="btn-vino-acquista mt-3">Acquista</button>
+                                </a>
+                            @endguest
 
-                            <button class="btn-vino-acquista mt-3">Acquista</button>
-
-                            
+                            @auth
+                                <a href="">
+                                    <button class="btn-vino-acquista mt-3">Acquista</button>
+                                </a>
+                            @endauth
                         </div>
                     </div>
                 </div>

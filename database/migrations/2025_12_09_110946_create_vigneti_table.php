@@ -14,6 +14,7 @@ return new class extends Migration {
             $table->unsignedInteger('disponibilita')->nullable(); 
             $table->decimal('prezzo_annuo');
             $table->string('immagine')->nullable();
+            $table->boolean('visibile')->default(true);
             $table->timestamps();
         });
     }

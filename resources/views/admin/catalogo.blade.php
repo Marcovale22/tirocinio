@@ -271,6 +271,15 @@
                         <p class="catalogo-item-sottotitolo">
                             Lotti disponibili: {{ $v->disponibilita }}
                         </p>
+                        @if ($v->visibile)
+                            <p class="catalogo-item-sottotitolo">
+                                Visibile: si
+                            </p>
+                        @else
+                        <p class="catalogo-item-sottotitolo">
+                            Visibile: no
+                        </p>
+                        @endif
 
                         @if ($v->prezzo_annuo)
                             <p class="catalogo-item-prezzo">
@@ -291,7 +300,8 @@
                                 data-nome="{{ $v->nome }}"
                                 data-descrizione="{{ $v->descrizione }}"
                                 data-prezzo="{{ $v->prezzo_annuo }}"
-                                data-disponibilita="{{ $v->disponibilita }}">
+                                data-disponibilita="{{ $v->disponibilita }}"
+                                data-visibile="{{ $v->visibile ? 1 : 0 }}">
                             Modifica
                         </button>
 

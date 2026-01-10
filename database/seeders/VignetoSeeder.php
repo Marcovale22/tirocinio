@@ -16,6 +16,7 @@ class VignetoSeeder extends Seeder
                 'disponibilita' => 10,
                 'prezzo_annuo' => 800.00,
                 'immagine' => 'placeholder_vigneto.png',
+                'visibile' => true
             ],
             [
                 'nome' => 'Vigneto Tramonto Rosso',
@@ -23,6 +24,7 @@ class VignetoSeeder extends Seeder
                 'disponibilita' => 8,
                 'prezzo_annuo' => 950.00,
                 'immagine' => 'placeholder_vigneto.png',
+                'visibile' => true
             ],
             [
                 'nome' => 'Vigneto Brezza di Mare',
@@ -30,6 +32,7 @@ class VignetoSeeder extends Seeder
                 'disponibilita' => 5,
                 'prezzo_annuo' => 1100.00,
                 'immagine' => 'placeholder_vigneto.png',
+                'visibile' => true
             ],
         ];
 

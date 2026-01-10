@@ -49,6 +49,19 @@
                         <small class="text-muted">Se vuoto, verrà impostato a 0.</small>
                     </div>
 
+                    <div class="mb-3 form-check">
+                        <input type="checkbox"
+                            class="form-check-input"
+                            id="vigneto-visibile"
+                            name="visibile"
+                            value="1"
+                            {{ old('visibile', true) ? 'checked' : '' }}>
+                        <label class="form-check-label" for="vigneto-visibile">
+                            Vigneto visibile agli utenti
+                        </label>
+                    </div>
+
+
                     <div class="mb-3">
                         <label class="form-label">Prezzo annuo</label>
                         <input type="number"
