@@ -27,9 +27,14 @@
                             @endguest
 
                             @auth
-                                <a href="">
-                                    <button class="btn-vino-acquista mt-3">Acquista</button>
-                                </a>
+                            <form method="POST" action="{{ route('carrello.add', $prodotto->id) }}">
+                                @csrf
+                                <input type="hidden" name="quantita" value="1">
+
+                                <button type="submit" class="btn-vino-acquista mt-3">
+                                    Aggiungi al carrello
+                                </button>
+                            </form>
                             @endauth
                         </div>
                     </div>

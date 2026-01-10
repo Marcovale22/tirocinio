@@ -42,7 +42,7 @@
                                 </li>
                                 
                                 <li>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{ route('staff.ordini.index')}}">
                                         Ordini
                                     </a>
                                 </li>
@@ -106,7 +106,7 @@
 
                 @can('isUtente')
                 <li class="nav-item">
-                    <a class="nav-link fs-4" href="#">🛒</a>
+                    <a class="nav-link fs-4" href="{{ route('carrello.index') }}">🛒</a>
                 </li>
                 @endcan
 
@@ -168,7 +168,7 @@
                             <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarAdminDropdown">
                                 {{-- Link alla pagina admin --}}
                                 <li>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{ route('utente.ordini') }}">
                                         Ordini
                                     </a>
                                 </li>

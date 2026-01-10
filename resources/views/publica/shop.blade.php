@@ -64,17 +64,22 @@
                         </div>
 
                         <div class="vigneto-actions">
-                        @guest
-                            <a href="{{ route('login') }}" class="btn-vigneto-affitta">
-                                Acquista
-                            </a>
-                        @endguest
-                        @auth
-                            <a href="" class="btn-vigneto-affitta">
-                                Acquista
-                            </a>
-                        @endauth    
-                    </div>
+                            @guest
+                                <a href="{{ route('login') }}" class="btn-vigneto-affitta">
+                                    Acquista
+                                </a>
+                            @endguest
+                            @auth
+                            <form method="POST" action="{{ route('carrello.add', $vino->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="quantita" value="1">
+
+                                    <button type="submit" class="btn-vigneto-affitta">
+                                        Aggiungi al carrello
+                                    </button>
+                            </form>
+                            @endauth    
+                        </div>
                     </div>
                 @endif
             @endforeach
@@ -107,9 +112,14 @@
                             </a>
                         @endguest
                         @auth
-                            <a href="" class="btn-vigneto-affitta">
-                                Acquista
-                            </a>
+                        <form method="POST" action="{{ route('carrello.add', $m->id) }}">
+                                    @csrf
+                                    <input type="hidden" name="quantita" value="1">
+
+                                    <button type="submit" class="btn-vigneto-affitta">
+                                        Aggiungi al carrello
+                                    </button>
+                            </form>
                         @endauth    
                     </div>
                 </div>

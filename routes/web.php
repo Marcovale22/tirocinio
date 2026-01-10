@@ -7,6 +7,9 @@ use App\Http\Controllers\StaffCatalogoController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\StaffRifornimentiController;
 use App\Http\Controllers\PublicController;
+use App\Http\Controllers\CarrelloController;
+use App\Http\Controllers\OrdineController;
+use App\Http\Controllers\StaffOrdiniController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -34,6 +37,19 @@ Route::get('/affitta-vigneto', [PublicController::class,'affittaVigneto'])->name
 Route::get('/shop', [PublicController::class,'shop'])->name('shop');
 
 Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
+    
+    Route::get('/carrello', [CarrelloController::class, 'index'])->name('carrello.index');
+
+    Route::post('/carrello/add/{prodotto}', [CarrelloController::class, 'add'])->name('carrello.add');
+    Route::post('/carrello/update/{prodotto}', [CarrelloController::class, 'update'])->name('carrello.update');
+    Route::post('/carrello/remove/{prodotto}', [CarrelloController::class, 'remove'])->name('carrello.remove');
+
+    Route::controller(OrdineController::class)->prefix('utente')->name('utente.')->group(function () {
+    
+        Route::post('/carrello/checkout',  'checkout')->name('carrello.checkout');
+
+        Route::get('/ordini',  'mieiOrdini')->name('ordini');
+    });
 
    
 });
@@ -45,11 +61,16 @@ Route::prefix('staff')->middleware('auth', 'can:isStaff')->group(function () {
         Route::get('/', 'getCatalogo')->name('index');
     });
 
-    Route::controller(StaffRifornimentiController::class)
-        ->prefix('rifornimenti')->name('staff.rifornimenti.')
-        ->group(function () {
-            Route::post('/', 'store')->name('store');
-        });
+    Route::controller(StaffRifornimentiController::class)->prefix('rifornimenti')->name('staff.rifornimenti.')->group(function () {
+        Route::post('/', 'store')->name('store');
+    });
+
+    Route::controller(StaffOrdiniController::class)->prefix('ordine')->name('staff.ordini.')->group(function () {
+        
+        Route::get('/ordini', 'index')->name('index');
+
+        Route::post('/ordini/{ordine}/stato', 'aggiornaStato')->name('stato');
+    });    
 });
 
 Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {
