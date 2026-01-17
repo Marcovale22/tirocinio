@@ -3,6 +3,8 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use App\Models\RichiestaVigneto;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Vigneto extends Model
 {
@@ -14,6 +16,15 @@ class Vigneto extends Model
         'disponibilita',
         'prezzo_annuo',
         'immagine',
-        'visibile'
+        'visibile',
+        'bottiglie_stimate',
+        'tipo_vino',
+        'fase_produzione',
     ];
+
+    public function richieste(): HasMany
+    {
+        return $this->hasMany(RichiestaVigneto::class, 'vigneto_id');
+    }
+    
 }

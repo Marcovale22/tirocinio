@@ -172,11 +172,14 @@
             </div>
 
             @forelse ($eventi as $e)
-                <div class="catalogo-item">
-                    <div class="catalogo-item-img">
-                        <img src="{{ asset('img/eventi/' . ($e->immagine ?? 'placeholder.png')) }}"
-                             alt="{{ $e->nome }}">
-                    </div>
+                <div class="catalogo-item catalogo-item--evento">
+                       <div class="catalogo-item-img catalogo-item-img--poster">
+                            <a href="{{ asset('img/eventi/' . ($e->immagine ?? 'placeholder.png')) }}"
+                                target="_blank" class="poster-link">
+                                <img src="{{ asset('img/eventi/' . ($e->immagine ?? 'placeholder.png')) }}"
+                                    alt="{{ $e->nome }}">
+                            </a>
+                        </div>
 
                     <div class="catalogo-item-info">
                         <h3 class="catalogo-item-titolo">{{ $e->nome }}</h3>
@@ -271,6 +274,18 @@
                         <p class="catalogo-item-sottotitolo">
                             Lotti disponibili: {{ $v->disponibilita }}
                         </p>
+
+                        <p class="catalogo-item-sottotitolo">
+                            Bottiglie stimate: {{ $v->bottiglie_stimate ?? '—' }}
+                        </p>
+
+                        <p class="catalogo-item-sottotitolo">
+                            Tipo vino: {{ $v->tipo_vino ? ucfirst($v->tipo_vino) : '—' }}
+                        </p>
+
+                        <p class="catalogo-item-sottotitolo">
+                            Fase produzione: {{ $v->fase_produzione ? ucfirst(str_replace('_',' ',$v->fase_produzione)) : '—' }}
+                        </p>
                         @if ($v->visibile)
                             <p class="catalogo-item-sottotitolo">
                                 Visibile: si
@@ -292,16 +307,19 @@
 
                         {{-- Modifica VIGNETO --}}
                         <button type="button"
-                                class="btn-catalogo-pill mb-2"
-                                data-bs-toggle="modal"
-                                data-bs-target="#vignetoModal"
-                                data-mode="edit"
-                                data-id="{{ $v->id }}"
-                                data-nome="{{ $v->nome }}"
-                                data-descrizione="{{ $v->descrizione }}"
-                                data-prezzo="{{ $v->prezzo_annuo }}"
-                                data-disponibilita="{{ $v->disponibilita }}"
-                                data-visibile="{{ $v->visibile ? 1 : 0 }}">
+                            class="btn-catalogo-pill mb-2"
+                            data-bs-toggle="modal"
+                            data-bs-target="#vignetoModal"
+                            data-mode="edit"
+                            data-id="{{ $v->id }}"
+                            data-nome="{{ $v->nome }}"
+                            data-descrizione="{{ $v->descrizione }}"
+                            data-prezzo-annuo="{{ $v->prezzo_annuo }}"
+                            data-disponibilita="{{ $v->disponibilita }}"
+                            data-visibile="{{ $v->visibile ? 1 : 0 }}"
+                            data-bottiglie="{{ $v->bottiglie_stimate }}"
+                            data-tipo-vino="{{ $v->tipo_vino }}"
+                            data-fase="{{ $v->fase_produzione }}">
                             Modifica
                         </button>
 

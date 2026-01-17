@@ -5,6 +5,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const methodInp    = document.getElementById('vignetoFormMethod');
     const titleEl      = document.getElementById('vignetoModalLabel');
     const submitBtn    = document.getElementById('vigneto-submit-btn');
+    const bottiglieInp = document.getElementById('vigneto-bottiglie-stimate');
+    const tipoVinoSel  = document.getElementById('vigneto-tipo-vino');
+    const faseSel      = document.getElementById('vigneto-fase');
 
     const visibileChk  = document.getElementById('vigneto-visibile');
 
@@ -33,6 +36,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             // default: visibile attivo
             if (visibileChk) visibileChk.checked = true;
+            if (bottiglieInp) bottiglieInp.value = '';
+            if (tipoVinoSel)  tipoVinoSel.value = '';
+            if (faseSel)      faseSel.value = '';
         }
 
         if (mode === 'edit') {
@@ -44,6 +50,14 @@ document.addEventListener('DOMContentLoaded', function () {
             const descrizione   = button.getAttribute('data-descrizione') || '';
             const disponibilita = button.getAttribute('data-disponibilita') || '';
             const prezzoAnnuale = button.getAttribute('data-prezzo-annuo') || '';
+            const bottiglie = button.getAttribute('data-bottiglie') || '';
+            const tipoVino  = button.getAttribute('data-tipo-vino') || '';
+            const fase      = button.getAttribute('data-fase') || '';
+
+            if (bottiglieInp) bottiglieInp.value = bottiglie;
+            if (tipoVinoSel)  tipoVinoSel.value = tipoVino;
+            if (faseSel)      faseSel.value = fase;
+
 
             // <-- aggiunto
             const visibileAttr  = button.getAttribute('data-visibile'); // "1" / "0" / null

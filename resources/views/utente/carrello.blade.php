@@ -25,8 +25,13 @@
         @endif
 
         @if(count($cart) === 0)
-            <div class="alert alert-light">
-                Il carrello è vuoto.
+            <div class="alert alert-light ">
+                <div style="text-align: center;"><strong>Il carrello è vuoto.</strong></div>
+                <div style="text-align: end;">
+                    <a href="{{ route('shop') }}" class="btn-vigneto-affitta">
+                    Inizia ad acquistare
+                    </a>
+                </div>
             </div>
         @else
 

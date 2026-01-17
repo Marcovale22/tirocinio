@@ -116,11 +116,14 @@
             <h2 class="catalogo-sezione-titolo mb-3">Eventi</h2>
 
             @forelse ($eventi as $e)
-                <div class="catalogo-item">
-                    <div class="catalogo-item-img">
-                        <img src="{{ asset('img/eventi/' . ($e->immagine ?? 'placeholder.png')) }}"
-                             alt="{{ $e->nome }}">
-                    </div>
+                <div class="catalogo-item catalogo-item--evento">
+                    <div class="catalogo-item-img catalogo-item-img--poster">
+                            <a href="{{ asset('img/eventi/' . ($e->immagine ?? 'placeholder.png')) }}"
+                                target="_blank" class="poster-link">
+                                <img src="{{ asset('img/eventi/' . ($e->immagine ?? 'placeholder.png')) }}"
+                                    alt="{{ $e->nome }}">
+                            </a>
+                        </div>
 
                     <div class="catalogo-item-info">
                         <h3 class="catalogo-item-titolo">{{ $e->nome }}</h3>

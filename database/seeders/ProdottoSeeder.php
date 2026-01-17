@@ -51,6 +51,7 @@ class ProdottoSeeder extends Seeder
                 'tipo' => 'vino',
                 'prezzo' => $vinoData['prezzo'],
                 'immagine' => $vinoData['immagine'],
+                'disponibilita' => 10,
             ]);
 
             // CREO IL RECORD SPECIFICO NELLA TABELLA VINI
@@ -73,15 +74,15 @@ class ProdottoSeeder extends Seeder
             'nome' => "Degustazione d'Autunno",
             'tipo' => 'evento',
             'prezzo' => 35.00, // prezzo del biglietto
-            'immagine' => 'placeholder_evento.png',
+            'immagine' => 'evento_apertura.png',
             'disponibilita' => 40,
         ]);
 
         Evento::create([
             'prodotto_id' => $eventoProdotto->id,
-            'data_evento' => '2026-10-15',
-            'ora_evento' => '18:00:00',
-            'luogo' => 'Ascoli piceno',
+            'data_evento' => '2026-05-25',
+            'ora_evento' => '19:00:00',
+            'luogo' => 'Monsampietro(AP)',
             'descrizione' => 'evnto di apertura della pagina web',
             
         ]);
@@ -94,10 +95,26 @@ class ProdottoSeeder extends Seeder
         */
 
         Prodotto::create([
-            'nome' => "T-shirt Vinicola Premium",
+            'nome' => "T-shirt Vinicola Premium Bianca",
             'tipo' => 'merch',
             'prezzo' => 22.00,
-            'immagine' => 'placeholder_merch.png',
+            'immagine' => 'T-shirt_bianca.png',
+            'disponibilita' => 10,
+        ]);
+
+         Prodotto::create([
+            'nome' => "T-shirt Vinicola Premium Nera",
+            'tipo' => 'merch',
+            'prezzo' => 22.00,
+            'immagine' => 'T-shirt_nera.png',
+            'disponibilita' => 10,
+        ]);
+
+        Prodotto::create([
+            'nome' => "cappello brendizzato",
+            'tipo' => 'merch',
+            'prezzo' => 10.00,
+            'immagine' => 'cappello.jpeg',
             'disponibilita' => 10,
         ]);
     }

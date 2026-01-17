@@ -513,14 +513,19 @@ class AdminCatalogoController extends Controller
      public function storeVigneto(Request $request)
     {
         $validated = $request->validate([
-            'nome'          => 'required|string|max:255',
-            'descrizione'   => 'nullable|string',
-            'disponibilita' => 'nullable|integer|min:0',
-            'prezzo_annuo'  => 'required|numeric|min:0',
-            'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
-            'visibile'      => 'nullable|boolean',
-        ], [
+            'nome'              => 'required|string|max:255',
+            'descrizione'       => 'nullable|string',
+            'disponibilita'     => 'nullable|integer|min:0',
+            'prezzo_annuo'      => 'required|numeric|min:0',
 
+            // NUOVI CAMPI
+            'bottiglie_stimate' => 'nullable|integer|min:0',
+            'tipo_vino'         => 'nullable|in:rosso,bianco,rosato',
+            'fase_produzione'   => 'nullable|in:potatura,germogliamento,fioritura,invaiatura,vendemmia,vinificazione,affinamento,imbottigliamento,pronto',
+
+            'immagine'          => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'visibile'          => 'nullable|boolean',
+        ], [
             // Nome
             'nome.required' => 'Il nome del vigneto è obbligatorio.',
             'nome.string'   => 'Il nome deve essere una stringa valida.',
@@ -538,11 +543,16 @@ class AdminCatalogoController extends Controller
             'prezzo_annuo.numeric'  => 'Il prezzo annuo deve essere un valore numerico.',
             'prezzo_annuo.min'      => 'Il prezzo annuo non può essere negativo.',
 
+            // Nuovi campi
+            'bottiglie_stimate.integer' => 'Le bottiglie stimate devono essere un numero intero.',
+            'bottiglie_stimate.min'     => 'Le bottiglie stimate non possono essere negative.',
+            'tipo_vino.in'              => 'Il tipo di vino deve essere: rosso, bianco o rosato.',
+            'fase_produzione.in'        => 'La fase selezionata non è valida.',
+
             // Immagine
             'immagine.image' => 'Il file caricato deve essere un\'immagine.',
             'immagine.mimes' => 'I formati supportati sono: JPG, JPEG, PNG, WEBP.',
         ]);
-
 
         // Placeholder di default
         $imageName = 'placeholder_vigneto.png';
@@ -558,12 +568,18 @@ class AdminCatalogoController extends Controller
         $visibile = $request->has('visibile'); // true se spuntata, false se no
 
         Vigneto::create([
-            'nome'          => $validated['nome'],
-            'descrizione'   => $validated['descrizione'] ?? null,
-            'disponibilita' => $validated['disponibilita'] ?? 0,
-            'prezzo_annuo'  => $validated['prezzo_annuo'],
-            'immagine'      => $imageName,
-            'visibile'      => $visibile,   
+            'nome'              => $validated['nome'],
+            'descrizione'       => $validated['descrizione'] ?? null,
+            'disponibilita'     => $validated['disponibilita'] ?? 0,
+            'prezzo_annuo'      => $validated['prezzo_annuo'],
+
+            // NUOVI CAMPI
+            'bottiglie_stimate' => $validated['bottiglie_stimate'] ?? null,
+            'tipo_vino'         => $validated['tipo_vino'] ?? null,
+            'fase_produzione'   => $validated['fase_produzione'] ?? null,
+
+            'immagine'          => $imageName,
+            'visibile'          => $visibile,
         ]);
 
         return redirect()
@@ -571,17 +587,23 @@ class AdminCatalogoController extends Controller
             ->with('success', 'Vigneto creato correttamente.');
     }
 
-    public function updateVigneto(Request $request,$prodotto)
+
+    public function updateVigneto(Request $request, $prodotto)
     {
         $validated = $request->validate([
-            'nome'          => 'required|string|max:255',
-            'descrizione'   => 'nullable|string',
-            'disponibilita' => 'nullable|integer|min:0',
-            'prezzo_annuo'  => 'required|numeric|min:0',
-            'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
-            'visibile'      => 'nullable|boolean',
-        ], [
+            'nome'              => 'required|string|max:255',
+            'descrizione'       => 'nullable|string',
+            'disponibilita'     => 'nullable|integer|min:0',
+            'prezzo_annuo'      => 'required|numeric|min:0',
 
+            // NUOVI CAMPI
+            'bottiglie_stimate' => 'nullable|integer|min:0',
+            'tipo_vino'         => 'nullable|in:rosso,bianco,rosato',
+            'fase_produzione'   => 'nullable|in:potatura,germogliamento,fioritura,invaiatura,vendemmia,vinificazione,affinamento,imbottigliamento,pronto',
+
+            'immagine'          => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'visibile'          => 'nullable|boolean',
+        ], [
             // Nome
             'nome.required' => 'Il nome del vigneto è obbligatorio.',
             'nome.string'   => 'Il nome deve essere una stringa valida.',
@@ -598,6 +620,12 @@ class AdminCatalogoController extends Controller
             'prezzo_annuo.required' => 'Il prezzo annuo è obbligatorio.',
             'prezzo_annuo.numeric'  => 'Il prezzo annuo deve essere un valore numerico.',
             'prezzo_annuo.min'      => 'Il prezzo annuo non può essere negativo.',
+
+            // Nuovi campi
+            'bottiglie_stimate.integer' => 'Le bottiglie stimate devono essere un numero intero.',
+            'bottiglie_stimate.min'     => 'Le bottiglie stimate non possono essere negative.',
+            'tipo_vino.in'              => 'Il tipo di vino deve essere: rosso, bianco o rosato.',
+            'fase_produzione.in'        => 'La fase selezionata non è valida.',
 
             // Immagine
             'immagine.image' => 'Il file caricato deve essere un\'immagine.',
@@ -620,18 +648,25 @@ class AdminCatalogoController extends Controller
         $visibile = $request->has('visibile');
 
         $vigneto->update([
-            'nome'          => $validated['nome'],
-            'descrizione'   => $validated['descrizione'] ?? $vigneto->descrizione,
-            'disponibilita' => $validated['disponibilita'] ?? $vigneto->disponibilita,
-            'prezzo_annuo'  => $validated['prezzo_annuo'],
-            'immagine'      => $imageName,
-            'visibile'      => $visibile,
+            'nome'              => $validated['nome'],
+            'descrizione'       => $validated['descrizione'] ?? $vigneto->descrizione,
+            'disponibilita'     => $validated['disponibilita'] ?? $vigneto->disponibilita,
+            'prezzo_annuo'      => $validated['prezzo_annuo'],
+
+            // NUOVI CAMPI
+            'bottiglie_stimate' => $validated['bottiglie_stimate'] ?? $vigneto->bottiglie_stimate,
+            'tipo_vino'         => array_key_exists('tipo_vino', $validated) ? $validated['tipo_vino'] : $vigneto->tipo_vino,
+            'fase_produzione'   => array_key_exists('fase_produzione', $validated) ? $validated['fase_produzione'] : $vigneto->fase_produzione,
+
+            'immagine'          => $imageName,
+            'visibile'          => $visibile,
         ]);
 
         return redirect()
             ->back()
             ->with('success', 'Vigneto aggiornato correttamente.');
     }
+
 
     public function destroyVigneto($prodotto)
     {

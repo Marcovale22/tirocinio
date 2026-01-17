@@ -10,6 +10,8 @@ use App\Http\Controllers\PublicController;
 use App\Http\Controllers\CarrelloController;
 use App\Http\Controllers\OrdineController;
 use App\Http\Controllers\StaffOrdiniController;
+use App\Http\Controllers\VignetoAffittoController;
+use App\Http\Controllers\Staff\RichiestaVignetoStaffController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -51,7 +53,18 @@ Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
         Route::get('/ordini',  'mieiOrdini')->name('ordini');
     });
 
-   
+   Route::controller(VignetoAffittoController::class)->prefix('utente')->name('utente.')->group(function () {
+        
+        Route::get('/vigneti/{vigneto}','show')->name('vigneti.dettaglio');
+
+        Route::post('/vigneti/{vigneto}/richiesta',  'store')->name('vigneti.richiesta.store');
+
+        Route::get('/i-miei-vigneti',  'mieiVigneti')->name('vigneti.miei');
+
+        Route::post('/vigneti/richieste/{richiesta}/annulla',  'annulla')->name('vigneti.richieste.annulla');
+   });
+
+
 });
 
 Route::prefix('staff')->middleware('auth', 'can:isStaff')->group(function () {
@@ -71,6 +84,18 @@ Route::prefix('staff')->middleware('auth', 'can:isStaff')->group(function () {
 
         Route::post('/ordini/{ordine}/stato', 'aggiornaStato')->name('stato');
     });    
+
+    Route::controller(RichiestaVignetoStaffController::class)->prefix('vigneti')->name('staff.vigneti.')->group(function () {
+        
+        Route::get('/richieste', 'index')->name('richieste');
+
+        Route::post('/richieste/{richiesta}/conferma', 'conferma')->name('richieste.conferma');
+
+        Route::post('/richieste/{richiesta}/rifiuta', 'rifiuta')->name('richieste.rifiuta');
+
+
+    });
+
 });
 
 Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {

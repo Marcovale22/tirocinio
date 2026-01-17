@@ -13,11 +13,9 @@ return new class extends Migration
     {
         Schema::create('eventi', function (Blueprint $table) {
             $table->id();
-
-            // relazione 1:1 con prodotti (specifica_evento)
             $table->foreignId('prodotto_id')->constrained('prodotti')->onDelete('cascade')->unique();
-            $table->date('data_evento');                 // data
-            $table->time('ora_evento')->nullable();      // ora
+            $table->date('data_evento');                 
+            $table->time('ora_evento')->nullable();      
             $table->string('luogo');
             $table->text('descrizione')->nullable();
             $table->timestamps();

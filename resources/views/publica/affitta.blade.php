@@ -79,7 +79,7 @@
                                 </a>
                                 @endguest
                                 @auth
-                                <a href="" class="btn-vigneto-affitta">
+                                <a href="{{ route('utente.vigneti.dettaglio', $v) }}" class="btn-vigneto-affitta">
                                     Affitta
                                 </a>
                                 @endauth    

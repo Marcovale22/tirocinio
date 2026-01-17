@@ -15,9 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('prodotto_id')->constrained('prodotti')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade'); // chi ha richiesto
-            $table->integer('quantita'); // > 0
-            $table->enum('stato', ['in_lavorazione', 'confermato', 'annullato'])->default('in_lavorazione');
-            $table->text('note')->nullable(); // opzionale
+            $table->integer('quantita'); 
+            $table->enum('stato', [
+                'in_lavorazione',
+                'confermato',
+                'annullato'
+            ])->default('in_lavorazione'); 
             $table->timestamps();
         });
     }

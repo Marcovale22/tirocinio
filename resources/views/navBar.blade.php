@@ -46,6 +46,11 @@
                                         Ordini
                                     </a>
                                 </li>
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('staff.vigneti.richieste')}}">
+                                        Vigneti
+                                    </a>
+                                </li>
                             </ul>
                         </li>
                     @endcan
@@ -170,6 +175,12 @@
                                 <li>
                                     <a class="dropdown-item" href="{{ route('utente.ordini') }}">
                                         Ordini
+                                    </a>
+                                </li>
+
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('utente.vigneti.miei') }}">
+                                        Miei Vigneti
                                     </a>
                                 </li>
 

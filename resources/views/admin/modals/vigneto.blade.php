@@ -49,6 +49,58 @@
                         <small class="text-muted">Se vuoto, verrà impostato a 0.</small>
                     </div>
 
+                    <div class="mb-3">
+                        <label class="form-label">Bottiglie stimate</label>
+                        <input type="number"
+                            name="bottiglie_stimate"
+                            id="vigneto-bottiglie-stimate"
+                            min="0"
+                            class="form-control @error('bottiglie_stimate') is-invalid @enderror"
+                            value="{{ old('bottiglie_stimate') }}">
+                        @error('bottiglie_stimate')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3">
+                        <label class="form-label">Tipo vino</label>
+                        <select name="tipo_vino"
+                                id="vigneto-tipo-vino"
+                                class="form-select @error('tipo_vino') is-invalid @enderror">
+                            <option value="">— Seleziona —</option>
+                            <option value="rosso"  {{ old('tipo_vino') === 'rosso' ? 'selected' : '' }}>Rosso</option>
+                            <option value="bianco" {{ old('tipo_vino') === 'bianco' ? 'selected' : '' }}>Bianco</option>
+                            <option value="rosato" {{ old('tipo_vino') === 'rosato' ? 'selected' : '' }}>Rosato</option>
+                        </select>
+                        @error('tipo_vino')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label class="form-label">Fase produzione</label>
+                        <select name="fase_produzione"
+                                id="vigneto-fase"
+                                class="form-select @error('fase_produzione') is-invalid @enderror">
+                            <option value="">— Seleziona —</option>
+                            <option value="potatura">Potatura</option>
+                            <option value="germogliamento">Germogliamento</option>
+                            <option value="fioritura">Fioritura</option>
+                            <option value="invaiatura">Invaiatura</option>
+                            <option value="vendemmia">Vendemmia</option>
+                            <option value="vinificazione">Vinificazione</option>
+                            <option value="affinamento">Affinamento</option>
+                            <option value="imbottigliamento">Imbottigliamento</option>
+                            <option value="pronto">Pronto</option>
+                        </select>
+                        @error('fase_produzione')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+
+
                     <div class="mb-3 form-check">
                         <input type="checkbox"
                             class="form-check-input"

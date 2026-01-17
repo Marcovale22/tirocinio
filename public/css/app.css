@@ -277,6 +277,40 @@
     }
 }
 
+.visit-us{
+    margin-top: 60px;
+    padding-bottom: 60px;
+    text-align: center;
+}
+
+.visit-title{
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #fff; /* di default bianco */
+}
+
+.bg-orange .visit-title{
+    color: #fff; /* su arancio resta bianco */
+}
+
+.bg-wine .visit-title{
+    color: #fff;
+}
+
+.map-wrap{
+    max-width: 920px;
+    margin: 0 auto;
+    border-radius: 18px;
+    overflow: hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.25);
+}
+
+.map-wrap iframe{
+    display: block;
+}
+ 
+
 /*---------PAGINA VIGNETI---------- */
 .pagina-vigneti {
     min-height: 100vh;
@@ -477,6 +511,373 @@
     }
 }
 
+/* =========================
+   DETTAGLIO VIGNETO
+========================= */
+
+.pagina-vigneto-dettaglio{
+    background-color: #ff7d03;
+}
+
+.pagina-vigneto-dettaglio .container {
+    padding-bottom: 30px;
+
+}
+
+.sezione-dettaglio-vigneto {
+    margin-top: 18px;
+}
+
+/* immagine (stesso feel delle card) */
+.vigneto-dettaglio-img-wrap {
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #f3f3f3;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+}
+
+.vigneto-dettaglio-img {
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 991px) {
+    .vigneto-dettaglio-img {
+        height: 280px;
+    }
+}
+
+/* card info (stile simile alle vigneto-card) */
+.vigneto-dettaglio-card {
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 18px 18px 16px 18px;
+    height: 100%;
+}
+
+.vigneto-dettaglio-descrizione {
+    color: #444;
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+
+/* righe meta */
+.vigneto-dettaglio-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vigneto-dettaglio-riga {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f7f7f7;
+}
+
+.vigneto-dettaglio-riga .label {
+    color: #666;
+    font-weight: 600;
+}
+
+.vigneto-dettaglio-riga .value {
+    color: #111;
+    font-weight: 700;
+}
+
+/* separatore soft */
+.vigneto-dettaglio-separatore {
+    height: 1px;
+    background: #ececec;
+    margin: 16px 0;
+}
+
+/* extra info (placeholder) */
+.vigneto-dettaglio-extra {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+}
+
+.vigneto-dettaglio-extra .extra-item {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #fafafa;
+}
+
+.vigneto-dettaglio-extra .label {
+    color: #666;
+    font-weight: 600;
+}
+
+.vigneto-dettaglio-extra .value {
+    color: #111;
+    font-weight: 700;
+}
+
+/* azioni */
+.vigneto-dettaglio-actions {
+    margin-top: 10px;
+}
+
+/* link back */
+.vigneto-dettaglio-back {
+    margin-top: 12px;
+    text-align: center;
+}
+
+.vigneto-dettaglio-back a {
+    color: #444;
+    text-decoration: none;
+}
+
+.vigneto-dettaglio-back a:hover {
+    text-decoration: underline;
+}
+
+/* =========================
+   UTENTE - I MIEI VIGNETI
+========================= */
+.pagina-miei-vigneti{
+    background-color:#ff7d03 ;
+    height: 90vh;
+}
+.mio-vigneto-card{
+    background:#fff;
+    border-radius:14px;
+    box-shadow:0 6px 18px rgba(0,0,0,0.08);
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+}
+
+.mio-vigneto-img-wrap{
+    height:190px;
+    background:#f3f3f3;
+    overflow:hidden;
+}
+
+.mio-vigneto-img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+}
+
+.mio-vigneto-body{
+    padding:14px 14px 10px 14px;
+    flex:1;
+}
+
+.mio-vigneto-top{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:8px;
+}
+
+.mio-vigneto-nome{
+    font-weight:900;
+    font-size:1.05rem;
+    color:#111;
+}
+
+.mio-vigneto-annata{
+    color:#444;
+    margin-bottom:10px;
+}
+
+.mio-vigneto-info{
+    background:#fafafa;
+    border-radius:12px;
+    padding:10px 12px;
+    color:#333;
+    display:flex;
+    flex-direction:column;
+    gap:6px;
+    margin-bottom:12px;
+}
+
+.mio-vigneto-fase .fase-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:8px;
+    color:#333;
+}
+
+.fase-percent{
+    font-weight:800;
+    color:#444;
+}
+
+.fase-bar{
+    width:100%;
+    height:10px;
+    background:#eee;
+    border-radius:999px;
+    overflow:hidden;
+}
+
+.fase-bar-fill{
+    height:100%;
+    background:#222;
+    border-radius:999px;
+}
+
+/* azioni */
+.mio-vigneto-actions{
+    padding:12px 14px 14px 14px;
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    border-top:1px solid #f0f0f0;
+}
+
+.mio-vigneto-actions form{
+    margin:0;
+}
+
+/* badge stato richiesta */
+.badge-stato{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:900;
+    font-size:.82rem;
+    background:#f3f3f3;
+    color:#333;
+    white-space:nowrap;
+}
+
+.badge-stato.stato-in_attesa{ background:#fff3cd; color:#856404; }
+.badge-stato.stato-confermato{ background:#d4edda; color:#155724; }
+.badge-stato.stato-rifiutato{ background:#f8d7da; color:#721c24; }
+.badge-stato.stato-annullato{ background:#e2e3e5; color:#383d41; }
+
+/* mobile: bottoni full width */
+@media (max-width:576px){
+    .mio-vigneto-actions{
+        flex-direction:column;
+    }
+    .mio-vigneto-actions .btn{
+        width:100%;
+    }
+}
+
+/* =========================
+   STAFF - RICHIESTE VIGNETO
+========================= */
+.staff-richieste{
+    background-color: #ff7d03;
+    height: 90vh;
+}
+.staff-richieste-vigneto .staff-title {
+    color: #fff;
+    font-weight: 800;
+    letter-spacing: 0.2px;
+    margin-bottom: 14px;
+    text-align: center;
+}
+
+/* wrapper tipo card */
+.staff-table-wrap {
+    background: #fff;
+    border-radius: 14px;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 10px;
+}
+
+/* tabella */
+.staff-table {
+    margin: 0;
+}
+
+/* header */
+.staff-table thead th {
+    font-size: 0.92rem;
+    color: #555;
+    font-weight: 800;
+    border-bottom: 1px solid #ececec !important;
+    padding: 14px 14px;
+    background: #fafafa;
+}
+
+/* righe */
+.staff-table tbody td {
+    padding: 14px 14px;
+    border-top: 1px solid #f0f0f0;
+    color: #222;
+    vertical-align: middle;
+}
+
+/* hover più soft */
+.staff-table tbody tr:hover {
+    background: rgba(0,0,0,0.02);
+}
+
+/* stato (colonna) */
+.staff-table td:nth-child(5) {
+    font-weight: 700;
+    color: #444;
+}
+
+/* azioni a destra: bottoni con gap */
+.staff-table td.text-end form.d-inline {
+    margin-left: 8px;
+}
+
+.staff-table td.text-end .btn {
+    border-radius: 10px;
+    padding: 6px 10px;
+    font-weight: 700;
+}
+
+/* rendi i bottoni più compatti su mobile */
+@media (max-width: 576px) {
+    .staff-table thead th,
+    .staff-table tbody td {
+        padding: 12px 10px;
+        font-size: 0.92rem;
+    }
+
+    .staff-table td.text-end form.d-inline {
+        margin-left: 6px;
+    }
+
+    .staff-table td.text-end .btn {
+        padding: 6px 8px;
+        font-size: 0.82rem;
+    }
+}
+
+.badge-stato{
+    display:inline-block;
+    padding:6px 10px;
+    border-radius:999px;
+    font-weight:800;
+    font-size:.85rem;
+    text-transform: lowercase;
+    background:#f3f3f3;
+    color:#333;
+}
+
+.badge-stato.stato-in_attesa{ background:#fff3cd; color:#856404; }
+.badge-stato.stato-confermato{ background:#d4edda; color:#155724; }
+.badge-stato.stato-rifiutato{ background:#f8d7da; color:#721c24; }
+.badge-stato.stato-annullato{ background:#e2e3e5; color:#383d41; }
+
 
 
 /*--------PAGINA DIPENDENTI ADMIN--------*/
@@ -671,3 +1072,29 @@
     font-weight: bold;
     color: #000000 !important;
 }
+
+/* ===== SOLO EVENTI: immagine tipo locandina ===== */
+.catalogo-item--evento {
+  align-items: flex-start; /* testo parte dall'alto, più bello con poster */
+}
+
+.catalogo-item-img--poster {
+  width: 130px;
+  height: 180px;
+  flex: 0 0 130px;
+  border-radius: 12px;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.catalogo-item-img--poster img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* se vuoi vedere tutto: contain */
+  border-radius: 0;  /* già gestito dal wrapper */
+}
+
+.poster-link { display:block; }
+.poster-link img { transition: transform .2s ease; }
+.poster-link:hover img { transform: scale(1.03); }
