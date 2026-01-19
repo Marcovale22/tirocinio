@@ -20,22 +20,15 @@
                         {{-- TESTO A DESTRA --}}
                         <div class="vino-testo ">
                             <h3 class="vino-nome">{{ $prodotto->nome }}</h3>
-                            @guest
-                                <a href="{{ route('login') }}">
-                                    <button class="btn-vino-acquista mt-3">Acquista</button>
-                                </a>
-                            @endguest
 
-                            @auth
-                            <form method="POST" action="{{ route('carrello.add', $prodotto->id) }}">
+                            <form method="GET" action="{{ route('vini.dettaglio', $prodotto->id) }}">
                                 @csrf
                                 <input type="hidden" name="quantita" value="1">
 
                                 <button type="submit" class="btn-vino-acquista mt-3">
-                                    Aggiungi al carrello
+                                    Dettagli
                                 </button>
                             </form>
-                            @endauth
                         </div>
                     </div>
                 </div>

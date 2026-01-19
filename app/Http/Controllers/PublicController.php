@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Prodotto;
+use App\Models\Vino;
+use App\Models\Evento;
 use App\Models\Vigneto;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
-{
+{   
+
+
     public function vini(){
 
         $vini = Prodotto::with('vino')
@@ -15,6 +19,20 @@ class PublicController extends Controller
                 ->get();
 
         return view('publica.vini',compact('vini'));
+    }
+
+    public function vinoDettaglio($vino) 
+    {
+        $prodotto = Prodotto::query()
+            ->whereKey($vino)
+            ->where('tipo', 'vino')
+            ->with('vino')           // relazione Prodotto -> hasOne(Vino)
+            ->firstOrFail();
+
+        return view('utente.dettaglio_vini', [
+            'prodotto' => $prodotto,
+            'vino'     => $prodotto->vino,
+        ]);
     }
 
     public function tenute(){
@@ -27,6 +45,11 @@ class PublicController extends Controller
                     ->get();
 
         return view('publica.affitta',compact('vigneti'));
+    }
+
+    public function show(Vigneto $vigneto)
+    {
+        return view('utente.dettaglio_vigneti', compact('vigneto'));
     }
 
     public function shop(){
@@ -46,5 +69,19 @@ class PublicController extends Controller
 
     // Ritorno la vista catalogo con tutte le variabili
     return view('publica.shop', compact('vini', 'merch', 'eventi'));
+    }
+
+    public function eventoDettaglio($evento) 
+    {
+        $prodotto = Prodotto::query()
+            ->whereKey($evento)
+            ->where('tipo', 'evento')
+            ->with('evento')   // relazione Prodotto -> Evento
+            ->firstOrFail();
+
+        return view('utente.dettaglio_eventi', [
+            'prodotto' => $prodotto,
+            'evento'   => $prodotto->evento,
+        ]);
     }
 }

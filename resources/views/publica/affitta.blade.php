@@ -73,16 +73,9 @@
 
                             {{-- Azioni --}}
                             <div class="vigneto-actions">
-                                @guest
-                                <a href="{{ route('login') }}" class="btn-vigneto-affitta">
+                                <a href="{{ route('vigneti.dettaglio', $v) }}" class="btn-vigneto-affitta">
                                     Affitta
-                                </a>
-                                @endguest
-                                @auth
-                                <a href="{{ route('utente.vigneti.dettaglio', $v) }}" class="btn-vigneto-affitta">
-                                    Affitta
-                                </a>
-                                @endauth    
+                                </a>  
                             </div>
 
                         </div>

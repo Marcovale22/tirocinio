@@ -6,6 +6,7 @@ use App\Models\Vino;
 use App\Models\Vigneto;
 use App\Models\Evento;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AdminCatalogoController extends Controller
 {
@@ -20,7 +21,9 @@ class AdminCatalogoController extends Controller
         $merch = Prodotto::where('tipo', 'merch')->get();
 
         // Recupero eventi (prodotti con tabella evento)
-        $eventi = Prodotto::with('evento')
+        $eventi = Prodotto::with([
+            'evento.vini.prodotto' 
+        ])
             ->where('tipo', 'evento')
             ->get();
 
@@ -81,7 +84,7 @@ class AdminCatalogoController extends Controller
 
         // Default a 0 se non inviati
 
-        $solfiti       = $validated['solfiti']       ?? 0;
+        $solfiti = $validated['solfiti']  ?? 0;
 
         Vino::create([
             'prodotto_id'   => $prodotto->id,
@@ -176,11 +179,10 @@ class AdminCatalogoController extends Controller
         
         $vino = Prodotto::findOrFail($prodotto);
 
-        // Se ha un'immagine salvata, la eliminiamo dal filesystem
-        /*
+   
         if ($vino->immagine && file_exists(public_path('img/vini/' . $vino->immagine))) {
             unlink(public_path('img/vini/' . $vino->immagine));
-        }*/
+        }
 
        
         $vino->delete();
@@ -316,7 +318,81 @@ class AdminCatalogoController extends Controller
     }
 
     /*----SEZIONE EVENTO-----*/
+    public function createEvento()
+    {
+        return view('admin.createEvento');
+    }
 
+    public function editEvento($prodotto)
+    {
+        // Prodotto generico (evento)
+        $prod = Prodotto::where('tipo', 'evento')
+            ->findOrFail($prodotto);
+
+        // Record specializzato evento + vini associati
+        $evento = Evento::where('prodotto_id', $prod->id)
+            ->with('vini.prodotto')
+            ->firstOrFail();
+
+        // Tutti i vini disponibili
+        $vini = Vino::with('prodotto')
+            ->orderBy('id')
+            ->get();
+
+        return view('admin.editEvento', compact('prod', 'evento', 'vini'));
+    }
+
+    private function syncViniEvento(Evento $evento, array $viniInput): void
+    {
+        // 1) Normalizza e accorpa duplicati
+        $new = [];
+        foreach ($viniInput as $row) {
+            if (empty($row['vino_id']) || empty($row['quantita'])) continue;
+
+            $vinoId = (int) $row['vino_id'];
+            $qty    = (int) $row['quantita'];
+            if ($qty <= 0) continue;
+
+            $new[$vinoId] = ($new[$vinoId] ?? 0) + $qty;
+        }
+
+        // 2) Stato attuale pivot: [vino_id => quantita]
+        // NB: nome tabella pivot = evento_vini
+        $old = $evento->vini()->pluck('evento_vini.quantita', 'vini.id')->toArray();
+
+        $allIds = array_unique(array_merge(array_keys($old), array_keys($new)));
+
+        foreach ($allIds as $vinoId) {
+            $oldQty = (int)($old[$vinoId] ?? 0);
+            $newQty = (int)($new[$vinoId] ?? 0);
+            $delta  = $newQty - $oldQty;
+
+            if ($delta === 0) continue;
+
+            // Lock per evitare corse su disponibilità
+            $vino = Vino::with('prodotto')->lockForUpdate()->findOrFail($vinoId);
+            $prodVino = $vino->prodotto; // prodotti.disponibilita
+
+            if ($delta > 0) {
+                if ($prodVino->disponibilita < $delta) {
+                    throw new \RuntimeException("Disponibilità insufficiente per il vino selezionato.");
+                }
+                $prodVino->disponibilita -= $delta;
+            } else {
+                $prodVino->disponibilita += abs($delta);
+            }
+
+            $prodVino->save();
+        }
+
+        // 3) Sync pivot finale
+        $syncData = [];
+        foreach ($new as $vinoId => $qty) {
+            $syncData[$vinoId] = ['quantita' => $qty];
+        }
+
+        $evento->vini()->sync($syncData);
+    }
      public function storeEvento(Request $request)
     {
         $validated = $request->validate([
@@ -328,6 +404,9 @@ class AdminCatalogoController extends Controller
             'luogo'         => 'required|string|max:255',
             'descrizione'   => 'nullable|string',
             'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'vini' => 'nullable|array',
+            'vini.*.vino_id' => 'required_with:vini|exists:vini,id',
+            'vini.*.quantita' => 'required_with:vini|integer|min:1',
         ], [
 
             // Nome
@@ -398,9 +477,26 @@ class AdminCatalogoController extends Controller
             'descrizione' => $validated['descrizione'] ?? null,
         ]);
 
+        DB::transaction(function () use ($validated, $request, $prodotto, &$evento) {
+
+            $evento = Evento::create([
+                'prodotto_id' => $prodotto->id,
+                'data_evento' => $validated['data_evento'],
+                'ora_evento'  => $validated['ora_evento'],
+                'luogo'       => $validated['luogo'],
+                'descrizione' => $validated['descrizione'] ?? null,
+            ]);
+
+            if ($request->has('vini')) {
+                $this->syncViniEvento($evento, $request->input('vini', []));
+            }
+        });
+
         return redirect()
-            ->back()
-            ->with('success', 'Evento creato correttamente.');
+            ->route('catalogo.edit.evento', $prodotto->id)
+            ->with('success', 'Evento creato correttamente. Ora puoi associare i vini.')
+            ->with('from_create', true);
+
     }
     
 
@@ -415,6 +511,9 @@ class AdminCatalogoController extends Controller
             'luogo'         => 'required|string|max:255',
             'descrizione'   => 'nullable|string',
             'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'vini' => 'nullable|array',
+            'vini.*.vino_id' => 'required_with:vini|exists:vini,id',
+            'vini.*.quantita' => 'required_with:vini|integer|min:1',
         ], [
 
             // Nome
@@ -455,51 +554,70 @@ class AdminCatalogoController extends Controller
 
 
         // 1) Prodotto generico (controllo anche tipo = evento per sicurezza)
+        
         $prod = Prodotto::where('tipo', 'evento')->findOrFail($prodotto);
 
-        $imageName = $prod->immagine ?? 'placeholder_evento.png';
+        try {
+            DB::transaction(function () use ($request, $validated, $prod) {
 
-        if ($request->hasFile('immagine')) {
-            $file = $request->file('immagine');
+                $imageName = $prod->immagine ?? 'placeholder_evento.png';
 
-            if ($file->isValid()) {
-                $newName = $file->getClientOriginalName();
-                $file->move(public_path('img/eventi'), $newName);
-                $imageName = $newName;
-            }
+                if ($request->hasFile('immagine')) {
+                    $file = $request->file('immagine');
+
+                    if ($file->isValid()) {
+                        $newName = $file->getClientOriginalName();
+                        $file->move(public_path('img/eventi'), $newName);
+                        $imageName = $newName;
+                    }
+                }
+
+                // 1) aggiorno il prodotto generico evento
+                $prod->update([
+                    'nome'          => $validated['nome'],
+                    'prezzo'        => $validated['prezzo'],
+                    'disponibilita' => $validated['disponibilita'] ?? $prod->disponibilita,
+                    'immagine'      => $imageName,
+                ]);
+
+                // 2) aggiorno il record specifico evento
+                $evento = Evento::where('prodotto_id', $prod->id)->firstOrFail();
+
+                $evento->data_evento = $validated['data_evento'];
+                $evento->ora_evento  = $validated['ora_evento'];
+                $evento->luogo       = $validated['luogo'];
+                $evento->descrizione = $validated['descrizione'] ?? $evento->descrizione;
+                $evento->save();
+
+                // 3) se arrivano vini dalla form, sincronizzo pivot + aggiorno giacenze
+                if ($request->has('vini')) {
+                    $evento->load('vini'); // per avere lo stato corrente
+                    $this->syncViniEvento($evento, $request->input('vini', []));
+                }
+            });
+
+        } catch (\RuntimeException $e) {
+            return redirect()
+                ->back()
+                ->withErrors(['vini' => $e->getMessage()])
+                ->withInput();
         }
 
-        // aggiorno il prodotto
-        $prod->update([
-            'nome'          => $validated['nome'],
-            'prezzo'        => $validated['prezzo'],
-            'disponibilita' => $validated['disponibilita'] ?? $prod->disponibilita,
-            'immagine'      => $imageName,
-        ]);
-
-        // 2) aggiorno il record di specializzazione evento
-        $evento = Evento::where('prodotto_id', $prod->id)->firstOrFail();
-
-        $evento->data_evento = $validated['data_evento'];
-        $evento->ora_evento  = $validated['ora_evento'];
-        $evento->luogo       = $validated['luogo'];
-        $evento->descrizione = $validated['descrizione'] ?? $evento->descrizione;
-        $evento->save();
-
         return redirect()
-            ->back()
+            ->route('catalogo.index')
             ->with('success', 'Evento aggiornato correttamente.');
+
     }
 
     public function destroyEvento($prodotto)
     {
         $evento = Prodotto::findOrFail($prodotto);
 
-        /*
+        
         if ($evento->immagine && file_exists(public_path('img/eventi/' . $evento->immagine))) {
             unlink(public_path('img/eventi/' . $evento->immagine));
         }
-        */
+        
 
         $evento->delete();
 
@@ -672,11 +790,11 @@ class AdminCatalogoController extends Controller
     {
         $vigneto = Vigneto::findOrFail($prodotto);
 
-        /*
+        
         if ($vigneto->immagine && file_exists(public_path('img/vigneti/' . $vigneto->immagine))) {
             unlink(public_path('img/vigneti/' . $vigneto->immagine));
         }
-        */
+        
 
         $vigneto->delete();
 

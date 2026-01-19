@@ -55,7 +55,7 @@
                             {{ number_format($item['prezzo'], 2, ',', '.') }} €
                         </p>
 
-                        <form method="POST" action="{{ route('carrello.update', $pid) }}" class="d-flex gap-2 align-items-center">
+                        <form method="POST" action="{{ route('utente.carrello.update', $pid) }}" class="d-flex gap-2 align-items-center">
                             @csrf
                             <input type="number" name="quantita" min="1" value="{{ $item['quantita'] }}" class="form-control" style="max-width: 100px;">
                             <button class="btn-catalogo-pill" type="submit">Aggiorna</button>
@@ -63,7 +63,7 @@
                     </div>
 
                     <div class="catalogo-item-azioni">
-                        <form method="POST" action="{{ route('carrello.remove', $pid) }}">
+                        <form method="POST" action="{{ route('utente.carrello.remove', $pid) }}">
                             @csrf
                             <button type="submit" class="btn-catalogo-pill btn-catalogo-delete">
                                 Rimuovi

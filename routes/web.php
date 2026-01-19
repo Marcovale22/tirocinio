@@ -33,18 +33,27 @@ return view('publica.homepage');
 })->name('home');
 
 
-Route::get('/vini', [PublicController::class,'vini'])->name('vini');
-Route::get('/tenute', [PublicController::class,'tenute'])->name('tenute');
-Route::get('/affitta-vigneto', [PublicController::class,'affittaVigneto'])->name('affitta');
-Route::get('/shop', [PublicController::class,'shop'])->name('shop');
+Route::controller(PublicController::class)->group(function () {
+
+    Route::get('/vini', 'vini')->name('vini');
+    Route::get('/tenute', 'tenute')->name('tenute');
+    Route::get('/affitta-vigneto', 'affittaVigneto')->name('affitta');
+    Route::get('/shop', 'shop')->name('shop');
+
+    Route::get('/vini/{vino}', 'vinoDettaglio')->name('vini.dettaglio');
+    Route::get('/eventi/{evento}', 'eventoDettaglio')->name('eventi.dettaglio');
+    Route::get('/vigneti/{vigneto}', 'vignetoDettaglio')->name('vigneti.dettaglio');
+});
 
 Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
     
-    Route::get('/carrello', [CarrelloController::class, 'index'])->name('carrello.index');
-
-    Route::post('/carrello/add/{prodotto}', [CarrelloController::class, 'add'])->name('carrello.add');
-    Route::post('/carrello/update/{prodotto}', [CarrelloController::class, 'update'])->name('carrello.update');
-    Route::post('/carrello/remove/{prodotto}', [CarrelloController::class, 'remove'])->name('carrello.remove');
+    Route::controller(CarrelloController::class)->prefix('utente')->name('utente.')->group(function () {
+        
+        Route::get('/carrello',  'index')->name('carrello.index');
+        Route::post('/carrello/add/{prodotto}',  'add')->name('carrello.add');
+        Route::post('/carrello/update/{prodotto}',  'update')->name('carrello.update');
+        Route::post('/carrello/remove/{prodotto}',  'remove')->name('carrello.remove');
+    });
 
     Route::controller(OrdineController::class)->prefix('utente')->name('utente.')->group(function () {
     
@@ -55,8 +64,6 @@ Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
 
    Route::controller(VignetoAffittoController::class)->prefix('utente')->name('utente.')->group(function () {
         
-        Route::get('/vigneti/{vigneto}','show')->name('vigneti.dettaglio');
-
         Route::post('/vigneti/{vigneto}/richiesta',  'store')->name('vigneti.richiesta.store');
 
         Route::get('/i-miei-vigneti',  'mieiVigneti')->name('vigneti.miei');
@@ -132,6 +139,13 @@ Route::prefix('admin')->middleware('auth', 'can:isAdmin')->group(function () {
         Route::delete('/merch/{prodotto}', 'destroyMerch')->name('destroy.merch');
         
         /*----CRUD evento----*/ 
+        Route::get('/evento/create', 'createEvento')
+            ->name('create.evento');
+
+        // Mostra form MODIFICA evento
+        Route::get('/evento/{prodotto}/edit', 'editEvento')
+            ->name('edit.evento');
+
         Route::post('/evento', 'storeEvento')->name('store.evento');
 
         Route::put('/evento/{prodotto}', 'updateEvento')->name('update.evento');

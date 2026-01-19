@@ -111,7 +111,7 @@
 
                 @can('isUtente')
                 <li class="nav-item">
-                    <a class="nav-link fs-4" href="{{ route('carrello.index') }}">🛒</a>
+                    <a class="nav-link fs-4" href="{{ route('utente.carrello.index') }}">🛒</a>
                 </li>
                 @endcan
 

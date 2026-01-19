@@ -14,5 +14,12 @@ class Vino extends Model
     {
         return $this->belongsTo(Prodotto::class);
     }
+
+    public function eventi()
+    {
+        return $this->belongsToMany(Evento::class, 'evento_vini')
+            ->withPivot('quantita')
+            ->withTimestamps();
+    }
 }
 

@@ -21,9 +21,7 @@ class CarrelloController extends Controller
 
     public function add(Request $request, Prodotto $prodotto)
     {
-        // opzionale: limita a vino + merch (se hai un campo tipo)
-        // abort_unless(in_array($prodotto->tipo, ['vino','merch']), 404);
-
+        
         if (((int)($prodotto->disponibilita ?? 0)) <= 0) {
             return back()->with('error', 'Prodotto non disponibile.');
         }

@@ -64,21 +64,9 @@
                         </div>
 
                         <div class="vigneto-actions">
-                            @guest
-                                <a href="{{ route('login') }}" class="btn-vigneto-affitta">
-                                    Acquista
-                                </a>
-                            @endguest
-                            @auth
-                            <form method="POST" action="{{ route('carrello.add', $vino->id) }}">
-                                    @csrf
-                                    <input type="hidden" name="quantita" value="1">
-
-                                    <button type="submit" class="btn-vigneto-affitta">
-                                        Aggiungi al carrello
-                                    </button>
-                            </form>
-                            @endauth    
+                                <a href="{{ route('vini.dettaglio', $vino->id) }}" class="btn-vigneto-affitta">
+                                    Dettagli
+                                </a> 
                         </div>
                     </div>
                 @endif
@@ -112,7 +100,7 @@
                             </a>
                         @endguest
                         @auth
-                        <form method="POST" action="{{ route('carrello.add', $m->id) }}">
+                        <form method="POST" action="{{ route('utente.carrello.add', $m->id) }}">
                                     @csrf
                                     <input type="hidden" name="quantita" value="1">
 
@@ -169,16 +157,9 @@
                         </div>
 
                         <div class="vigneto-actions">
-                                @guest
-                                    <a href="{{ route('login') }}" class="btn-vigneto-affitta">
-                                        Acquista
-                                    </a>
-                                @endguest
-                                @auth
-                                    <a href="" class="btn-vigneto-affitta">
-                                        Acquista
-                                    </a>
-                                @endauth    
+                                    <a href="{{ route('eventi.dettaglio',$e->id) }}" class="btn-vigneto-affitta">
+                                        Dettagli
+                                    </a>      
                         </div>
                     </div> 
                 @endif

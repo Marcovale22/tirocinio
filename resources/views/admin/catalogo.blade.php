@@ -164,11 +164,9 @@
         <section id="eventi" class="catalogo-sezione mb-5">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h2 class="catalogo-sezione-titolo">Eventi</h2>
-                <a href="#" class="btn-catalogo-add"
-                    data-bs-toggle="modal"
-                    data-bs-target="#eventoModal"
-                    data-mode="create">
-                    + Aggiungi evento</a>
+                <a href="{{ route('catalogo.create.evento') }}" class="btn-catalogo-add">
+                    + Aggiungi evento
+                </a>
             </div>
 
             @forelse ($eventi as $e)
@@ -201,6 +199,22 @@
                             <p class="catalogo-item-sottotitolo">
                                 Descrizione: {{ $e->evento->descrizione }}
                             </p>
+
+                            {{-- Vini associati all'evento --}}
+                            @if ($e->evento->vini && $e->evento->vini->count())
+                                <div class="catalogo-item-vini mt-2">
+                                    <p class="catalogo-item-sottotitolo mb-1"><strong>Vini associati:</strong></p>
+
+                                    <ul class="mb-0">
+                                        @foreach ($e->evento->vini as $v)
+                                            <li class="catalogo-item-sottotitolo">
+                                                {{ $v->prodotto->nome ?? 'Vino' }} — Quantità: {{ $v->pivot->quantita }}
+                                            </li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+
                         @endif
 
                         <p class="catalogo-item-prezzo">
@@ -211,21 +225,10 @@
                     <div class="catalogo-item-azioni">
 
                         {{-- Modifica EVENTO --}}
-                        <button type="button"
-                                class="btn-catalogo-pill mb-2"
-                                data-bs-toggle="modal"
-                                data-bs-target="#eventoModal"
-                                data-mode="edit"
-                                data-id="{{ $e->id }}"
-                                data-nome="{{ $e->nome }}"
-                                data-prezzo="{{ $e->prezzo }}"
-                                data-data="{{ $e->evento->data_evento ?? '' }}"
-                                data-ora="{{ $e->evento->ora_evento ?? '' }}"
-                                data-luogo="{{ $e->evento->luogo ?? '' }}"
-                                data-descrizione="{{ $e->evento->descrizione ?? '' }}"
-                                data-disponibilita="{{ $e->disponibilita ?? '' }}">
-                            Modifica
-                        </button>
+                        <a href="{{ route('catalogo.edit.evento', $e->id) }}"
+                        class="btn-catalogo-pill mb-2">
+                        Modifica
+                        </a>
 
                         {{-- Elimina EVENTO --}}
                         <form action="{{ route('catalogo.destroy.evento',$e->id) }}"
