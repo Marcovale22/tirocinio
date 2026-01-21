@@ -184,6 +184,12 @@
                                     </a>
                                 </li>
 
+                                <li>
+                                    <a class="dropdown-item" href="{{ route('utente.prenotazioni.index') }}">
+                                        Miei Ordini
+                                    </a>
+                                </li>
+
                                 <li><hr class="dropdown-divider"></li>
 
                                 {{-- Logout dentro al dropdown --}}

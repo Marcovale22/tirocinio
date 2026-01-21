@@ -4,6 +4,8 @@
             <form id="vinoForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" id="vinoFormMethod" value="POST">
+                <input type="hidden" id="vino-id" name="vino_id" value="{{ old('vino_id') }}">
+                <input type="hidden" id="vino-mode" name="vino_mode" value="{{ old('vino_mode', 'create') }}">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="vinoModalLabel">Nuovo vino</h5>
@@ -13,7 +15,7 @@
                 <div class="modal-body">
                     <div class="mb-3">
                         <label class="form-label">Nome</label>
-                        <input type="text" name="nome" id="vino-nome"
+                        <input type="text" name="nome_vino" id="vino-nome"
                                class="form-control @error('nome') is-invalid @enderror"
                                value="{{ old('nome') }}" required>
                         @error('nome')
@@ -23,7 +25,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Prezzo</label>
-                        <input type="number" step="0.01" name="prezzo" id="vino-prezzo"
+                        <input type="number" step="0.01" name="prezzo_vino" id="vino-prezzo"
                                class="form-control @error('prezzo') is-invalid @enderror"
                                value="{{ old('prezzo') }}" required>
                         @error('prezzo')
@@ -63,7 +65,7 @@
 
                     <div class="mb-3">
                         <label class="form-label">Disponibilità</label>
-                        <input type="number" min="0" name="disponibilita" id="vino-disponibilita"
+                        <input type="number" min="0" name="disponibilita_vino" id="vino-disponibilita"
                                class="form-control @error('disponibilita') is-invalid @enderror"
                                value="{{ old('disponibilita') }}">
                         @error('disponibilita')
@@ -85,7 +87,7 @@
                     
                     <div class="mb-3">
                         <label class="form-label">Immagine</label>
-                        <input type="file" name="immagine"
+                        <input type="file" name="immagine_vino"
                             class="form-control @error('immagine') is-invalid @enderror">
                         @error('immagine')
                             <div class="invalid-feedback">{{ $message }}</div>

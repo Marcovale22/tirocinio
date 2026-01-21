@@ -155,6 +155,430 @@
         text-align: center;
     }
 }
+
+/*-----DETTAGLIO VINO------*/
+
+.titolo-vino {
+    font-size: 3rem;
+    font-weight: 600;
+    color: #ffffff;
+    text-align: center;
+}
+
+.sottotitolo-vino {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #ffe8d0;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.pagina-vino-dettaglio{
+    background-color: #ff7d03;
+    height: 100%;
+}
+
+.pagina-vino-dettaglio .container{
+    padding-bottom: 30px;
+}
+
+.sezione-dettaglio-vino{
+    margin-top: 18px;
+}
+
+/* immagine */
+.vino-dettaglio-img-wrap{
+    width: 100%;
+    border-radius: 14px;
+    overflow: hidden;
+}
+
+.vino-dettaglio-img{
+    width: 100%;
+    height: 420px;
+    object-fit: cover;
+    display: block;
+}
+
+@media (max-width: 991px){
+    .vino-dettaglio-img{
+        height: 280px;
+    }
+}
+
+/* card info */
+.vino-dettaglio-card{
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 18px 18px 16px 18px;
+    height: 100%;
+}
+
+.vino-dettaglio-descrizione{
+    color: #444;
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+
+/* righe meta */
+.vino-dettaglio-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.vino-dettaglio-riga{
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f7f7f7;
+}
+
+.vino-dettaglio-riga .label{
+    color: #666;
+    font-weight: 600;
+}
+
+.vino-dettaglio-riga .value{
+    color: #111;
+    font-weight: 700;
+}
+
+/* separatore soft */
+.vino-dettaglio-separatore{
+    height: 1px;
+    background: #ececec;
+    margin: 16px 0;
+}
+
+/* azioni */
+.vino-dettaglio-actions{
+    margin-top: 10px;
+}
+
+/* bottone principale stile “pieno” */
+.vino-btn-primary{
+   padding: 8px 22px;
+    border-radius: 999px;
+    border: 2px solid #ff7d03;
+    background: transparent;
+    color: #ff7d03;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    text-align: center;
+    min-width: 140px;
+}
+
+.vino-btn-primary:hover{
+    background: #ff7d03;
+    color: #ffffff;
+}
+
+
+
+/* link back sotto */
+.vino-dettaglio-back{
+    margin-top: 12px;
+    text-align: center;
+}
+
+.vino-dettaglio-back a{
+    color: #444;
+    text-decoration: none;
+}
+
+.vino-dettaglio-back a:hover{
+    text-decoration: underline;
+}
+
+/*-------EVENTO DETTAGLIO------*/
+.pagina-evento-dettaglio{
+    background-color: #ff7d03;
+    height: 100%;
+}
+
+.pagina-evento-dettaglio .container{
+    padding-bottom: 30px;
+}
+
+.sezione-dettaglio-evento{
+    margin-top: 18px;
+}
+
+/* titolo in alto */
+.evento-title{
+    padding-top: 30px;
+    color: #fff;
+    font-size: 42px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 6px;
+}
+
+.evento-subtitle{
+    color: rgba(255,255,255,.85);
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+/* immagine */
+.evento-dettaglio-img-wrap{
+    width: 100%;
+    height: 500px;
+    border-radius: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.evento-dettaglio-img{
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;   /* FONDAMENTALE */
+    border-radius: 14px;
+}
+
+
+@media (max-width: 991px){
+    .evento-dettaglio-img{
+        height: 280px;
+    }
+}
+
+.evento-vino-link {
+    color: #212529;
+    text-decoration: none;
+}
+.evento-vino-link:hover {
+    color: #8b0000; /* rosso vino */
+    text-decoration: underline;
+}
+
+/* card info */
+.evento-dettaglio-card{
+    border-radius: 14px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 18px 18px 8px 18px;
+    height: 100%;
+}
+
+.evento-dettaglio-descrizione{
+    color: #444;
+    line-height: 1.55;
+    margin-bottom: 14px;
+}
+
+/* righe meta */
+.evento-dettaglio-meta{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.evento-dettaglio-riga{
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px 12px;
+    border-radius: 12px;
+    background: #f7f7f7;
+}
+
+.evento-dettaglio-riga .label{
+    color: #666;
+    font-weight: 600;
+}
+
+.evento-dettaglio-riga .value{
+    color: #111;
+    font-weight: 700;
+}
+
+/* separatore */
+.evento-dettaglio-separatore{
+    height: 1px;
+    background: #ececec;
+    margin: 16px 0;
+}
+
+/* azioni */
+.evento-dettaglio-actions{
+    margin-top: 10px;
+}
+
+.evento-btn-primary{
+    padding: 8px 22px;
+    border-radius: 999px;
+    border: 2px solid #ff7d03;
+    background: transparent;
+    color: #ff7d03;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    text-align: center;
+    min-width: 140px;
+}
+
+.evento-btn-primary:hover{
+    background: #ff7d03;
+    color: #fff;
+}
+
+/* back */
+.evento-dettaglio-back{
+    margin-top: 12px;
+    text-align: center;
+}
+
+.evento-dettaglio-back a{
+    color: #444;
+    text-decoration: none;
+}
+
+.evento-dettaglio-back a:hover{
+    text-decoration: underline;
+}
+
+/*--------MIEI EVENTI--------*/
+/* HEADER */
+.Pagina-mie-prenotazioni{
+    background-color:#ff7d03 ;
+    height: 100%;
+}
+.prenotazioni-header {
+    
+    padding: 70px 20px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.prenotazioni-header h1 {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.prenotazioni-header p {
+    color: rgba(255,255,255,0.9);
+    margin: 0;
+    font-size: 1.1rem;
+}
+
+/* CARD PRENOTAZIONE */
+.prenotazione-card {
+    border-radius: 18px;
+    border: 1px solid #eee;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    transition: transform .2s ease, box-shadow .2s ease;
+}
+
+.prenotazione-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0,0,0,0.08);
+}
+
+/* BADGE STATO */
+.badge-stato {
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+}
+
+.badge-in-attesa {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.badge-confermata {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.badge-annullata {
+    background: #f8d7da;
+    color: #842029;
+}
+
+/* VINI */
+.vini-box {
+    background: #fafafa;
+    border-radius: 14px;
+    padding: 16px;
+}
+
+.vini-box h6 {
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+.vino-item {
+    background: #fff;
+    border-radius: 10px;
+    padding: 10px 14px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.vino-item:last-child {
+    margin-bottom: 0;
+}
+
+.vino-link {
+    font-weight: 600;
+    color: #0d6efd;
+    text-decoration: none;
+}
+
+.vino-link:hover {
+    text-decoration: underline;
+}
+
+/* BOTTONI */
+.btn-evento {
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-weight: 600;
+    border: 2px solid #ff8c1a;
+    color: #ff8c1a;
+    background: transparent;
+    transition: all .2s ease;
+}
+
+.btn-evento:hover {
+    background: #ff8c1a;
+    color: #fff;
+}
+
+.btn-annulla {
+    border-radius: 999px;
+    padding: 10px 22px;
+    font-weight: 600;
+    border: 2px solid #dc3545;
+    background: transparent;
+    color: #dc3545;
+    transition: all .2s ease;
+}
+
+.btn-annulla:hover {
+    background: #dc3545;
+    color: #fff;
+}
+
+
 /*--------PAGINA TENUTE--------*/
 .tenute-wrapper {
     width: 100%;
@@ -1098,3 +1522,151 @@
 .poster-link { display:block; }
 .poster-link img { transition: transform .2s ease; }
 .poster-link:hover img { transform: scale(1.03); }
+
+
+/*-------EDIT EVENTO------*/
+
+.pagina-edit-evento{
+    background-color: #ff7d03 ;
+}
+
+/* Titolo */
+.admin-edit-title{
+    font-weight: 800;
+    color: #fff;
+    text-align: center;
+  }
+  
+  /* Box generale (se vuoi un contenitore più "card") */
+  .admin-edit-wrap{
+    border-radius: 16px;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.08);
+    padding: 20px;
+  }
+  
+  /* Inputs */
+  .admin-edit-wrap .form-control,
+  .admin-edit-wrap .form-select{
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  
+  .admin-edit-wrap .form-control:focus,
+  .admin-edit-wrap .form-select:focus{
+    box-shadow: 0 0 0 .2rem rgba(255,125,3,0.18);
+    border-color: rgba(255,125,3,0.55);
+  }
+  
+  /* Sezioni */
+  .admin-section-title{
+    font-weight: 800;
+    margin-top: 12px;
+  }
+  
+  .admin-divider{
+    height: 1px;
+    background: #ececec;
+    border: 0;
+    margin: 18px 0;
+  }
+  
+  /* Tabella vini */
+  #vini-table{
+    border-radius: 14px;
+    overflow: hidden;
+    background: #fff;
+    box-shadow: 0 6px 18px rgba(0,0,0,0.06);
+  }
+  
+  #vini-table thead th{
+    background: #f7f7f7;
+    border-bottom: 1px solid #eee;
+    font-weight: 800;
+    color: #444;
+  }
+  
+  #vini-table td, #vini-table th{
+    padding: 14px 14px;
+    vertical-align: middle;
+  }
+  
+  /* Bottoni: arrotondati + hover */
+  .btn{
+    border-radius: 999px;         /* super rounded */
+    padding: 10px 18px;
+    font-weight: 700;
+    transition: transform .15s ease, box-shadow .15s ease, opacity .15s ease;
+  }
+  
+  .btn:hover{
+    transform: translateY(-1px);
+    box-shadow: 0 10px 22px rgba(0,0,0,0.10);
+  }
+  
+  .btn:active{
+    transform: translateY(0);
+    box-shadow: none;
+  }
+  
+  /* Bottoni piccoli in tabella */
+  .btn-sm{
+    border-radius: 999px;
+    padding: 6px 12px;
+    font-weight: 700;
+  }
+  
+  /* Colore coerente con l'arancio per i bottoni outline-primary */
+  .btn-outline-primary{
+    border-width: 2px;
+  }
+  
+  .btn-outline-primary:hover{
+    opacity: .95;
+  }
+  
+  /* Rimuovi */
+  .btn-outline-danger{
+    border-width: 2px;
+  }
+  
+  /* CTA: Salva */
+  .btn-success{
+    display: inline-block;
+    padding: 6px 16px;
+    border-radius: 999px;
+    border: 2px solid #ff7d03;   /* arancione come il tema */
+    background: transparent;
+    color: #ff7d03;
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.2s ease;
+  }
+
+  .btn-success:hover{
+    background-color: #ff7d03;
+    color: #fff;
+  }
+  
+  /* Layout pulsanti finali */
+  .admin-actions{
+    margin-top: 18px;
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  /* Alert più "soft" */
+  .alert{
+    border-radius: 14px;
+  }
+  
+  #vini-table .row-error{
+    background: rgba(220,53,69,0.06);
+  }
+  #vini-table .row-error td{
+    border-top: 1px solid rgba(220,53,69,0.18);
+    border-bottom: 1px solid rgba(220,53,69,0.18);
+  }
+  

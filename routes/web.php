@@ -12,6 +12,7 @@ use App\Http\Controllers\OrdineController;
 use App\Http\Controllers\StaffOrdiniController;
 use App\Http\Controllers\VignetoAffittoController;
 use App\Http\Controllers\Staff\RichiestaVignetoStaffController;
+use App\Http\Controllers\PrenotazioniController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -42,7 +43,7 @@ Route::controller(PublicController::class)->group(function () {
 
     Route::get('/vini/{vino}', 'vinoDettaglio')->name('vini.dettaglio');
     Route::get('/eventi/{evento}', 'eventoDettaglio')->name('eventi.dettaglio');
-    Route::get('/vigneti/{vigneto}', 'vignetoDettaglio')->name('vigneti.dettaglio');
+    Route::get('/vigneti/{vigneto}', 'show')->name('vigneti.dettaglio');
 });
 
 Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
@@ -60,6 +61,14 @@ Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
         Route::post('/carrello/checkout',  'checkout')->name('carrello.checkout');
 
         Route::get('/ordini',  'mieiOrdini')->name('ordini');
+    });
+
+    Route::controller(PrenotazioniController::class)->prefix('utente')->name('utente.')->group(function () {
+        
+        Route::get('/prenotazioni', 'index')->name('prenotazioni.index');
+        
+        Route::post('/eventi/{evento}/prenotazioni',  'store')
+            ->name('eventi.prenotazioni.store');
     });
 
    Route::controller(VignetoAffittoController::class)->prefix('utente')->name('utente.')->group(function () {

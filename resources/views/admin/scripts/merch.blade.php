@@ -12,7 +12,25 @@ document.addEventListener('DOMContentLoaded', function () {
         const button = event.relatedTarget;
 
         // Se il modal è aperto da JS (dopo errore) non c'è un bottone → non tocco i campi
-        if (!button) return;
+        if (!button) {
+            const mode = document.getElementById('merch-mode')?.value || 'create';
+            const id   = document.getElementById('merch-id')?.value || '';
+
+            if (mode === 'edit' && id) {
+                titleEl.textContent   = 'Modifica merch';
+                submitBtn.textContent = 'Salva modifiche';
+                merchForm.action = "{{ route('catalogo.update.merch', ':id') }}".replace(':id', id);
+                methodInp.value = 'PUT';
+            } else {
+                titleEl.textContent   = 'Nuovo prodotto merch';
+                submitBtn.textContent = 'Crea';
+                merchForm.action = "{{ route('catalogo.store.merch') }}";
+                methodInp.value = 'POST';
+            }
+
+            return;
+        }
+
 
         const mode = button.getAttribute('data-mode'); // create | edit
 
@@ -23,6 +41,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             merchForm.action = "{{ route('catalogo.store.merch') }}";
             methodInp.value  = 'POST';
+            
+            document.getElementById('merch-id').value = '';
+            document.getElementById('merch-mode').value = 'create';
 
             // pulisco i campi
             document.getElementById('merch-nome').value           = '';
@@ -44,6 +65,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             merchForm.action = "{{ route('catalogo.update.merch', ':id') }}".replace(':id', id);
             methodInp.value  = 'PUT';
+            
+            document.getElementById('merch-id').value = id;
+            document.getElementById('merch-mode').value = 'edit';
 
             document.getElementById('merch-nome').value           = nome;
             document.getElementById('merch-prezzo').value         = prezzo;

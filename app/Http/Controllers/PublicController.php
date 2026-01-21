@@ -71,17 +71,31 @@ class PublicController extends Controller
     return view('publica.shop', compact('vini', 'merch', 'eventi'));
     }
 
-    public function eventoDettaglio($evento) 
+    public function eventoDettaglio($evento)
     {
         $prodotto = Prodotto::query()
             ->whereKey($evento)
             ->where('tipo', 'evento')
-            ->with('evento')   // relazione Prodotto -> Evento
+            ->with([
+                'evento' => function ($q) {
+                    $q->with([
+                        'vini' => function ($q2) {
+                            $q2->wherePivot('quantita', '>', 0)
+                            ->join('prodotti', 'vini.prodotto_id', '=', 'prodotti.id')
+                            ->orderBy('prodotti.nome')
+                            ->select('vini.*')           // importantissimo
+                            ->with('prodotto');          // per stampare nome/immagine/prezzo
+                        }
+                    ]);
+                }
+            ])
             ->firstOrFail();
 
         return view('utente.dettaglio_eventi', [
             'prodotto' => $prodotto,
             'evento'   => $prodotto->evento,
+            'vini'     => $prodotto->evento->vini,
         ]);
     }
+
 }

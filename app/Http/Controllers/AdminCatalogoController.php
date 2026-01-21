@@ -41,12 +41,12 @@ class AdminCatalogoController extends Controller
     public function storeVino(Request $request)
     {
         $validated = $request->validate([
-            'nome'          => 'required|string|max:255',
-            'prezzo'        => 'required|numeric|min:0',
-            'annata'        => 'required|integer|min:1900|max:' . date('Y'),
+            'nome_vino'          => 'required|string|max:255',
+            'prezzo_vino'        => 'required|numeric|min:0',
+            'annata'        => 'required|integer|min:1900|max:' . (date('Y') + 1),
             'formato'       => 'required|string|max:50',
             'gradazione'    => 'required|numeric|min:0|max:30',
-            'disponibilita' => 'nullable|integer|min:0',
+            'disponibilita_vino' => 'nullable|integer|min:0',
             'solfiti'       => 'nullable|numeric|min:0',
             'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ], [
@@ -62,6 +62,23 @@ class AdminCatalogoController extends Controller
             'immagine.mimes'         => 'Formato immagine non valido. Usa JPG, PNG o WEBP.',
         ]);
 
+        // Blocca duplicati: stesso nome + stessa annata + stesso formato
+        $exists = Prodotto::where('tipo', 'vino')
+        ->where('nome', $validated['nome_vino'])
+        ->whereHas('vino', function ($q) use ($validated) {
+            $q->where('annata', $validated['annata'])
+            ->where('formato', $validated['formato']);
+        })
+        ->exists();
+
+        if ($exists) {
+        return back()
+            ->withInput()
+            ->withErrors([
+                'annata' => 'Esiste già un vino con lo stesso nome, annata e formato.',
+            ]);
+        }
+
         //  Placeholder di default
         $imageName = 'placeholder_vino.png';
 
@@ -72,13 +89,13 @@ class AdminCatalogoController extends Controller
             $file->move(public_path('img/vini'), $imageName);
         }
 
-        $disponibilita = $validated['disponibilita'] ?? 0;
+        $disponibilita = $validated['disponibilita_vino'] ?? 0;
         // Prodotto generico
         $prodotto = Prodotto::create([
-            'nome'     => $validated['nome'],
+            'nome'     => $validated['nome_vino'],
             'tipo'     => 'vino',
             'disponibilita' => $disponibilita,
-            'prezzo'   => $validated['prezzo'],
+            'prezzo'   => $validated['prezzo_vino'],
             'immagine' => $imageName,
         ]);
 
@@ -102,14 +119,14 @@ class AdminCatalogoController extends Controller
     public function updateVino(Request $request, $prodotto)
     {
         $validated = $request->validate([
-            'nome'          => 'required|string|max:255',
-            'prezzo'        => 'required|numeric|min:0',
+            'nome_vino'          => 'required|string|max:255',
+            'prezzo_vino'        => 'required|numeric|min:0',
             'annata'        => 'required|integer|min:1900|max:' . date('Y'),
             'formato'       => 'required|string|max:50',
             'gradazione'    => 'required|numeric|min:0|max:30',
-            'disponibilita' => 'nullable|integer|min:0',
+            'disponibilita_vino' => 'nullable|integer|min:0',
             'solfiti'       => 'nullable|numeric|min:0',
-            'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'immagine_vino'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ], [
             'nome.required'          => 'Il nome del vino è obbligatorio.',
             'prezzo.required'        => 'Inserisci un prezzo valido.',
@@ -125,50 +142,76 @@ class AdminCatalogoController extends Controller
 
         $prod = Prodotto::where('tipo', 'vino')->findOrFail($prodotto);
 
-        //  di base tengo l'immagine attuale (che può essere il placeholder)
-        $imageName = $prod->immagine ?? 'placeholder_vino.png';
-
-        //  se carico una nuova immagine, la sovrascrivo
-        if ($request->hasFile('immagine')) {
-            $file = $request->file('immagine');
-            $newImageName = $file->getClientOriginalName();
-            $file->move(public_path('img/vini'), $newImageName);
-
-            
-            if ($imageName && $imageName !== 'placeholder_vino.png') {
-                $oldPath = public_path('img/vini/' . $imageName);
-                if (file_exists($oldPath)) {
-                    unlink($oldPath);
+        // Controllo duplicato (escludo questo prodotto)
+        $exists = Prodotto::where('tipo', 'vino')
+            ->where('id', '!=', $prod->id)
+            ->where('nome', $validated['nome_vino'])
+            ->whereHas('vino', function ($q) use ($validated) {
+                $q->where('annata', $validated['annata'])
+                  ->where('formato', $validated['formato']);
+            })
+            ->exists();
+    
+        if ($exists) {
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'annata' => 'Esiste già un vino con lo stesso nome, annata e formato.',
+                ]);
+        }
+    
+        try {
+            DB::transaction(function () use ($request, $validated, $prod) {
+    
+                // immagine: se non carico nulla, mantengo quella attuale
+                $imageName = $prod->immagine ?? 'placeholder_vino.png';
+    
+                if ($request->hasFile('immagine_vino')) {
+                    $file = $request->file('immagine_vino');
+    
+                    if ($file->isValid()) {
+                        $newName = $file->getClientOriginalName();
+                        $file->move(public_path('img/vini'), $newName);
+                        $imageName = $newName;
+                    }
                 }
-            }
-            
-
-            $imageName = $newImageName;
+    
+                $disponibilita = $validated['disponibilita_vino'] ?? $prod->disponibilita ?? 0;
+                $solfiti       = $validated['solfiti'] ?? 0;
+    
+                // 1) aggiorno prodotto generico
+                $prod->update([
+                    'nome'          => $validated['nome_vino'],
+                    'prezzo'        => $validated['prezzo_vino'],
+                    'disponibilita' => $disponibilita,
+                    'immagine'      => $imageName,
+                ]);
+    
+                // 2) aggiorno record specifico vino
+                $vino = Vino::where('prodotto_id', $prod->id)->firstOrFail();
+    
+                $vino->annata     = $validated['annata'];
+                $vino->formato    = $validated['formato'];
+                $vino->gradazione = $validated['gradazione'];
+                $vino->solfiti    = $solfiti;
+                $vino->save();
+            });
+    
+        } catch (\Illuminate\Database\QueryException $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['db' => 'Errore nel salvataggio. Riprova.']);
+    
+        } catch (\Throwable $e) {
+            return back()
+                ->withInput()
+                ->withErrors(['db' => 'Errore imprevisto. Riprova.']);
         }
-
-        $prod->update([
-            'nome'          => $validated['nome'],
-            'prezzo'        => $validated['prezzo'],
-            'immagine'      => $imageName,
-            'disponibilita' => $validated['disponibilita'] ?? $prod->disponibilita,
-        ]);
-
-
-        $vino = Vino::where('prodotto_id', $prod->id)->firstOrFail();
-
-        
-        if (isset($validated['solfiti'])) {
-            $vino->solfiti = $validated['solfiti'];
-        }
-
-        $vino->annata     = $validated['annata'];
-        $vino->formato    = $validated['formato'];
-        $vino->gradazione = $validated['gradazione'];
-        $vino->save();
-
+    
         return redirect()
             ->back()
             ->with('success', 'Vino aggiornato correttamente.');
+    
     }
 
 
@@ -198,9 +241,9 @@ class AdminCatalogoController extends Controller
     public function storeMerch(Request $request)
     {
        $validated = $request->validate([
-            'nome'          => 'required|string|max:255',
-            'prezzo'        => 'required|numeric|min:0',
-            'disponibilita' => 'nullable|integer|min:0',
+            'nome_merch'          => 'required|string|max:255',
+            'prezzo_merch'        => 'required|numeric|min:0',
+            'disponibilita_merch' => 'nullable|integer|min:0',
             'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ], [
             // Nome
@@ -238,10 +281,10 @@ class AdminCatalogoController extends Controller
     }
 
     Prodotto::create([
-        'nome'          => $validated['nome'],
+        'nome'          => $validated['nome_merch'],
         'tipo'          => 'merch',
-        'prezzo'        => $validated['prezzo'],
-        'disponibilita' => $validated['disponibilita'] ?? 0,
+        'prezzo'        => $validated['prezzo_merch'],
+        'disponibilita' => $validated['disponibilita_merch'] ?? 0,
         'immagine'      => $imageName,
     ]);
 
@@ -251,9 +294,9 @@ class AdminCatalogoController extends Controller
     public function updateMerch(Request $request,$id)
     {
         $validated = $request->validate([
-            'nome'          => 'required|string|max:255',
-            'prezzo'        => 'required|numeric|min:0',
-            'disponibilita' => 'nullable|integer|min:0',
+            'nome_merch'          => 'required|string|max:255',
+            'prezzo_merch'        => 'required|numeric|min:0',
+            'disponibilita_merch' => 'nullable|integer|min:0',
             'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ], [
             // Nome
@@ -292,9 +335,9 @@ class AdminCatalogoController extends Controller
     }
 
     $prod->update([
-        'nome'          => $validated['nome'],
-        'prezzo'        => $validated['prezzo'],
-        'disponibilita' => $validated['disponibilita'] ?? $prod->disponibilita,
+        'nome'          => $validated['nome_merch'],
+        'prezzo'        => $validated['prezzo_merch'],
+        'disponibilita' => $validated['disponibilita_merch'] ?? $prod->disponibilita,
         'immagine'      => $imageName,
     ]);
 
@@ -504,8 +547,8 @@ class AdminCatalogoController extends Controller
     {
         $validated = $request->validate([
             'nome'          => 'required|string|max:255',
-            'prezzo'        => 'required|numeric|min:0',
-            'disponibilita' => 'nullable|integer|min:0',
+            'prezzo'        => 'required|numeric|min:0.01',
+            'disponibilita' => 'nullable|integer|min:1',
             'data_evento'   => 'required|date',
             'ora_evento'    => 'required|string|max:10',
             'luogo'         => 'required|string|max:255',
@@ -524,11 +567,11 @@ class AdminCatalogoController extends Controller
             // Prezzo
             'prezzo.required' => 'Il prezzo dell\'evento è obbligatorio.',
             'prezzo.numeric'  => 'Il prezzo deve essere un valore numerico.',
-            'prezzo.min'      => 'Il prezzo non può essere negativo.',
+            'prezzo.min'      => 'Il prezzo deve essere maggiore di 0.',
 
             // Disponibilità
             'disponibilita.integer' => 'La disponibilità deve essere un numero intero.',
-            'disponibilita.min'     => 'La disponibilità non può essere negativa.',
+            'disponibilita.min'     => 'La disponibilità deve essere maggiore di 0.',
 
             // Data evento
             'data_evento.required' => 'La data dell\'evento è obbligatoria.',
@@ -596,11 +639,29 @@ class AdminCatalogoController extends Controller
                 }
             });
 
+        }  catch (\Illuminate\Database\QueryException $e) {
+
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'db' => 'Errore nel salvataggio. Controlla data e ora e riprova.'
+                ]);
+        
         } catch (\RuntimeException $e) {
-            return redirect()
-                ->back()
-                ->withErrors(['vini' => $e->getMessage()])
-                ->withInput();
+        
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'vini' => 'Errore nell’associazione dei vini. Controlla quantità e disponibilità.'
+                ]);
+        
+        } catch (\Throwable $e) {
+        
+            return back()
+                ->withInput()
+                ->withErrors([
+                    'db' => 'Errore imprevisto. Riprova.'
+                ]);
         }
 
         return redirect()
@@ -631,9 +692,9 @@ class AdminCatalogoController extends Controller
      public function storeVigneto(Request $request)
     {
         $validated = $request->validate([
-            'nome'              => 'required|string|max:255',
+            'nome_vigneto'              => 'required|string|max:255',
             'descrizione'       => 'nullable|string',
-            'disponibilita'     => 'nullable|integer|min:0',
+            'disponibilita_vigneto'     => 'nullable|integer|min:0',
             'prezzo_annuo'      => 'required|numeric|min:0',
 
             // NUOVI CAMPI
@@ -641,7 +702,7 @@ class AdminCatalogoController extends Controller
             'tipo_vino'         => 'nullable|in:rosso,bianco,rosato',
             'fase_produzione'   => 'nullable|in:potatura,germogliamento,fioritura,invaiatura,vendemmia,vinificazione,affinamento,imbottigliamento,pronto',
 
-            'immagine'          => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'immagine_vigneto'          => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'visibile'          => 'nullable|boolean',
         ], [
             // Nome
@@ -675,8 +736,8 @@ class AdminCatalogoController extends Controller
         // Placeholder di default
         $imageName = 'placeholder_vigneto.png';
 
-        if ($request->hasFile('immagine')) {
-            $file = $request->file('immagine');
+        if ($request->hasFile('immagine_vigneto')) {
+            $file = $request->file('immagine_vigneto');
             if ($file->isValid()) {
                 $imageName = $file->getClientOriginalName();
                 $file->move(public_path('img/vigneti'), $imageName);
@@ -686,9 +747,9 @@ class AdminCatalogoController extends Controller
         $visibile = $request->has('visibile'); // true se spuntata, false se no
 
         Vigneto::create([
-            'nome'              => $validated['nome'],
+            'nome'              => $validated['nome_vigneto'],
             'descrizione'       => $validated['descrizione'] ?? null,
-            'disponibilita'     => $validated['disponibilita'] ?? 0,
+            'disponibilita'     => $validated['disponibilita_vigneto'] ?? 0,
             'prezzo_annuo'      => $validated['prezzo_annuo'],
 
             // NUOVI CAMPI
@@ -709,17 +770,17 @@ class AdminCatalogoController extends Controller
     public function updateVigneto(Request $request, $prodotto)
     {
         $validated = $request->validate([
-            'nome'              => 'required|string|max:255',
+            'nome_vigneto'      => 'required|string|max:255',
             'descrizione'       => 'nullable|string',
-            'disponibilita'     => 'nullable|integer|min:0',
-            'prezzo_annuo'      => 'required|numeric|min:0',
+            'disponibilita_vigneto'     => 'nullable|integer|min:0',
+            'prezzo_annuo'      => 'required|numeric|min:0.1',
 
             // NUOVI CAMPI
             'bottiglie_stimate' => 'nullable|integer|min:0',
             'tipo_vino'         => 'nullable|in:rosso,bianco,rosato',
             'fase_produzione'   => 'nullable|in:potatura,germogliamento,fioritura,invaiatura,vendemmia,vinificazione,affinamento,imbottigliamento,pronto',
 
-            'immagine'          => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'immagine_vigneto'          => 'nullable|image|mimes:jpg,jpeg,png,webp',
             'visibile'          => 'nullable|boolean',
         ], [
             // Nome
@@ -754,8 +815,8 @@ class AdminCatalogoController extends Controller
 
         $imageName = $vigneto->immagine ?? 'placeholder_vigneto.png';
 
-        if ($request->hasFile('immagine')) {
-            $file = $request->file('immagine');
+        if ($request->hasFile('immagine_vigneto')) {
+            $file = $request->file('immagine_vigneto');
             if ($file->isValid()) {
                 $newName = $file->getClientOriginalName();
                 $file->move(public_path('img/vigneti'), $newName);
@@ -766,9 +827,9 @@ class AdminCatalogoController extends Controller
         $visibile = $request->has('visibile');
 
         $vigneto->update([
-            'nome'              => $validated['nome'],
+            'nome'              => $validated['nome_vigneto'],
             'descrizione'       => $validated['descrizione'] ?? $vigneto->descrizione,
-            'disponibilita'     => $validated['disponibilita'] ?? $vigneto->disponibilita,
+            'disponibilita'     => $validated['disponibilita_vigneto'] ?? $vigneto->disponibilita,
             'prezzo_annuo'      => $validated['prezzo_annuo'],
 
             // NUOVI CAMPI

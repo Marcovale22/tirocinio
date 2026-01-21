@@ -66,11 +66,11 @@
                                 data-id="{{ $vino->id }}"
                                 data-nome="{{ $vino->nome }}"
                                 data-prezzo="{{ $vino->prezzo }}"
-                                data-annata="{{ $vino->vinoDettaglio->annata ?? '' }}"
-                                data-formato="{{ $vino->vinoDettaglio->formato ?? '' }}"
-                                data-gradazione="{{ $vino->vinoDettaglio->gradazione ?? '' }}"
+                                data-annata="{{ $vino->vino->annata ?? '' }}"
+                                data-formato="{{ $vino->vino->formato ?? '' }}"
+                                data-gradazione="{{ $vino->vino->gradazione ?? '' }}"
                                 data-disponibilita="{{ $vino->disponibilita ?? 0 }}"
-                                data-solfiti="{{ $vino->vinoDettaglio->solfiti ?? 0 }}">
+                                data-solfiti="{{ $vino->vino->solfiti ?? 0 }}">
                             Modifica
                         </button>
 
@@ -349,14 +349,13 @@
 </div>
 @include('admin.modals.vino')
 @include('admin.modals.merch')
-@include('admin.modals.evento')
 @include('admin.modals.vigneto')
 
 @push('scripts')
     {{-- SCRIPT VINO --}}
     @include('admin.scripts.vino')
-    @if ($errors->has('nome') || $errors->has('prezzo') || $errors->has('annata') ||
-         $errors->has('formato') || $errors->has('gradazione') || $errors->has('immagine'))
+    @if ($errors->has('nome_vino') || $errors->has('prezzo_vino') || $errors->has('annata') ||
+         $errors->has('formato') || $errors->has('gradazione') || $errors->has('immagine_vino'))
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const modal = new bootstrap.Modal(document.getElementById('vinoModal'));
@@ -368,7 +367,7 @@
 
     {{-- SCRIPT MERCH --}}
     @include('admin.scripts.merch')
-    @if ($errors->has('nome') || $errors->has('prezzo') || $errors->has('disponibilita') || $errors->has('immagine'))
+    @if ($errors->has('nome_merch') || $errors->has('prezzo_merch') || $errors->has('disponibilita_merch') || $errors->has('immagine_merch'))
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const modal = new bootstrap.Modal(document.getElementById('merchModal'));
@@ -377,25 +376,10 @@
         </script>
     @endif
 
-
-    {{-- SCRIPT EVENTO --}}
-    @include('admin.scripts.evento')
-    @if ($errors->has('nome') || $errors->has('prezzo') || $errors->has('data_evento') ||
-         $errors->has('ora_evento') || $errors->has('disponibilita') ||
-         $errors->has('descrizione') || $errors->has('immagine'))
-        <script>
-            document.addEventListener('DOMContentLoaded', function () {
-                const modal = new bootstrap.Modal(document.getElementById('eventoModal'));
-                modal.show();
-            });
-        </script>
-    @endif
-
-
     {{-- SCRIPT VIGNETO --}}
     @include('admin.scripts.vigneto')
-    @if ($errors->has('nome') || $errors->has('descrizione') || $errors->has('disponibilita') ||
-         $errors->has('prezzo_annuo') || $errors->has('immagine'))
+    @if ($errors->has('nome_vigneto') || $errors->has('descrizione') || $errors->has('disponibilita_vigneto') ||
+         $errors->has('prezzo_annuo') || $errors->has('immagine_vigneto'))
         <script>
             document.addEventListener('DOMContentLoaded', function () {
                 const modal = new bootstrap.Modal(document.getElementById('vignetoModal'));

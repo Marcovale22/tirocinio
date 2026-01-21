@@ -84,7 +84,7 @@
 
                         {{-- Azione --}}
                         <div class="vigneto-dettaglio-actions">
-                            @auth
+                            @can('isUtente')
                                 @if($vigneto->disponibilita > 0)
                                     <form method="POST" action="{{ route('utente.vigneti.richiesta.store', $vigneto) }}">
                                         @csrf
@@ -96,7 +96,7 @@
                                         Questo vigneto non è disponibile al momento.
                                     </div>
                                 @endif
-                            @endauth
+                            @endcan
 
                             @guest
                                 <a href="{{ route('login') }}" class="btn-vigneto-affitta w-100">

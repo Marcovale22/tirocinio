@@ -17,7 +17,23 @@ document.addEventListener('DOMContentLoaded', function () {
         const button = event.relatedTarget;
 
         // Se il modal si apre dopo errore via JS, nessun bottone → non tocco i campi
-        if (!button) return;
+        if (!button) {
+        const mode = document.getElementById('vigneto-mode')?.value || 'create';
+        const id   = document.getElementById('vigneto-id')?.value || '';
+
+        if (mode === 'edit' && id) {
+            titleEl.textContent   = 'Modifica vigneto';
+            submitBtn.textContent = 'Salva modifiche';
+            vignetoForm.action = "{{ route('catalogo.update.vigneto', ':id') }}".replace(':id', id);
+            methodInp.value = 'PUT';
+        } else {
+            titleEl.textContent   = 'Nuovo vigneto';
+            submitBtn.textContent = 'Crea';
+            vignetoForm.action = "{{ route('catalogo.store.vigneto') }}";
+            methodInp.value = 'POST';
+        }
+        return;
+        }
 
         const mode = button.getAttribute('data-mode'); // create | edit
 
@@ -28,6 +44,9 @@ document.addEventListener('DOMContentLoaded', function () {
             vignetoForm.action = "{{ route('catalogo.store.vigneto') }}";
             methodInp.value    = 'POST';
 
+            
+            document.getElementById('vigneto-id').value = '';
+            document.getElementById('vigneto-mode').value = 'create';
             // pulisco i campi
             document.getElementById('vigneto-nome').value           = '';
             document.getElementById('vigneto-descrizione').value    = '';
@@ -64,6 +83,9 @@ document.addEventListener('DOMContentLoaded', function () {
 
             vignetoForm.action = "{{ route('catalogo.update.vigneto', ':id') }}".replace(':id', id);
             methodInp.value    = 'PUT';
+            
+            document.getElementById('vigneto-id').value = id;
+            document.getElementById('vigneto-mode').value = 'edit';
 
             document.getElementById('vigneto-nome').value           = nome;
             document.getElementById('vigneto-descrizione').value    = descrizione;

@@ -99,7 +99,7 @@
                                 Acquista
                             </a>
                         @endguest
-                        @auth
+                        @can('isUtente')
                         <form method="POST" action="{{ route('utente.carrello.add', $m->id) }}">
                                     @csrf
                                     <input type="hidden" name="quantita" value="1">
@@ -108,7 +108,7 @@
                                         Aggiungi al carrello
                                     </button>
                             </form>
-                        @endauth    
+                        @endcan    
                     </div>
                 </div>
                 @endif

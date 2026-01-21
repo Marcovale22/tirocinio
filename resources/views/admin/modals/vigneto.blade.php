@@ -4,6 +4,8 @@
             <form id="vignetoForm" method="POST" enctype="multipart/form-data">
                 @csrf
                 <input type="hidden" name="_method" id="vignetoFormMethod" value="POST">
+                <input type="hidden" id="vigneto-id" name="vigneto_id" value="{{ old('vigneto_id') }}">
+                <input type="hidden" id="vigneto-mode" name="vigneto_mode" value="{{ old('vigneto_mode', 'create') }}">
 
                 <div class="modal-header">
                     <h5 class="modal-title" id="vignetoModalLabel">Nuovo vigneto</h5>
@@ -14,23 +16,23 @@
                     <div class="mb-3">
                         <label class="form-label">Nome</label>
                         <input type="text"
-                               name="nome"
+                               name="nome_vigneto"
                                id="vigneto-nome"
                                class="form-control @error('nome') is-invalid @enderror"
                                value="{{ old('nome') }}"
                                required>
-                        @error('nome')
+                        @error('nome_vigneto')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="mb-3">
                         <label class="form-label">Descrizione</label>
-                        <textarea name="descrizione"
+                        <textarea name="descrizione_vigneto"
                                   id="vigneto-descrizione"
                                   rows="3"
                                   class="form-control @error('descrizione') is-invalid @enderror">{{ old('descrizione') }}</textarea>
-                        @error('descrizione')
+                        @error('descrizione_vigneto')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
@@ -38,12 +40,12 @@
                     <div class="mb-3">
                         <label class="form-label">Disponibilità</label>
                         <input type="number"
-                               name="disponibilita"
+                               name="disponibilita_vigneto"
                                id="vigneto-disponibilita"
                                min="0"
                                class="form-control @error('disponibilita') is-invalid @enderror"
                                value="{{ old('disponibilita') }}">
-                        @error('disponibilita')
+                        @error('disponibilita_vigneto')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <small class="text-muted">Se vuoto, verrà impostato a 0.</small>
@@ -131,10 +133,10 @@
                     <div class="mb-3">
                         <label class="form-label">Immagine</label>
                         <input type="file"
-                               name="immagine"
+                               name="immagine_vigneto"
                                id="vigneto-immagine"
                                class="form-control @error('immagine') is-invalid @enderror">
-                        @error('immagine')
+                        @error('immagine_vigneto')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                         <small class="text-muted">Se non carichi nulla verrà usato un placeholder.</small>

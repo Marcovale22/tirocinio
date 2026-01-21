@@ -10,7 +10,26 @@ document.addEventListener('DOMContentLoaded', function () {
 
     vinoModal.addEventListener('show.bs.modal', function (event) {
         const button = event.relatedTarget;
-        if (!button) return;
+
+        if (!button) {
+            const mode = document.getElementById('vino-mode')?.value || 'create';
+            const id   = document.getElementById('vino-id')?.value || '';
+
+            if (mode === 'edit' && id) {
+                titleEl.textContent   = 'Modifica vino';
+                submitBtn.textContent = 'Salva modifiche';
+                vinoForm.action = "{{ route('catalogo.update.vini', ':id') }}".replace(':id', id);
+                methodInp.value = 'PUT';
+            } else {
+                titleEl.textContent   = 'Nuovo vino';
+                submitBtn.textContent = 'Crea';
+                vinoForm.action = "{{ route('catalogo.store.vini') }}";
+                methodInp.value = 'POST';
+            }
+
+            return;
+        }
+
 
         const mode = button.getAttribute('data-mode'); // create | edit
 
@@ -22,7 +41,8 @@ document.addEventListener('DOMContentLoaded', function () {
             // action = route store
             vinoForm.action = "{{ route('catalogo.store.vini') }}";
             methodInp.value = 'POST';
-
+            document.getElementById('vino-id').value = '';
+            document.getElementById('vino-mode').value = 'create';
             // pulisco i campi
             ['vino-nome','vino-prezzo','vino-annata','vino-formato',
              'vino-gradazione','vino-disponibilita','vino-solfiti'
@@ -51,6 +71,8 @@ document.addEventListener('DOMContentLoaded', function () {
             methodInp.value = 'PUT';
 
             // riempio i campi
+            document.getElementById('vino-id').value = id;
+            document.getElementById('vino-mode').value = 'edit';
             document.getElementById('vino-nome').value           = nome;
             document.getElementById('vino-prezzo').value         = prezzo;
             document.getElementById('vino-annata').value         = annata;
