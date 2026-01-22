@@ -14,11 +14,17 @@
     <div class="container pb-5">
 
         {{-- FLASH --}}
-        @if(session('success'))
-            <div class="alert alert-success">{{ session('success') }}</div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
-        @if(session('error'))
-            <div class="alert alert-danger">{{ session('error') }}</div>
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
 
         @if($prenotazioni->isEmpty())
@@ -36,19 +42,22 @@
 
                     <div class="col-12">
                         <div class="card prenotazione-card">
-                            <div class="card-body d-flex flex-column flex-lg-row gap-4">
+                            <div class="card-body pren-card-body">
 
-                                {{-- IMMAGINE --}}
-                                @if($prodotto && $prodotto->immagine)
-                                    <img
-                                        src="{{ asset('img/eventi/' . $prodotto->immagine) }}"
-                                        alt="{{ $prodotto->nome }}"
-                                        style="width: 140px; height: 100px; object-fit: cover; border-radius: 14px;">
-                                @endif
+                                {{-- IMMAGINE (poster) --}}
+                                <div class="pren-img-wrap">
+                                    @if($prodotto && $prodotto->immagine)
+                                        <img
+                                            src="{{ asset('img/eventi/' . $prodotto->immagine) }}"
+                                            alt="{{ $prodotto->nome }}"
+                                            class="pren-img">
+                                    @endif
+                                </div>
 
-                                {{-- INFO --}}
+                                {{-- INFO + VINI --}}
                                 <div class="flex-grow-1">
-                                    <div class="d-flex align-items-center gap-2 mb-1">
+
+                                    <div class="d-flex align-items-center gap-2 mb-1 flex-wrap">
                                         <h5 class="mb-0">{{ $prodotto?->nome }}</h5>
 
                                         @php
@@ -79,45 +88,45 @@
                                     <div class="vini-box mt-3">
                                         <h6>Vini presenti all’evento</h6>
 
-                                        @foreach($vini as $vino)
-                                            <div class="vino-item">
-                                                <div>
-                                                    <a href="{{ route('vini.dettaglio', $vino->prodotto->id) }}"
-                                                    class="vino-link">
-                                                        {{ $vino->prodotto->nome }}
-                                                    </a>
-                                                    <div class="text-muted small">
-                                                        Annata {{ $vino->annata }}
+                                        @if($vini->isEmpty())
+                                            <div class="text-muted small">Nessun vino associato.</div>
+                                        @else
+                                            @foreach($vini as $vino)
+                                                <div class="vino-item">
+                                                    <div>
+                                                        <a href="{{ route('vini.dettaglio', $vino->prodotto->id) }}"
+                                                        class="vino-link">
+                                                            {{ $vino->prodotto->nome }}
+                                                        </a>
+                                                        <div class="text-muted small">
+                                                            Annata {{ $vino->annata }}
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        @endforeach
+                                            @endforeach
+                                        @endif
                                     </div>
                                 </div>
 
-                                {{-- AZIONI --}}
-                                <div class="d-flex flex-column gap-2 justify-content-center">
-                                    <a href=""
-                                    class="btn btn-evento">
-                                        Dettaglio evento
-                                    </a>
-
-                                    @if(in_array($p->stato, ['in_attesa','confermata']))
-                                        <form action="" method="POST">
-                                            @csrf
-                                            @method('PATCH')
-                                            <button type="submit"
-                                                    class="btn btn-annulla"
-                                                    onclick="return confirm('Vuoi annullare la prenotazione?')">
-                                                Annulla
-                                            </button>
-                                        </form>
-                                    @endif
-                                </div>
+                                {{-- AZIONE: ANNULLA (in basso a destra nella card) --}}
+                                @if(in_array($p->stato, ['in_attesa','confermata']))
+                                    <form action="{{ route('utente.prenotazioni.annulla',$p->id) }}"
+                                        method="POST"
+                                        class="pren-annulla">
+                                        @csrf
+                                        @method('PATCH')
+                                        <button type="submit"
+                                                class="btn btn-annulla"
+                                                onclick="return confirm('Vuoi annullare la prenotazione?')">
+                                            Annulla
+                                        </button>
+                                    </form>
+                                @endif
 
                             </div>
                         </div>
                     </div>
+
                 @endforeach
             </div>
         @endif

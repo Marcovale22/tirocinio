@@ -28,40 +28,89 @@ class PrenotazioniController extends Controller
         $request->validate([
             'posti' => ['required', 'integer', 'min:1', 'max:20'],
         ]);
-
+    
         $posti = (int) $request->posti;
-
+    
         return DB::transaction(function () use ($evento, $posti) {
-
+    
+            // lock evento + prodotto (disponibilità sta nel prodotto)
             $eventoLocked   = Evento::whereKey($evento->id)->lockForUpdate()->firstOrFail();
             $prodottoLocked = Prodotto::whereKey($eventoLocked->prodotto_id)->lockForUpdate()->firstOrFail();
-
-            $exists = Prenotazione::where('user_id', Auth::id())
+    
+            // lock eventuale prenotazione esistente per (user,event)
+            $prenEsistente = Prenotazione::where('user_id', Auth::id())
                 ->where('evento_id', $eventoLocked->id)
-                ->whereIn('stato', ['in_attesa', 'confermata'])
-                ->exists();
-
-            if ($exists) {
+                ->lockForUpdate()
+                ->first();
+    
+            // se esiste ed è attiva -> blocca
+            if ($prenEsistente && in_array($prenEsistente->stato, ['in_attesa', 'confermata'])) {
                 return back()->with('error', 'Hai già una prenotazione attiva per questo evento.');
             }
-
+    
+            // controllo disponibilità sul prodotto
             if ($prodottoLocked->disponibilita < $posti) {
                 return back()->with('error', 'Posti insufficienti. Disponibili: ' . $prodottoLocked->disponibilita);
             }
-
-            $pren = Prenotazione::create([
-                'user_id'   => Auth::id(),
-                'evento_id' => $eventoLocked->id,
-                'posti'     => $posti,
-                'stato'     => 'in_attesa',
-            ]);
-
+    
+            // se esiste ed è annullata -> RIATTIVA aggiornando posti e stato
+            if ($prenEsistente && $prenEsistente->stato === 'annullata') {
+                $prenEsistente->update([
+                    'posti' => $posti,       // <-- aggiorna anche se quantità diversa
+                    'stato' => 'in_attesa',
+                ]);
+            } else {
+                // altrimenti crea nuova prenotazione
+                Prenotazione::create([
+                    'user_id'   => Auth::id(),
+                    'evento_id' => $eventoLocked->id,
+                    'posti'     => $posti,
+                    'stato'     => 'in_attesa',
+                ]);
+            }
+    
+            // scala disponibilità
             $prodottoLocked->decrement('disponibilita', $posti);
-
-            // ✅ successo: vai a "le mie prenotazioni"
+    
             return redirect()
                 ->route('utente.prenotazioni.index')
                 ->with('success', 'Prenotazione creata con successo!');
+        });
+    }
+    
+
+    public function annulla(Prenotazione $prenotazione)
+    {
+        // sicurezza: l'utente può annullare solo le sue prenotazioni
+        if ($prenotazione->user_id !== Auth::id()) {
+            abort(403);
+        }
+
+        return DB::transaction(function () use ($prenotazione) {
+
+            // lock della prenotazione
+            $pren = Prenotazione::whereKey($prenotazione->id)->lockForUpdate()->firstOrFail();
+
+            // se già annullata, niente
+            if ($pren->stato === 'annullata') {
+                return back()->with('error', 'La prenotazione è già stata annullata.');
+            }
+
+            // lock evento
+            $evento = Evento::whereKey($pren->evento_id)->lockForUpdate()->firstOrFail();
+
+            // lock prodotto dell'evento (dove sta la disponibilità)
+            $prodotto = Prodotto::whereKey($evento->prodotto_id)->lockForUpdate()->firstOrFail();
+
+            // restituisci posti
+            $prodotto->increment('disponibilita', $pren->posti);
+
+            // aggiorna stato
+            $pren->update(['stato' => 'annullata']);
+
+            return redirect()
+                ->route('utente.prenotazioni.index')
+                ->with('success', 'Prenotazione annullata con successo.');
         });
     }
 }

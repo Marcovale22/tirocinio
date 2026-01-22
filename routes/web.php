@@ -13,6 +13,7 @@ use App\Http\Controllers\StaffOrdiniController;
 use App\Http\Controllers\VignetoAffittoController;
 use App\Http\Controllers\Staff\RichiestaVignetoStaffController;
 use App\Http\Controllers\PrenotazioniController;
+use App\Http\Controllers\StaffPrenotazioneController;
 use Illuminate\Support\Facades\Route;
 
 
@@ -69,6 +70,8 @@ Route::prefix('utente')->middleware('auth', 'can:isUtente')->group(function () {
         
         Route::post('/eventi/{evento}/prenotazioni',  'store')
             ->name('eventi.prenotazioni.store');
+
+        Route::patch('/prenotazioni/{prenotazione}/annulla', 'annulla')->name('prenotazioni.annulla');
     });
 
    Route::controller(VignetoAffittoController::class)->prefix('utente')->name('utente.')->group(function () {
@@ -109,8 +112,16 @@ Route::prefix('staff')->middleware('auth', 'can:isStaff')->group(function () {
 
         Route::post('/richieste/{richiesta}/rifiuta', 'rifiuta')->name('richieste.rifiuta');
 
+    });
+
+    Route::controller(StaffPrenotazioneController::class)->prefix('staff')->name('staff.prenotazioni.')->group(function () {
+
+        Route::get('/prenotazioni', 'index')->name('index');
+
+        Route::patch('/prenotazioni/{prenotazione}/stato', 'updateStato')->name('updateStato');
 
     });
+
 
 });
 

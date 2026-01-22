@@ -36,7 +36,7 @@
                                 </li>
                                
                                 <li>
-                                    <a class="dropdown-item" href="">
+                                    <a class="dropdown-item" href="{{ route('staff.prenotazioni.index') }}">
                                         Prenotazioni
                                     </a>
                                 </li>
@@ -174,7 +174,7 @@
                                 {{-- Link alla pagina admin --}}
                                 <li>
                                     <a class="dropdown-item" href="{{ route('utente.ordini') }}">
-                                        Ordini
+                                        Miei Ordini
                                     </a>
                                 </li>
 
@@ -186,7 +186,7 @@
 
                                 <li>
                                     <a class="dropdown-item" href="{{ route('utente.prenotazioni.index') }}">
-                                        Miei Ordini
+                                        Mie Prenotazioni
                                     </a>
                                 </li>
 
