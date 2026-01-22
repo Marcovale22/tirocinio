@@ -8,11 +8,21 @@
 
         <div class="text-center mb-4">
             <h1 class="titolo-catalogo mb-0">I miei ordini</h1>
+            <div class="sottotitolo-vigneti">
+                Qui trovi tutti i tuoi ordini con lo stato di lavorazione.
+            </div>
         </div>
 
         @if($ordini->count() === 0)
-            <div class="alert alert-light">
-                Non hai ancora effettuato ordini.
+            <div style="height: 20vh;" class="alert alert-light alert-carrello-vuoto">
+                    <div style="text-align: center; padding-bottom:20px;" class="testo-carrello-vuoto">
+                        <strong>Non hai effettuato ordini.</strong>
+                    </div>
+                    <div style="text-align: center;" class="azione-carrello-vuoto">
+                        <a href="{{ route('shop') }}" class="btn-vigneto-affitta">
+                            Vai allo shop
+                        </a>
+                    </div>
             </div>
         @else
             @foreach($ordini as $o)

@@ -14,11 +14,17 @@
         </div>
 
         {{-- Messaggi --}}
-        @if(session('success'))
-            <div class="alert alert-success mt-3">{{ session('success') }}</div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
-        @if(session('error'))
-            <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
 
         <div class="sezione-dettaglio-vigneto">
@@ -89,7 +95,11 @@
                                     <form method="POST" action="{{ route('utente.vigneti.richiesta.store', $vigneto) }}">
                                         @csrf
                                         <input type="hidden" name="annata" value="{{ now()->year }}">
-                                        <button class="btn-vigneto-affitta w-100">Invia richiesta</button>
+                                        <button type="submit"
+                                                class="btn-vigneto-affitta w-100"
+                                                onclick="return confirm('Sei sicuro di voler inviare la richiesta?')">
+                                            Invia richiesta
+                                        </button>
                                     </form>
                                 @else
                                     <div class="alert alert-warning mb-0">

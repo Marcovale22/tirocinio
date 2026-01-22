@@ -18,11 +18,17 @@
         </div>
 
         {{-- Messaggi --}}
-        @if(session('success'))
-            <div class="alert alert-success mt-3">{{ session('success') }}</div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
-        @if(session('error'))
-            <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
 
         <div class="row g-4 align-items-stretch">

@@ -3,8 +3,20 @@
 @section('title', config('app.name') . ' - Homepage')
 
 @section('content')
-<div class="homepage-hero d-flex flex-column justify-content-center align-items-center">
-    <h1 class="hero-title">Il gusto secondo Bellò</h1>
-    <p class="hero-subtitle mt-3">Dedichiamo la nostra passione a creazioni esclusive, nate da luoghi unici e materie prime di eccelenza</p>
-</div>
+<section class="home-hero home-hero-slideshow">
+    <div class="slide s1"></div>
+    <div class="slide s2"></div>
+    <div class="slide s3"></div>
+
+    <div class="home-hero-overlay"></div>
+
+    <div class="home-hero-content">
+        <h1>Benvenuto in Bellò</h1>
+        <p>Scopri vini, vigneti ed eventi in cantina.</p>
+        <div class="home-hero-cta">
+        <a href="{{ route('vini') }}" class="btn-home">Esplora i vini</a>
+        </div>
+    </div>
+</section>
+
 @endsection

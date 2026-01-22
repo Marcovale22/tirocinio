@@ -38,12 +38,15 @@
                         @if($r->stato === 'in_attesa')
                             <form class="d-inline" method="POST" action="{{ route('staff.vigneti.richieste.conferma', $r) }}">
                                 @csrf
-                                <button class="btn btn-sm btn-success">Conferma</button>
+                                <button class="btn btn-sm btn-success"
+                                onclick="return confirm('Vuoi confermare la richiesta?')"
+                                >Conferma</button>
                             </form>
 
                             <form class="d-inline" method="POST" action="{{ route('staff.vigneti.richieste.rifiuta', $r) }}">
                                 @csrf
-                                <button class="btn btn-sm btn-danger">Rifiuta</button>
+                                <button class="btn btn-sm btn-danger"
+                                onclick="return confirm('Vuoi Rifiutare la richiesta?')">Rifiuta</button>
                             </form>
                         @else
                             —

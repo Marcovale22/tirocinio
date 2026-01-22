@@ -1,4 +1,7 @@
-                                /*------NAVBAR------*/
+
+
+
+/*------NAVBAR------*/
 .logo-navbar {
     height: 200px; 
     width: 150px; 
@@ -48,8 +51,8 @@
 
                                 /*-----HOMEPAGE----*/
 /* Sezione hero centrata */
-.homepage-hero {
-    height: 90vh; /* 70% dello schermo */
+.home-hero {
+    height: 100vh; /* 70% dello schermo */
     text-align: center;
 }
 
@@ -68,6 +71,64 @@
     color: #2c2c2c;
 }
 
+.home-hero-slideshow{
+    position: relative;
+    min-height: 70vh;
+    overflow: hidden;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+  }
+  
+  .home-hero-slideshow .slide{
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+    opacity: 0;
+    animation: fadeSlide 18s infinite;
+    transform: scale(1.03);
+  }
+  
+  /* immagini */
+  .home-hero-slideshow .s1{ background-image: url("../img/home/hero1.jpg"); }
+  .home-hero-slideshow .s2{ background-image: url("../img/home/hero2.jpg"); animation-delay: 6s; }
+  .home-hero-slideshow .s3{ background-image: url("../img/home/hero3.jpg"); animation-delay: 12s; }
+  
+  @keyframes fadeSlide{
+    0%   { opacity: 0; }
+    8%   { opacity: 1; }
+    33%  { opacity: 1; }
+    41%  { opacity: 0; }
+    100% { opacity: 0; }
+  }
+  
+  .home-hero-overlay{
+    position:absolute;
+    inset:0;
+    background: rgba(0,0,0,0.45);
+    z-index: 1;
+  }
+  
+  .home-hero-content{
+    position: relative;
+    z-index: 2;
+    color:#fff;
+    padding: 0 18px;
+    max-width: 850px;
+  }
+
+  .btn-home{
+    color: #fff;
+    font-weight: bolder;
+    text-decoration: none;
+  }
+
+  .btn-home:hover{
+    color: #ff7d03;
+    font-size: large;
+  }
 
                                 /*----PAGINA VINI------*/
 /* SFONDO SEZIONE VINI */
@@ -517,18 +578,18 @@
 }
 
 .badge-in-attesa {
-    background: #fff3cd;
-    color: #856404;
+    background: #6c757d !important;
+    color: #fff !important;
 }
 
 .badge-confermata {
-    background: #d1e7dd;
-    color: #0f5132;
+    background: #01b664 !important;
+    color: #fff !important;
 }
 
 .badge-annullata {
-    background: #f8d7da;
-    color: #842029;
+    background: #ef061a !important;
+    color: #fff !important;
 }
 
 .pren-card-body {
@@ -1370,7 +1431,54 @@
 .badge-stato.stato-rifiutato{ background:#f8d7da; color:#721c24; }
 .badge-stato.stato-annullato{ background:#e2e3e5; color:#383d41; }
 
+/*-------PRENOTAZIONI STAFF--------*/
+.prenotazioni-staff{
+    min-height: 100vh;
+    background-color: #ff7d03 ;
+}
 
+.staff-prenotazioni-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.staff-prenotazioni-header h1 {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.staff-prenotazioni-header p {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #ffe8d0;
+    text-align: center;
+    padding-bottom: 30px;
+}
+
+.wrapper-btn-prenotazioni{
+    text-align: end;
+}
+
+.btn-salva-prenotazioni-staff {
+    padding: 8px 22px;
+    border-radius: 999px;
+    border: 2px solid #ff7d03;
+    background: transparent;
+    color: #ff7d03;
+    font-size: 0.95rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s ease;
+    display: inline-block;
+    text-align: center;
+    min-width: 140px;
+}
+
+.btn-salva-prenotazioni-staff:hover {
+    background: #ff7d03;
+    color: #ffffff;
+}
 
 /*--------PAGINA DIPENDENTI ADMIN--------*/
 

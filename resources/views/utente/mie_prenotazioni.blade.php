@@ -28,8 +28,15 @@
         @endif
 
         @if($prenotazioni->isEmpty())
-            <div class="alert alert-info">
-                Non hai ancora effettuato prenotazioni.
+            <div style="height: 20vh;" class="alert alert-light alert-carrello-vuoto">
+                    <div style="text-align: center; padding-bottom:20px;" class="testo-carrello-vuoto">
+                        <strong>Non hai effettuato prenotazioni.</strong>
+                    </div>
+                    <div style="text-align: center;" class="azione-carrello-vuoto">
+                        <a href="{{ route('shop') }}" class="btn-vigneto-affitta">
+                            Vai allo shop
+                        </a>
+                    </div>
             </div>
         @else
             <div class="row g-4">
@@ -84,13 +91,11 @@
                                         <strong>Prenotata il:</strong> {{ $p->created_at->format('d/m/Y') }}
                                     </div>
 
-                                    {{-- VINI --}}
+                                    @if(!$vini->isEmpty())
                                     <div class="vini-box mt-3">
                                         <h6>Vini presenti all’evento</h6>
 
-                                        @if($vini->isEmpty())
-                                            <div class="text-muted small">Nessun vino associato.</div>
-                                        @else
+        
                                             @foreach($vini as $vino)
                                                 <div class="vino-item">
                                                     <div>
@@ -104,8 +109,8 @@
                                                     </div>
                                                 </div>
                                             @endforeach
-                                        @endif
                                     </div>
+                                    @endif
                                 </div>
 
                                 {{-- AZIONE: ANNULLA (in basso a destra nella card) --}}

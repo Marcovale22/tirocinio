@@ -1,6 +1,7 @@
 @include('navBar')
 @yield('navBar')
-
+<div>
+        <h1 style="text-align: center; font-size: 3rem; color: white; font-weight: 600; padding-top: 20px;">Bentornato in Bellò</h1>
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
@@ -71,3 +72,6 @@
         </div>
     </form>
 </x-guest-layout>
+</div>
+@include('footer')
+@yield('footer')

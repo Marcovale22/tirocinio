@@ -12,7 +12,7 @@ class OrdineController extends Controller
     {
         $cart = session()->get('cart', []);
         if (count($cart) === 0) {
-            return back()->with('error', 'Il carrello è vuoto.');
+            return back()->with('error', 'Errore nell\'ordine.');
         }
 
         $userId = Auth::id();
@@ -79,7 +79,7 @@ class OrdineController extends Controller
             // 4) svuota carrello
             session()->forget('cart');
 
-            return redirect()->route('carrello.index')
+            return redirect()->route('utente.carrello.index')
                 ->with('success', 'Ordine inviato correttamente.');
         });
     }

@@ -51,11 +51,11 @@
             {{-- INFO --}}
             <div class="col-lg-6">
                 <div class="evento-dettaglio-card">
-
+                    @if(!empty($evento->descrizione))
                     <p class="evento-dettaglio-descrizione">
-                        {{ $prodotto->descrizione }}
+                        <strong>Descrizione: </strong>{{ $evento->descrizione }}
                     </p>
-
+                    @endif
                     <div class="evento-dettaglio-meta">
                         <div class="evento-dettaglio-riga">
                             <span class="label">Data</span>
@@ -86,7 +86,7 @@
                     <h3>Vini presenti</h3>
                     @if($vini->isEmpty())
                         <div class="alert alert-warning mb-0">
-                            Nessun vino disponibile al momento.
+                            Nessun vi sarannò prevesite degustazioni.
                         </div>
                     @else
                         <div class="list-group">
@@ -131,9 +131,25 @@
                                     class="form-control">
                             </div>
 
-                            <button type="submit" class="btn evento-btn-primary w-100">
+                            @php
+                                $nomeEvento = addslashes($prodotto->nome);
+                                $dataEvento = \Carbon\Carbon::parse($evento->data_evento)->format('d/m/Y');
+                            @endphp
+
+                            <button type="submit"
+                                    class="btn evento-btn-primary w-100"
+                                    onclick="
+                                        const posti = this.closest('form').querySelector('[name=posti]').value;
+                                        return confirm(
+                                            'Confermi la prenotazione?\n\n' +
+                                            'Evento: {{ $nomeEvento }}\n' +
+                                            'Data: {{ $dataEvento }}\n' +
+                                            'Posti: ' + posti
+                                        );
+                                    ">
                                 Prenota
                             </button>
+
                         </form>
                         @endcan
 

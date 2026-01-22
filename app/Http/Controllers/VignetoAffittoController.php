@@ -50,7 +50,6 @@ class VignetoAffittoController extends Controller
                     'stato' => 'in_attesa',
                     'prezzo_annuo' => $vigneto->prezzo_annuo,
                     'bottiglie_stimate' => $vigneto->bottiglie_stimate,
-                    'confermato_at' => null,
                 ]);
 
                 return back()->with('success', 'Richiesta reinviata! In attesa di conferma dallo staff.');

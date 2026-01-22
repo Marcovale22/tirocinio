@@ -18,7 +18,7 @@ class StaffPrenotazioneController extends Controller
             $query->where('stato', $request->stato);
         }
 
-        $prenotazioni = $query->paginate(10)->withQueryString();
+        $prenotazioni = $query->get();
 
         return view('staff.prenotazioni_staff', compact('prenotazioni'));
     }

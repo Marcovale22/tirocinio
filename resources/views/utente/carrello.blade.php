@@ -65,7 +65,8 @@
                     <div class="catalogo-item-azioni">
                         <form method="POST" action="{{ route('utente.carrello.remove', $pid) }}">
                             @csrf
-                            <button type="submit" class="btn-catalogo-pill btn-catalogo-delete">
+                            <button type="submit" class="btn-catalogo-pill btn-catalogo-delete"
+                            onclick="return confirm('Sei sicuro di voler rimuovre l\'articolo?')">
                                 Rimuovi
                             </button>
                         </form>
@@ -81,7 +82,17 @@
 
                 <form method="POST" action="{{ route('utente.carrello.checkout') }}">
                     @csrf
-                    <button class="btn-catalogo-add" type="submit">
+                    @php
+                        $totaleFormattato = number_format($totale, 2, ',', '.');
+                    @endphp
+
+                    <button type="submit"
+                            class="btn-catalogo-add"
+                            onclick="return confirm(
+                                'Confermare l\'ordine?\n\n' +
+                                'Prodotti: {{ count($cart) }}\n' +
+                                'Totale: {{ $totaleFormattato }} €'
+                            )">
                         Conferma ordine
                     </button>
                 </form>

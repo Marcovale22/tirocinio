@@ -14,17 +14,23 @@
         </div>
 
         {{-- Messaggi --}}
-        @if(session('success'))
-            <div class="alert alert-success mt-3">{{ session('success') }}</div>
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show mt-3" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
-        @if(session('error'))
-            <div class="alert alert-danger mt-3">{{ session('error') }}</div>
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible fade show mt-3" role="alert">
+                {{ session('error') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
         @endif
 
         <div class="sezione-miei-vigneti mt-3">
             @if($richieste->count() === 0)
                 <div style="height: 20vh;" class="alert alert-light alert-carrello-vuoto">
-                    <div style="text-align: center;" class="testo-carrello-vuoto">
+                    <div style="text-align: center; padding-bottom: 20px;" class="testo-carrello-vuoto">
                         <strong>Non hai ancora affittato nessun vigneto.</strong>
                     </div>
                     <div style="text-align: center;" class="azione-carrello-vuoto">
@@ -114,7 +120,10 @@
                                     @if($r->stato === 'in_attesa')
                                         <form method="POST" action="{{ route('utente.vigneti.richieste.annulla', $r) }}">
                                             @csrf
-                                            <button class="btn btn-outline-danger btn-sm">Annulla</button>
+                                            <button class="btn btn-outline-danger btn-sm"
+                                                onclick="return confirm('Sei sicuro di voler annullare la richiesta?')">
+                                                Annulla
+                                            </button>
                                         </form>
                                     @endif
 

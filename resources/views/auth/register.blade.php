@@ -1,8 +1,10 @@
 @include('navBar')
 @yield('navBar')
-
+<div style="padding-bottom: 20px;">
+        <h1 style="text-align: center; font-size: 3rem; color: white; font-weight: 600; padding-top: 20px;">Unisciti a Bellò</h1>
 <x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
+    
+    <form  method="POST" action="{{ route('register') }}">
         @csrf
 
         {{-- Nome --}}
@@ -73,7 +75,7 @@
             max="{{ now()->toDateString() }}" />
 
         <x-input-error :messages="$errors->get('data_di_nascita')" class="mt-2" />
-    </div>
+    
 
 
 
@@ -119,7 +121,7 @@
             </x-primary-button>
         </div>
     </form>
-
+    </div>
     @push('scripts')
         <script>
             document.addEventListener('DOMContentLoaded', function () {
@@ -140,4 +142,6 @@
         </script>
     @endpush
 </x-guest-layout>
-
+</div>
+@include('footer')
+@yield('footer')

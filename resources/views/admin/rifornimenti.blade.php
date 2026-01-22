@@ -48,7 +48,7 @@
                             // Se nel prodotto hai un campo 'immagine' con il path relativo
                             $immagine = $rifornimento->prodotto->immagine ?? 'img/merch/placeholder_merch.png';
                         @endphp
-                        <img src="{{ asset($immagine) }}"
+                        <img src="{{ asset('/img/merch/' . $immagine) }}"
                              alt="{{ $rifornimento->prodotto->nome ?? 'Prodotto' }}">
                     </div>
 

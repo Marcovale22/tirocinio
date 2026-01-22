@@ -43,7 +43,7 @@
                         @php
                             $immagine = $rifornimento->prodotto->immagine ?? 'img/placeholder.png';
                         @endphp
-                        <img src="{{ asset($immagine) }}"
+                        <img src="{{ asset('/img/merch/' . $immagine) }}"
                              alt="{{ $rifornimento->prodotto->nome ?? 'Prodotto' }}">
                     </div>
 

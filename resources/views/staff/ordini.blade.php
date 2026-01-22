@@ -79,7 +79,8 @@
                             <form method="POST" action="{{ route('staff.ordini.stato', $o->id) }}">
                                 @csrf
                                 <input type="hidden" name="stato" value="confermato">
-                                <button type="submit" class="btn-catalogo-pill">
+                                <button type="submit" class="btn-catalogo-pill"
+                                onclick="return confirm('Vuoi Conferma l\'ordine?')">
                                     Conferma
                                 </button>
                             </form>
@@ -90,7 +91,8 @@
                             <form method="POST" action="{{ route('staff.ordini.stato', $o->id) }}">
                                 @csrf
                                 <input type="hidden" name="stato" value="spedito">
-                                <button type="submit" class="btn-catalogo-pill">
+                                <button type="submit" class="btn-catalogo-pill"
+                                onclick="return confirm('Vuoi impostare come stato spedito?')">
                                     Spedisci
                                 </button>
                             </form>
@@ -101,7 +103,8 @@
                             <form method="POST" action="{{ route('staff.ordini.stato', $o->id) }}">
                                 @csrf
                                 <input type="hidden" name="stato" value="consegnato">
-                                <button type="submit" class="btn-catalogo-pill">
+                                <button type="submit" class="btn-catalogo-pill"
+                                onclick="return confirm('Vuoi impostare come stato consegnato?')">
                                     Consegnato
                                 </button>
                             </form>
@@ -113,7 +116,8 @@
                             <form method="POST" action="{{ route('staff.ordini.stato', $o->id) }}">
                                 @csrf
                                 <input type="hidden" name="stato" value="annullato">
-                                <button type="submit" class="btn-catalogo-pill btn-catalogo-delete">
+                                <button type="submit" class="btn-catalogo-pill btn-catalogo-delete"
+                                onclick="return confirm('Vuoi Annullare l\'ordine?')">
                                     Annulla
                                 </button>
                             </form>
