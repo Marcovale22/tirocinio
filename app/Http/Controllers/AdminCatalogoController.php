@@ -48,7 +48,7 @@ class AdminCatalogoController extends Controller
             'gradazione'    => 'required|numeric|min:0|max:30',
             'disponibilita_vino' => 'nullable|integer|min:0',
             'solfiti'       => 'nullable|numeric|min:0',
-            'immagine'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
+            'immagine_vino'      => 'nullable|image|mimes:jpg,jpeg,png,webp',
         ], [
             'nome.required'          => 'Il nome del vino è obbligatorio.',
             'prezzo.required'        => 'Inserisci un prezzo valido.',
@@ -79,12 +79,14 @@ class AdminCatalogoController extends Controller
             ]);
         }
 
+
+    
         //  Placeholder di default
         $imageName = 'placeholder_vino.png';
 
         //  Se carico una vera immagine, la salvo in public/img/vini
-        if ($request->hasFile('immagine')) {
-            $file = $request->file('immagine');
+        if ($request->hasFile('immagine_vino')) {
+            $file = $request->file('immagine_vino');
             $imageName = $file->getClientOriginalName();
             $file->move(public_path('img/vini'), $imageName);
         }
