@@ -8,7 +8,7 @@
         <h1 class="titolo-vini mb-2">Tutti i vini</h1>
         <p class="sottotitolo-vini mb-5">Tutti i vini di Bellò</p>
 
-        <div class="row justify-content-center align-items-center sezione-vini">
+        <div class="row justify-content-center sezione-vini">
             @foreach ($vini as $prodotto)
                 <div class="col-12 col-md-4 d-flex justify-content-center mb-4 mb-md-0">
                     <div class="vino-card align-items-center">

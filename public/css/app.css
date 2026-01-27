@@ -154,6 +154,7 @@
 /* CONTENITORE RIGA VINI */
 .sezione-vini {
     margin-top: 100px;
+    row-gap: 8rem !important;   
 }
 
 /* CARD SINGOLO VINO (img + testo) */
